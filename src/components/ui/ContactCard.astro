@@ -1,0 +1,159 @@
+---
+type ContactCardVariant = 'compact' | 'card' | 'wide-card';
+type ContactCardIcon = 'linkedin' | 'telegram' | 'document' | 'email' | 'none';
+type ContactCardAction = 'external' | 'copy';
+type ContactCardPreviewState = 'default' | 'hover';
+
+interface Props {
+  label: string;
+  href?: string;
+  icon?: ContactCardIcon;
+  iconSrc?: string;
+  iconAlt?: string;
+  variant?: ContactCardVariant;
+  target?: '_blank' | '_self';
+  action?: ContactCardAction;
+  previewState?: ContactCardPreviewState;
+  copyToast?: string;
+}
+
+const { label, href, icon = 'none', iconSrc, iconAlt = '', variant = 'card', target = '_blank', action = 'external', previewState = 'default', copyToast = 'Посилання скопійоване' } = Astro.props;
+const isExternal = Boolean(href) && target === '_blank';
+const defaultActionIcon = '/images/icons/social-action-default.svg';
+const hoverActionIcon = icon === 'telegram' ? '/images/icons/social-action-telegram-hover.svg' : icon === 'document' ? '/images/icons/social-action-cv.svg' : '/images/icons/social-action-hover.svg';
+const Root = href ? 'a' : 'div';
+---
+
+<Root class:list={['contact-card', `contact-card--${variant}`, `contact-card--icon-${icon}`, `contact-card--action-${action}`, { 'contact-card--preview-hover': previewState === 'hover' }]} href={href} target={href ? target : undefined} rel={isExternal ? 'noopener noreferrer' : undefined} data-copy-text={action === 'copy' ? label : undefined} data-copy-toast={action === 'copy' ? copyToast : undefined}>
+  <span class="contact-card__label">
+    {iconSrc ? <img class="contact-card__custom-icon" src={iconSrc} alt={iconAlt} /> : icon === 'linkedin' ? (
+      <span class="contact-card__icon contact-card__icon--linkedin" aria-hidden="true"><img src="/images/icons/social-linkedin-bg.svg" alt="" /><img src="/images/icons/social-linkedin-mark.svg" alt="" /></span>
+    ) : icon === 'telegram' ? (
+      <span class="contact-card__icon contact-card__icon--telegram" aria-hidden="true"><img src="/images/icons/social-telegram-bg.svg" alt="" /><img src="/images/icons/social-telegram-mark.svg" alt="" /></span>
+    ) : icon === 'document' ? <span class="contact-card__document" aria-hidden="true"><img src="/images/icons/cv.svg" alt="" /></span> : icon === 'email' ? <span class="contact-card__email" aria-hidden="true"><img src="/images/icons/contact-email-outline.svg" alt="" /><img src="/images/icons/contact-email-fold.svg" alt="" /></span> : null}
+    <span class="contact-card__text">{label}</span>
+  </span>
+  {action === 'copy' ? <span class="contact-card__copy-action" data-copy-control role="button" tabindex="0" aria-label="Copy email" aria-pressed="false"><span class="contact-card__copy-icon"><img class="contact-card__copy-back" src="/images/icons/contact-copy-back.svg" alt="" /><img class="contact-card__copy-front" src="/images/icons/contact-copy-front.svg" alt="" /></span><span class="contact-card__copy-check" aria-hidden="true"><img src="/images/icons/contact-copy-check.svg" alt="" /></span></span> : <span class="contact-card__arrow" aria-hidden="true"><img class="contact-card__action--default" src={defaultActionIcon} alt="" /><img class="contact-card__action--hover" src={hoverActionIcon} alt="" /></span>}
+</Root>
+
+<style>
+  .contact-card { position: relative; display: flex; min-width: 0; min-height: 3.5rem; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-m); background: var(--color-surface-elevated); color: var(--color-text-primary); text-decoration: none; transition: background 180ms ease, border-color 180ms ease; }
+  .contact-card--card, .contact-card--wide-card { min-height: 15.5rem; align-items: flex-end; padding: var(--space-6); border-radius: var(--radius-xl); }
+  .contact-card--wide-card { max-width: 29.0625rem; }
+  .contact-card__label { display: inline-flex; min-width: 0; align-items: center; gap: var(--space-3); font-size: var(--font-subtitle-size); font-weight: var(--font-subtitle-weight); line-height: var(--font-subtitle-line); }
+  .contact-card__text { min-width: 0; overflow: hidden; overflow-wrap: normal; text-overflow: ellipsis; white-space: nowrap; }
+  .contact-card__icon { position: relative; display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; }
+  .contact-card__icon > img:first-child { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .contact-card__icon > img:last-child { position: relative; width: 1.375rem; height: 1.375rem; }
+  .contact-card__icon--telegram > img:last-child { position: absolute; inset: 30.1% 26.8% 24.9% 18.9%; width: auto; height: auto; }
+  .contact-card__custom-icon { display: block; flex: 0 0 auto; width: 2rem; height: 2rem; object-fit: contain; }
+  .contact-card__document { position: relative; display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; }
+  .contact-card__document img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .contact-card__email { position: relative; display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; }
+  .contact-card__email img { position: absolute; width: 1.59375rem; height: auto; }
+  .contact-card__email img:first-child { top: 0.390625rem; left: 0.203125rem; }
+  .contact-card__email img:last-child { top: 0.390625rem; left: 0.203125rem; }
+  .contact-card__arrow { position: absolute; top: var(--space-6); right: var(--space-6); display: grid; width: 3rem; height: 3rem; place-items: center; }
+  .contact-card__arrow img { position: absolute; width: 100%; height: 100%; }
+  .contact-card__action--default, .contact-card__action--hover { transition: opacity 180ms ease; }
+  .contact-card__action--hover { opacity: 0; }
+  .contact-card--compact .contact-card__arrow { position: static; flex: 0 0 auto; margin-left: auto; }
+  .contact-card__copy-action { position: absolute; top: var(--space-6); right: var(--space-6); display: grid; width: 3rem; height: 3rem; place-items: center; border-radius: var(--radius-s); background: var(--color-surface-primary); cursor: pointer; transition: background 180ms ease; }
+  .contact-card__copy-icon { position: relative; display: block; width: 2rem; height: 2rem; }
+  .contact-card__copy-icon img { position: absolute; width: 1.125rem; height: 1.125rem; transition: filter 180ms ease; }
+  .contact-card__copy-back { top: 0.125rem; right: 0.125rem; }
+  .contact-card__copy-front { bottom: 0.125rem; left: 0.125rem; }
+  .contact-card__copy-check { display: none; width: 1.5rem; height: 1.5rem; place-items: center; }
+  .contact-card__copy-check img { display: block; width: 100%; height: 100%; }
+  .contact-card:hover, .contact-card:focus-visible { background: linear-gradient(129.778deg, rgb(255 255 255 / 16%) 12.087%, rgb(255 227 231 / 24%) 32.997%, rgb(255 236 186 / 24%) 41.669%, rgb(238 255 230 / 22%) 52.516%, rgb(214 238 255 / 24%) 64.642%, rgb(230 232 255 / 24%) 76.755%, rgb(255 255 255 / 16%) 90.03%), var(--color-surface-elevated); }
+  .contact-card--icon-linkedin:hover, .contact-card--icon-linkedin:focus-visible { border-color: #006699; }
+  .contact-card--icon-telegram:hover, .contact-card--icon-telegram:focus-visible { border-color: #2aaaed; }
+  .contact-card--icon-email:hover, .contact-card--icon-email:focus-visible, .contact-card--preview-hover.contact-card--icon-email { border-color: var(--color-accent-primary); background: linear-gradient(149.785deg, rgb(255 255 255 / 16%) 12.087%, rgb(255 227 231 / 24%) 32.997%, rgb(255 236 186 / 24%) 41.669%, rgb(238 255 230 / 22%) 52.516%, rgb(214 238 255 / 24%) 64.642%, rgb(230 232 255 / 24%) 76.755%, rgb(255 255 255 / 16%) 90.03%); }
+  .contact-card:hover .contact-card__action--default, .contact-card:focus-visible .contact-card__action--default { opacity: 0; }
+  .contact-card:hover .contact-card__action--hover, .contact-card:focus-visible .contact-card__action--hover { opacity: 1; }
+  .contact-card--preview-hover { background: linear-gradient(149.785deg, rgb(255 255 255 / 16%) 12.087%, rgb(255 227 231 / 24%) 32.997%, rgb(255 236 186 / 24%) 41.669%, rgb(238 255 230 / 22%) 52.516%, rgb(214 238 255 / 24%) 64.642%, rgb(230 232 255 / 24%) 76.755%, rgb(255 255 255 / 16%) 90.03%); }
+  .contact-card--action-copy:hover .contact-card__copy-action, .contact-card--action-copy:focus-visible .contact-card__copy-action, .contact-card--action-copy.contact-card--preview-hover .contact-card__copy-action { background: var(--color-accent-primary); }
+  .contact-card--action-copy:hover .contact-card__copy-icon img, .contact-card--action-copy:focus-visible .contact-card__copy-icon img, .contact-card--action-copy.contact-card--preview-hover .contact-card__copy-icon img { filter: brightness(0) invert(1); }
+  .contact-card--action-copy[data-copied="true"] .contact-card__copy-action { background: var(--color-status-success); }
+  .contact-card--action-copy[data-copied="true"] .contact-card__copy-icon { display: none; }
+  .contact-card--action-copy[data-copied="true"] .contact-card__copy-check { display: grid; }
+  .contact-card:focus-visible { outline: 2px solid var(--color-status-info); outline-offset: var(--space-1); }
+  @media (max-width: 640px) { .contact-card--card, .contact-card--wide-card { min-height: 6rem; max-width: none; align-items: center; padding: var(--space-6); }.contact-card__arrow, .contact-card__copy-action { top: 50%; right: var(--space-6); transform: translateY(-50%); }.contact-card__label { padding-right: calc(var(--space-12) + var(--space-2)); }.contact-card:hover, .contact-card:focus-visible { background-image: linear-gradient(153.5228deg, rgb(255 255 255 / 16%) 12.087%, rgb(255 227 231 / 24%) 32.997%, rgb(255 236 186 / 24%) 41.669%, rgb(238 255 230 / 22%) 52.516%, rgb(214 238 255 / 24%) 64.642%, rgb(230 232 255 / 24%) 76.755%, rgb(255 255 255 / 16%) 90.03%), var(--color-surface-elevated); } }
+  @media (prefers-reduced-motion: reduce) { .contact-card, .contact-card__action--default, .contact-card__action--hover, .contact-card__copy-icon img { transition: none; } }
+</style>
+
+<script>
+  const copyCards = document.querySelectorAll<HTMLElement>('.contact-card--action-copy');
+  let toastTimeout: number | undefined;
+
+  const showCopyToast = (message: string) => {
+    let toast = document.getElementById('contact-copy-toast');
+
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'contact-copy-toast';
+      toast.className = 'copy-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      document.body.append(toast);
+    }
+
+    toast.textContent = message;
+    toast.classList.add('copy-toast--visible');
+    window.clearTimeout(toastTimeout);
+    toastTimeout = window.setTimeout(() => toast?.classList.remove('copy-toast--visible'), 3000);
+  };
+
+  const copyToClipboard = async (text: string) => {
+    if (!text) return false;
+
+    try {
+      if (!navigator.clipboard) throw new Error('Clipboard API unavailable');
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.append(textarea);
+      textarea.select();
+      const copied = document.execCommand('copy');
+      textarea.remove();
+      return copied;
+    }
+  };
+
+  copyCards.forEach((card) => {
+    const control = card.querySelector<HTMLElement>('[data-copy-control]');
+    let resetTimeout: number | undefined;
+
+    if (!control) return;
+
+    const handleCopy = async (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const copied = await copyToClipboard(card.dataset.copyText ?? '');
+      if (!copied) return;
+
+      card.dataset.copied = 'true';
+      control.setAttribute('aria-pressed', 'true');
+      showCopyToast(card.dataset.copyToast ?? 'Посилання скопійоване');
+      window.clearTimeout(resetTimeout);
+      resetTimeout = window.setTimeout(() => {
+        delete card.dataset.copied;
+        control.setAttribute('aria-pressed', 'false');
+      }, 3000);
+    };
+
+    control.addEventListener('click', handleCopy);
+    control.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        control.click();
+      }
+    });
+  });
+</script>

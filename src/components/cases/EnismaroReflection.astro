@@ -1,0 +1,86 @@
+---
+import type { Locale } from '../../content/site';
+import TimelineStep from '../ui/TimelineStep.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      title: 'Етапи роботи',
+      description: 'Робота над Enismaro ще раз показала мені, що вдалий UX часто полягає в тому, щоб зробити складну інформацію простою. Структурувавши технічні дані про продукт у зрозумілий та інтуїтивний досвід, я допомогла перетворити прозорість на перевагу, яку користувачі можуть зрозуміти, якій можуть довіряти й користуватися з упевненістю.',
+      steps: [
+        'Ідея клієнта',
+        'Інформаційна архітектура',
+        'Баланс бізнес-цілей і бюджету',
+        'Візуалізація даних',
+        'Масштабований PWA-досвід',
+      ],
+    }
+  : {
+      title: 'Design Process',
+      description: 'Designing Enismaro reinforced that great UX is often about making complex information feel simple. By carefully structuring technical product data into a clear and intuitive experience, I helped transform transparency into a feature users can understand, trust, and use with confidence.',
+      steps: [
+        'Client Idea',
+        'Information Architecture',
+        'Balanced business goals with budget',
+        'Data Visualization',
+        'Scalable PWA Experience',
+      ],
+    };
+
+const steps = copy.steps.map((description, index) => ({
+  stepLabel: `${locale === 'uk' ? 'Крок' : 'Step'} ${String(index + 1).padStart(2, '0')}`,
+  description,
+}));
+---
+
+<section class="enismaro-reflection" aria-labelledby="enismaro-reflection-title">
+  <header class="enismaro-reflection__intro">
+    <h2 id="enismaro-reflection-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </header>
+  <ol class="enismaro-reflection__timeline" aria-label={locale === 'uk' ? 'Етапи розвитку проєкту' : 'Project development stages'}>
+    {steps.map((step) => (
+      <li class="enismaro-reflection__stage">
+        <div class="enismaro-reflection__stage-copy">
+          <TimelineStep stepLabel={step.stepLabel} description={step.description} />
+        </div>
+        <span class="enismaro-reflection__dot" aria-hidden="true"></span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .enismaro-reflection { display: flex; width: 100%; flex-direction: column; gap: 120px; }
+  .enismaro-reflection__intro { display: flex; width: 100%; flex-direction: column; align-items: flex-start; gap: 48px; }
+  .enismaro-reflection h2,
+  .enismaro-reflection p { margin: 0; }
+  .enismaro-reflection h2 { width: 100%; color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .enismaro-reflection__intro p { width: 100%; max-width: 820px; color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .enismaro-reflection__timeline { position: relative; display: grid; width: 100%; height: 280px; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+  .enismaro-reflection__timeline::before { position: absolute; z-index: 0; top: 139px; left: 10%; width: 80%; height: 2px; background: #d9d9d9; content: ''; }
+  .enismaro-reflection__stage { position: relative; z-index: 1; display: grid; min-width: 0; grid-template-rows: 120px 40px 120px; }
+  .enismaro-reflection__stage-copy { display: flex; min-width: 0; align-items: center; justify-content: center; padding-inline: 12px; text-align: center; }
+  .enismaro-reflection__stage:nth-child(odd) .enismaro-reflection__stage-copy { grid-row: 1; padding-bottom: 12px; }
+  .enismaro-reflection__stage:nth-child(even) .enismaro-reflection__stage-copy { grid-row: 3; }
+  .enismaro-reflection__dot { z-index: 1; display: block; width: 18px; height: 18px; grid-row: 2; align-self: center; justify-self: center; border-radius: 50%; background: #33a18c; box-shadow: inset 0 0 0 3px #fff; }
+  .enismaro-reflection__stage-copy :global(.timeline-step) { width: 100%; text-align: center; }
+  .enismaro-reflection__stage-copy :global(.timeline-step__label),
+  .enismaro-reflection__stage-copy :global(.timeline-step__description) { display: block; width: 100%; }
+  @media (max-width: 640px) {
+    .enismaro-reflection { gap: 32px; }
+    .enismaro-reflection__intro { gap: 32px; }
+    .enismaro-reflection__timeline { height: auto; grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(60px, auto); row-gap: 12px; }
+    .enismaro-reflection__timeline::before { top: 30px; left: 8px; width: 1px; height: calc(100% - 60px); }
+    .enismaro-reflection__stage { display: grid; grid-template-columns: 18px minmax(0, 1fr); grid-template-rows: minmax(60px, auto); column-gap: 16px; align-items: center; }
+    .enismaro-reflection__stage-copy,
+    .enismaro-reflection__stage:nth-child(odd) .enismaro-reflection__stage-copy,
+    .enismaro-reflection__stage:nth-child(even) .enismaro-reflection__stage-copy { min-width: 0; grid-row: 1; grid-column: 2; justify-content: flex-start; padding: 0; text-align: left; }
+    .enismaro-reflection__stage-copy :global(.timeline-step) { display: flex; align-items: center; gap: 24px; text-align: left; }
+    .enismaro-reflection__stage-copy :global(.timeline-step__label) { width: auto; flex: 0 0 auto; color: #808080; font-size: var(--font-caption-size); font-weight: var(--font-caption-weight); line-height: var(--font-caption-line); letter-spacing: var(--font-caption-tracking); }
+    .enismaro-reflection__stage-copy :global(.timeline-step__description) { width: auto; flex: 1 1 auto; min-width: 0; font-size: var(--font-body-semibold-size); font-weight: var(--font-body-semibold-weight); line-height: var(--font-body-semibold-line); letter-spacing: var(--font-body-semibold-tracking); }
+    .enismaro-reflection__dot { width: 12px; height: 12px; grid-row: 1; grid-column: 1; justify-self: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { .enismaro-reflection * { scroll-behavior: auto; } }
+</style>

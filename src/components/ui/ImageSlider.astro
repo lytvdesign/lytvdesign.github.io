@@ -1,0 +1,255 @@
+---
+export interface ImageSliderCrop {
+  /** CSS values controlling the supplied image within the visible slide area. */
+  width?: string;
+  height?: string;
+  left?: string;
+  top?: string;
+  objectFit?: 'cover' | 'contain';
+  objectPosition?: string;
+}
+
+export interface ImageSliderSlide {
+  src: string;
+  alt: string;
+  /** Optional source-specific crop, with an override for the mobile frame. */
+  crop?: {
+    desktop?: ImageSliderCrop;
+    mobile?: ImageSliderCrop;
+  };
+}
+
+interface Props {
+  /** Ordered photo slots. Figma provides five slots; the component also accepts shorter or longer sets. */
+  slides: ImageSliderSlide[];
+  /** Zero-based initial slot. */
+  activeIndex?: number;
+  autoplay?: boolean;
+  /** Describes the group and its current slide for assistive technology. */
+  ariaLabel?: string;
+  class?: string;
+}
+
+const { slides, activeIndex = 0, autoplay = false, ariaLabel, class: className } = Astro.props;
+const safeIndex = Math.min(Math.max(activeIndex, 0), Math.max(slides.length - 1, 0));
+
+const cropStyle = (crop?: ImageSliderCrop, mobileCrop?: ImageSliderCrop) => {
+  const values = [
+    ['--image-width-desktop', crop?.width],
+    ['--image-height-desktop', crop?.height],
+    ['--image-left-desktop', crop?.left],
+    ['--image-top-desktop', crop?.top],
+    ['--image-fit-desktop', crop?.objectFit],
+    ['--image-position-desktop', crop?.objectPosition],
+    ['--image-width-mobile', mobileCrop?.width],
+    ['--image-height-mobile', mobileCrop?.height],
+    ['--image-left-mobile', mobileCrop?.left],
+    ['--image-top-mobile', mobileCrop?.top],
+    ['--image-fit-mobile', mobileCrop?.objectFit],
+    ['--image-position-mobile', mobileCrop?.objectPosition],
+  ];
+
+  return values
+    .filter(([, value]) => value)
+    .map(([property, value]) => `${property}: ${value}`)
+    .join('; ');
+};
+
+const label = ariaLabel ?? `Image ${safeIndex + 1} of ${slides.length}`;
+---
+
+{slides.length > 0 && (
+  <div
+    class:list={['image-slider', className]}
+    role="group"
+    aria-label={label}
+    data-image-slider={autoplay ? true : undefined}
+    data-active-index={autoplay ? safeIndex : undefined}
+  >
+    {(autoplay ? slides : [slides[safeIndex]]).map((slide, index) => (
+      <img
+        class:list={['image-slider__image', { 'is-active': autoplay ? index === safeIndex : true }]}
+        src={slide.src}
+        alt={slide.alt}
+        loading="lazy"
+        decoding="async"
+        style={cropStyle(slide.crop?.desktop, slide.crop?.mobile)}
+        data-image-slide={autoplay ? true : undefined}
+        aria-hidden={autoplay && index !== safeIndex ? 'true' : undefined}
+      />
+    ))}
+    {autoplay && (
+      <button
+        class="image-slider__toggle"
+        type="button"
+        aria-label="Pause slideshow"
+        aria-pressed="false"
+        data-slider-toggle
+        data-paused="false"
+      >
+        <svg class="image-slider__toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="image-slider__pause-icon" d="M7 5v14M17 5v14" />
+          <path class="image-slider__play-icon" d="m8 5 10 7-10 7V5Z" />
+        </svg>
+      </button>
+    )}
+  </div>
+)}
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLElement>('[data-image-slider]').forEach((slider) => {
+    if (slider.dataset.sliderInitialized === 'true') return;
+
+    slider.dataset.sliderInitialized = 'true';
+    const slides = Array.from(slider.querySelectorAll<HTMLElement>('[data-image-slide]'));
+    const toggle = slider.querySelector<HTMLButtonElement>('[data-slider-toggle]');
+    let activeIndex = Number(slider.dataset.activeIndex ?? 0);
+    let timer: number | undefined;
+    let isPaused = false;
+
+    const showSlide = (nextIndex: number) => {
+      slides[activeIndex]?.classList.remove('is-active');
+      slides[activeIndex]?.setAttribute('aria-hidden', 'true');
+
+      activeIndex = nextIndex;
+      slides[activeIndex]?.classList.add('is-active');
+      slides[activeIndex]?.removeAttribute('aria-hidden');
+    };
+
+    const stop = () => {
+      if (timer !== undefined) window.clearInterval(timer);
+      timer = undefined;
+    };
+
+    const start = () => {
+      stop();
+      if (reducedMotion.matches || isPaused || slides.length < 2) return;
+
+      timer = window.setInterval(() => {
+        showSlide((activeIndex + 1) % slides.length);
+      }, 4200);
+    };
+
+    const updateToggle = () => {
+      if (!toggle) return;
+
+      toggle.dataset.paused = String(isPaused);
+      toggle.setAttribute('aria-pressed', String(isPaused));
+      toggle.setAttribute('aria-label', isPaused ? 'Play slideshow' : 'Pause slideshow');
+    };
+
+    toggle?.addEventListener('click', () => {
+      isPaused = !isPaused;
+      updateToggle();
+
+      if (isPaused) {
+        stop();
+      } else {
+        start();
+      }
+    });
+
+    start();
+    reducedMotion.addEventListener('change', start);
+  });
+</script>
+
+<style>
+  .image-slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 31.75rem;
+    aspect-ratio: 508 / 603;
+    border-radius: var(--radius-xl);
+  }
+
+  .image-slider__image {
+    position: absolute;
+    display: block;
+    width: var(--image-width-desktop, 100%);
+    height: var(--image-height-desktop, 100%);
+    max-width: none;
+    left: var(--image-left-desktop, 0);
+    top: var(--image-top-desktop, 0);
+    object-fit: var(--image-fit-desktop, cover);
+    object-position: var(--image-position-desktop, center);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 600ms cubic-bezier(0.45, 0, 0.55, 1);
+  }
+
+  .image-slider__image.is-active {
+    opacity: 1;
+  }
+
+  .image-slider__toggle {
+    position: absolute;
+    z-index: 1;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: rgb(255 255 255 / 24%);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+  }
+
+  .image-slider__toggle:focus-visible {
+    outline: 2px solid var(--color-text-inverse);
+    outline-offset: 2px;
+  }
+
+  .image-slider__toggle-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .image-slider__play-icon {
+    display: none;
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .image-slider__toggle[data-paused='true'] .image-slider__pause-icon {
+    display: none;
+  }
+
+  .image-slider__toggle[data-paused='true'] .image-slider__play-icon {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-slider__image {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .image-slider {
+      max-width: 22.375rem;
+      aspect-ratio: 358 / 425;
+    }
+
+    .image-slider__image {
+      width: var(--image-width-mobile, var(--image-width-desktop, 100%));
+      height: var(--image-height-mobile, var(--image-height-desktop, 100%));
+      left: var(--image-left-mobile, var(--image-left-desktop, 0));
+      top: var(--image-top-mobile, var(--image-top-desktop, 0));
+      object-fit: var(--image-fit-mobile, var(--image-fit-desktop, cover));
+      object-position: var(--image-position-mobile, var(--image-position-desktop, center));
+    }
+  }
+</style>

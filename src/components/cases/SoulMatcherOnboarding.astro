@@ -1,0 +1,244 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  uk: {
+    title: 'Онбординг на основі ШІ',
+    challengeLabel: 'ВИКЛИК',
+    challenge:
+      'У традиційних застосунках для знайомств користувачі мають заповнити довгі анкети, перш ніж отримати будь-яку цінність від продукту.',
+    solutionLabel: 'РІШЕННЯ',
+    solution:
+      'Досвід починається з розмови, а не з анкети. Спілкуючись із ШІ текстом або голосом, користувачі автоматично формують профіль і вподобання для підбору пари. Це зменшує складність реєстрації та допомагає утримувати їхню увагу.',
+    imageAlt:
+      'Екрани SoulMatcher демонструють реєстрацію через розмову з ШІ та автоматичне створення профілю',
+  },
+  en: {
+    title: 'AI-First Onboarding',
+    challengeLabel: 'CHALLENGE',
+    challenge:
+      'Traditional dating apps require users to complete lengthy forms before receiving any value from the product.',
+    solutionLabel: 'SOLUTION',
+    solution:
+      'The experience begins with a conversation instead of a questionnaire. As users chat with the AI through text or voice, profile information and matching preferences are generated automatically, reducing onboarding friction while keeping users engaged.',
+    imageAlt:
+      'SoulMatcher screens showing conversational AI onboarding and automatic profile creation',
+  },
+} as const;
+
+const content = copy[locale];
+---
+
+<section class="soulmatcher-onboarding" aria-labelledby="soulmatcher-onboarding-title">
+  <header class="soulmatcher-onboarding__header">
+    <div class="soulmatcher-onboarding__title-row">
+      <span class="soulmatcher-onboarding__number" aria-hidden="true">01</span>
+      <h2 id="soulmatcher-onboarding-title">{content.title}</h2>
+    </div>
+
+    <div class="soulmatcher-onboarding__copy">
+      <div class="soulmatcher-onboarding__text-block">
+        <p class="soulmatcher-onboarding__label soulmatcher-onboarding__label--challenge">
+          {content.challengeLabel}
+        </p>
+        <p class="soulmatcher-onboarding__body">{content.challenge}</p>
+      </div>
+
+      <div class="soulmatcher-onboarding__divider" aria-hidden="true"></div>
+
+      <div class="soulmatcher-onboarding__text-block soulmatcher-onboarding__text-block--solution">
+        <p class="soulmatcher-onboarding__label soulmatcher-onboarding__label--solution">
+          {content.solutionLabel}
+        </p>
+        <p class="soulmatcher-onboarding__body soulmatcher-onboarding__body--solution">
+          {content.solution}
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <picture class="soulmatcher-onboarding__visual">
+    <source
+      media="(max-width: 430px)"
+      srcset="/images/cases/soulmatcher-improvement-onboarding-mobile.png"
+      width="773"
+      height="1196"
+    />
+    <img
+      src="/images/cases/soulmatcher-improvement-onboarding-desktop.png"
+      alt={content.imageAlt}
+      width="2633"
+      height="1058"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+</section>
+
+<style>
+  .soulmatcher-onboarding {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-12);
+    color: var(--color-text-primary);
+  }
+
+  .soulmatcher-onboarding__header,
+  .soulmatcher-onboarding__title-row,
+  .soulmatcher-onboarding__copy,
+  .soulmatcher-onboarding__text-block,
+  .soulmatcher-onboarding h2,
+  .soulmatcher-onboarding p {
+    margin: 0;
+  }
+
+  .soulmatcher-onboarding__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .soulmatcher-onboarding__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .soulmatcher-onboarding__number {
+    flex: 0 0 auto;
+    color: var(--color-surface-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .soulmatcher-onboarding h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .soulmatcher-onboarding__copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: var(--space-12);
+    align-items: stretch;
+    padding-block: var(--space-4);
+  }
+
+  .soulmatcher-onboarding__text-block {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .soulmatcher-onboarding__label {
+    font-size: var(--font-caption-semibold-size);
+    font-weight: var(--font-caption-semibold-weight);
+    line-height: var(--font-caption-semibold-line);
+    letter-spacing: var(--font-caption-semibold-tracking);
+  }
+
+  .soulmatcher-onboarding__label--challenge {
+    color: var(--color-text-tertiary);
+  }
+
+  .soulmatcher-onboarding__label--solution {
+    color: var(--color-accent-primary);
+  }
+
+  .soulmatcher-onboarding__body {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .soulmatcher-onboarding__body--solution {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0;
+  }
+
+  .soulmatcher-onboarding__divider {
+    width: 1px;
+    background: #c8a04a;
+  }
+
+  .soulmatcher-onboarding__visual {
+    display: block;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .soulmatcher-onboarding__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-onboarding {
+      gap: var(--space-12);
+    }
+
+    .soulmatcher-onboarding__header {
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-onboarding__title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .soulmatcher-onboarding__copy {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-onboarding__divider {
+      width: 100%;
+      height: 1px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-onboarding {
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-onboarding__header {
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-onboarding__title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .soulmatcher-onboarding__copy {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-onboarding__divider {
+      width: 100%;
+      height: 1px;
+    }
+  }
+</style>

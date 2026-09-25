@@ -1,0 +1,221 @@
+---
+import type { Locale } from '../content/site';
+import { ui } from '../content/site';
+import { alternatePath, homePath } from '../lib/routes';
+import HeaderAction from './ui/HeaderAction.astro';
+import LanguageSwitcher from './ui/LanguageSwitcher.astro';
+import SegmentedControl from './ui/SegmentedControl.astro';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const copy = ui[locale];
+const home = homePath(locale);
+const alternate = alternatePath(locale, currentPath);
+const cvHref = locale === 'en'
+  ? '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-EN.pdf'
+  : '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-UK.pdf';
+const isCasePage = currentPath.includes('/cases/');
+const activeSectionId = 'about';
+const sectionNavigation = [
+  { id: 'about', label: copy.about, href: `${home}#about` },
+  { id: 'portfolio', label: copy.portfolio, href: `${home}#portfolio` },
+  { id: 'contact', label: copy.contact, href: `${home}#contact` },
+] as const;
+---
+
+<header class="site-header">
+  <a class="site-header__home" href={home}>lytvynenko.designer</a>
+  <LanguageSwitcher
+    activeLocale={locale}
+    ukHref={locale === 'uk' ? currentPath : alternate}
+    enHref={locale === 'en' ? currentPath : alternate}
+    ariaLabel={locale === 'uk' ? 'Вибір мови' : 'Language selection'}
+    persistPreference
+  />
+  {!isCasePage && <SegmentedControl items={sectionNavigation} activeId={activeSectionId} ariaLabel={locale === 'uk' ? 'Основна навігація' : 'Main navigation'} sectionNavigation />}
+  <div class="header-actions" aria-label={locale === 'uk' ? 'Зовнішні посилання' : 'External links'}>
+    <HeaderAction icon="linkedin" href="https://www.linkedin.com/in/alina-lytvynenko/" target="_blank" ariaLabel="LinkedIn" />
+    <HeaderAction icon="cv" href={cvHref} target="_blank" ariaLabel={locale === 'en' ? 'Open CV' : 'Відкрити резюме'} />
+  </div>
+</header>
+
+{isCasePage && (
+  <button
+    class="case-scroll-top"
+    type="button"
+    aria-label={locale === 'uk' ? 'Прокрутити на початок сторінки' : 'Scroll to top of page'}
+    hidden
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 19V5m0 0L5.5 11.5M12 5l6.5 6.5" />
+    </svg>
+  </button>
+)}
+
+<style>
+  .case-scroll-top {
+    position: fixed;
+    z-index: 40;
+    right: clamp(var(--space-4), 3vw, var(--space-8));
+    bottom: clamp(var(--space-4), 3vw, var(--space-8));
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    box-shadow: 0 .25rem .75rem rgba(32, 38, 59, .18);
+    cursor: pointer;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .case-scroll-top[hidden] { display: none; }
+  .case-scroll-top:hover { background: var(--color-accent-hover); }
+  .case-scroll-top:active { background: var(--color-accent-pressed); transform: scale(.96); }
+  .case-scroll-top svg { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.75; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-scroll-top { transition: none; }
+  }
+</style>
+
+<script>
+  const sectionLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-section-nav]')];
+  const sectionIds = sectionLinks.map((link) => link.dataset.sectionNav).filter((id): id is string => Boolean(id));
+
+  const setActive = (id: string) => {
+    sectionLinks.forEach((link) => {
+      if (link.dataset.sectionNav === id) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const initialId = window.location.hash.slice(1);
+  const renderedActiveId = sectionLinks.find((link) => link.classList.contains('segmented-control__item--active'))?.dataset.sectionNav || 'about';
+  setActive(sectionIds.includes(initialId) ? initialId : renderedActiveId);
+  sectionLinks.forEach((link) => link.addEventListener('click', () => setActive(link.dataset.sectionNav || 'about')));
+
+  const sections = sectionIds.map((id) => document.getElementById(id)).filter((section): section is HTMLElement => section !== null);
+  if (sections.length) {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, { rootMargin: '-25% 0px -55% 0px', threshold: [0, .2, .5] });
+    sections.forEach((section) => observer.observe(section));
+  }
+
+  const caseTitleContainer = document.querySelector<HTMLElement>('[data-case-title-container]');
+  const caseBackButton = caseTitleContainer?.querySelector<HTMLElement>('[data-case-back]');
+  const caseTitle = caseTitleContainer?.querySelector<HTMLElement>('[data-case-title]');
+
+  if (caseTitleContainer && caseBackButton && caseTitle) {
+    const CASE_BACK_STACK_THRESHOLD_PX = 48;
+    const updateCaseTitleLayout = () => {
+      const textRange = document.createRange();
+      textRange.selectNodeContents(caseTitle);
+      const titleTextBounds = textRange.getBoundingClientRect();
+      const backButtonBounds = caseBackButton.getBoundingClientRect();
+      const containerBounds = caseTitleContainer.getBoundingClientRect();
+      const configuredBackOffset = Number.parseFloat(
+        window.getComputedStyle(caseBackButton).getPropertyValue('--case-back-inline-offset'),
+      );
+      const backOffset = Number.isFinite(configuredBackOffset)
+        ? configuredBackOffset
+        : backButtonBounds.left - containerBounds.left;
+      const defaultBackRight = containerBounds.left + backOffset + backButtonBounds.width;
+      const gap = titleTextBounds.left - defaultBackRight;
+
+      caseTitleContainer.classList.toggle('case-title-container--stack-back', gap < CASE_BACK_STACK_THRESHOLD_PX);
+    };
+
+    const titleLayoutObserver = new ResizeObserver(updateCaseTitleLayout);
+    titleLayoutObserver.observe(caseTitleContainer);
+    titleLayoutObserver.observe(caseBackButton);
+    titleLayoutObserver.observe(caseTitle);
+    window.addEventListener('resize', updateCaseTitleLayout);
+    document.fonts?.ready.then(updateCaseTitleLayout);
+    updateCaseTitleLayout();
+  }
+
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const scrollTopButton = document.querySelector<HTMLButtonElement>('.case-scroll-top');
+
+  if (scrollTopButton) {
+    const updateScrollTopVisibility = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+      scrollTopButton.hidden = progress < .35;
+    };
+
+    scrollTopButton.addEventListener('click', () => {
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      window.scrollTo({ top: 0, behavior });
+    });
+
+    window.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
+    window.addEventListener('resize', updateScrollTopVisibility);
+    window.addEventListener('load', updateScrollTopVisibility, { once: true });
+    updateScrollTopVisibility();
+  }
+
+  const HEADER_REVEAL_DISTANCE_PX = 160;
+  let previousScrollY = window.scrollY;
+  let scrollFrame = 0;
+  let upwardScrollStartY: number | undefined;
+
+  const resetUpwardScroll = () => {
+    upwardScrollStartY = undefined;
+  };
+
+  const revealHeaderIfReady = () => {
+    if (upwardScrollStartY === undefined) return;
+
+    const upwardDistance = upwardScrollStartY - window.scrollY;
+    if (upwardDistance < HEADER_REVEAL_DISTANCE_PX) return;
+
+    resetUpwardScroll();
+    header?.classList.remove('site-header--scroll-down');
+  };
+
+  const updateHeaderVisibility = () => {
+    scrollFrame = 0;
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+    if (currentScrollY <= 8) {
+      resetUpwardScroll();
+      header.classList.remove('site-header--scroll-down');
+    } else if (currentScrollY > previousScrollY) {
+      resetUpwardScroll();
+      header.classList.add('site-header--scroll-down');
+    } else if (currentScrollY < previousScrollY) {
+      if (upwardScrollStartY === undefined) {
+        upwardScrollStartY = previousScrollY;
+      }
+      revealHeaderIfReady();
+    }
+    previousScrollY = currentScrollY;
+  };
+
+  const handleScroll = () => {
+    if (scrollFrame === 0) scrollFrame = window.requestAnimationFrame(updateHeaderVisibility);
+  };
+
+  const handleViewportChange = () => {
+    resetUpwardScroll();
+    previousScrollY = window.scrollY;
+    header?.classList.remove('site-header--scroll-down');
+    updateHeaderVisibility();
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', handleViewportChange);
+  updateHeaderVisibility();
+</script>

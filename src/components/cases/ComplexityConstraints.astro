@@ -1,0 +1,55 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cards = [
+  { title: { uk: 'Обмежений бюджет', en: 'Limited Budget' }, icon: '/images/cases/complexity-constraint-coin.png' },
+  { title: { uk: 'Рання концепція продукту', en: 'Early Product Concept' }, icon: '/images/cases/complexity-constraint-lightbulb.png' },
+  { title: { uk: 'Невизначена структура продукту', en: 'Undefined Product Structure' }, icon: '/images/cases/complexity-constraint-tree.png' },
+  { title: { uk: 'Обсяг MVP', en: 'MVP Scope' }, icon: '/images/cases/complexity-constraint-target.png' },
+  { title: { uk: 'Масштабованість у майбутньому', en: 'Future Scalability' }, icon: '/images/cases/complexity-constraint-trend.png' },
+] as const;
+---
+
+<section class="complexity-constraints" aria-labelledby="complexity-constraints-title">
+  <h2 id="complexity-constraints-title">{locale === 'uk' ? 'Обмеження' : 'Constraints'}</h2>
+  <div class="complexity-constraints__cards">
+    {cards.map((card) => (
+      <article class="complexity-constraints__card">
+        <p>{card.title[locale]}</p>
+        <img src={card.icon} alt="" aria-hidden="true" width="96" height="96" />
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .complexity-constraints,
+  .complexity-constraints h2,
+  .complexity-constraints p { margin: 0; }
+  .complexity-constraints { display: flex; width: 100%; flex-direction: column; gap: 48px; }
+  .complexity-constraints h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .complexity-constraints__cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .complexity-constraints__card { display: flex; min-width: 0; height: 180px; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 24px; overflow: hidden; border-radius: 16px; background: #f1f3fc; }
+  .complexity-constraints__card p { width: 100%; color: var(--color-text-primary); font-size: var(--font-body-semibold-size); font-weight: var(--font-body-semibold-weight); line-height: var(--font-body-semibold-line); letter-spacing: var(--font-body-semibold-tracking); }
+  .complexity-constraints__card img { display: block; width: 48px; height: 48px; object-fit: contain; mix-blend-mode: darken; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .complexity-constraints { gap: 48px; }
+    .complexity-constraints__cards { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 8px; }
+    .complexity-constraints__card:nth-child(-n + 3) { grid-column: span 2; }
+    .complexity-constraints__card:nth-child(n + 4) { grid-column: span 3; }
+  }
+
+  @media (max-width: 640px) {
+    .complexity-constraints { gap: 32px; }
+    .complexity-constraints h2 { font-size: 40px; line-height: 40px; }
+    .complexity-constraints__cards { grid-template-columns: 1fr; gap: 8px; }
+    .complexity-constraints__card { height: 96px; flex-direction: row; align-items: flex-start; justify-content: flex-start; gap: 20px; }
+    .complexity-constraints__card:nth-child(2),
+    .complexity-constraints__card:nth-child(3),
+    .complexity-constraints__card:nth-child(5) { height: 100px; }
+    .complexity-constraints__card p { flex: 1 1 auto; }
+  }
+</style>

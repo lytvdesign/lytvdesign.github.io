@@ -1,0 +1,51 @@
+---
+import type { Locale } from '../../content/site';
+import TreximIntro from './TreximIntro.astro';
+import TreximContext from './TreximContext.astro';
+import TreximContribution from './TreximContribution.astro';
+import TreximImprovements from './TreximImprovements.astro';
+import TreximReflection from './TreximReflection.astro';
+import GunLibOtherProjects from './GunLibOtherProjects.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+---
+
+<main class="trexim-case" aria-labelledby="trexim-title">
+  <div class="trexim-case__content">
+    <TreximIntro locale={locale} />
+    <section class="trexim-case__context" aria-labelledby="trexim-context-title"><TreximContext locale={locale} /></section>
+    <section class="trexim-case__contribution" aria-labelledby="trexim-contribution-title"><TreximContribution locale={locale} /></section>
+    <section class="trexim-case__improvements" aria-labelledby="trexim-improvements-title"><TreximImprovements locale={locale} /></section>
+    <section class="trexim-case__reflection" aria-labelledby="trexim-reflection-title"><TreximReflection locale={locale} /></section>
+    <section class="trexim-case__other-projects" aria-labelledby="gunlib-other-projects-title"><GunLibOtherProjects locale={locale} currentProject="trexim" /></section>
+  </div>
+</main>
+
+<style>
+  .trexim-case { --trexim-gutter: 80px; padding: 228px var(--trexim-gutter) 0; background: var(--color-surface-secondary); }
+  .trexim-case__content { width: min(1280px, 100%); margin: 0 auto; }
+  .trexim-case__context { margin-top: 220px; }
+  .trexim-case__contribution { margin-top: 80px; }
+  .trexim-case__improvements { width: calc(100% + 160px); margin-top: 80px; margin-left: -80px; padding-inline: 80px; }
+  .trexim-case__reflection,
+  .trexim-case__other-projects { margin-top: 220px; }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .trexim-case { --trexim-gutter: 48px; padding-top: 164px; }
+    .trexim-case__context { margin-top: 128px; }
+    .trexim-case__contribution,
+    .trexim-case__improvements,
+    .trexim-case__reflection,
+    .trexim-case__other-projects { margin-top: 128px; }
+    .trexim-case__improvements { width: 100%; margin-left: 0; padding-inline: 0; }
+  }
+  @media (max-width: 640px) {
+    .trexim-case { --trexim-gutter: 16px; padding-top: 104px; }
+    .trexim-case__context,
+    .trexim-case__contribution,
+    .trexim-case__improvements,
+    .trexim-case__reflection,
+    .trexim-case__other-projects { margin-top: 80px; }
+    .trexim-case__improvements { width: 100%; margin-left: 0; padding-inline: 0; }
+  }
+</style>

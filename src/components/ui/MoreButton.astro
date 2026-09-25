@@ -1,0 +1,67 @@
+---
+interface Props {
+  /** Visible CTA copy from the page's locale. */
+  label?: string;
+  /** Renders a static link when supplied; otherwise renders a native button. */
+  href?: string;
+  target?: '_blank' | '_self';
+  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  disabled?: boolean;
+}
+
+const {
+  label = 'Read case',
+  href,
+  target = '_self',
+  type = 'button',
+  ariaLabel,
+  disabled = false,
+} = Astro.props;
+
+const isLink = Boolean(href) && !disabled;
+const isExternal = target === '_blank';
+---
+
+{isLink ? (
+  <a class="more-button" href={href} target={target} rel={isExternal ? 'noopener noreferrer' : undefined} aria-label={ariaLabel}>
+    <span>{label}</span>
+    <img class="more-button__icon" src="/images/icons/more-button-arrow.svg" alt="" aria-hidden="true" />
+  </a>
+) : (
+  <button class="more-button" type={type} disabled={disabled} aria-label={ariaLabel}>
+    <span>{label}</span>
+    <img class="more-button__icon" src="/images/icons/more-button-arrow.svg" alt="" aria-hidden="true" />
+  </button>
+)}
+
+<style>
+  .more-button {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    border: .5px solid var(--color-foundation-navy-300);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-accent-primary);
+    cursor: pointer;
+    font-family: 'Ubuntu Sans', sans-serif;
+    font-size: var(--font-label-size);
+    font-weight: var(--font-label-weight);
+    line-height: var(--font-label-line);
+    letter-spacing: var(--font-label-tracking);
+    text-decoration: none;
+  }
+
+  .more-button__icon {
+    display: block;
+    flex: 0 0 auto;
+    width: 1rem;
+    height: auto;
+  }
+
+  .more-button:disabled { cursor: not-allowed; }
+</style>

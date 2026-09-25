@@ -1,0 +1,52 @@
+---
+interface Props {
+  /** Visible metadata, such as a date or category. */
+  label: string;
+  /** Optional source for a supplied metadata icon. No icon is rendered when omitted. */
+  iconSrc?: string;
+  /** Alternative text for a meaningful supplied icon. Leave empty for decorative icons. */
+  iconAlt?: string;
+}
+
+const { label, iconSrc, iconAlt = '' } = Astro.props;
+---
+
+<span class="metadata-tag">
+  {iconSrc && (
+    <img
+      class="metadata-tag__icon"
+      src={iconSrc}
+      alt={iconAlt}
+      aria-hidden={iconAlt ? undefined : 'true'}
+    />
+  )}
+  <span class="metadata-tag__label">{label}</span>
+</span>
+
+<style>
+  .metadata-tag {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-status-info-bg);
+    border-radius: var(--radius-s);
+    color: var(--color-status-info);
+    white-space: nowrap;
+  }
+
+  .metadata-tag__icon {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    margin-right: 10px;
+    object-fit: contain;
+  }
+
+  .metadata-tag__label {
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+  }
+</style>

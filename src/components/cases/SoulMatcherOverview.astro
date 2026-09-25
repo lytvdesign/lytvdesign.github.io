@@ -1,0 +1,172 @@
+---
+import InfoCard from '../ui/InfoCard.astro';
+
+interface Props {
+  locale: 'uk' | 'en';
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Огляд проєкту',
+    overview:
+      'SoulMatcher — це застосунок для знайомств на основі ШІ, де користувачі знаходять сумісні збіги через природні розмови замість традиційних профільних форм. Починаючи з ранньої концепції продукту, я переробила наявний інтерфейс і створила повний мобільний досвід, зосередившись на розмовному UX, онбордингу за допомогою ШІ та інтуїтивному створенні профілю.',
+    details: [
+      { label: 'Сфера', value: 'AI • Social • Dating' },
+      { label: 'Роль у проєкті', value: 'UX/UI Designer' },
+      { label: 'Рік', value: '2024' },
+      { label: 'Платформа', value: 'Mobile App' },
+    ],
+  },
+  en: {
+    title: 'Project overview',
+    overview:
+      'SoulMatcher is an AI-powered dating application where users discover compatible matches through natural conversations instead of traditional profile forms. Starting from an early product concept, I redesigned the existing interface and created the end-to-end mobile experience, focusing on conversational UX, AI-assisted onboarding, and intuitive profile creation.',
+    details: [
+      { label: 'Industry', value: 'AI • Social • Dating' },
+      { label: 'Role', value: 'UX/UI Designer' },
+      { label: 'Date', value: '2024' },
+      { label: 'Platform', value: 'Mobile App' },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="soulmatcher-overview" aria-labelledby="soulmatcher-overview-title">
+  <div class="soulmatcher-overview__details">
+    <div class="soulmatcher-overview__copy">
+      <h2 id="soulmatcher-overview-title">{copy.title}</h2>
+      <p>{copy.overview}</p>
+    </div>
+
+    <div class="soulmatcher-overview__info-grid" aria-label={copy.title}>
+      {copy.details.map((detail) => (
+        <InfoCard label={detail.label} value={detail.value} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .soulmatcher-overview {
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  .soulmatcher-overview__details {
+    display: grid;
+    grid-template-columns: minmax(489px, 489px) minmax(626px, 1fr);
+    gap: 165px;
+    align-items: center;
+  }
+
+  .soulmatcher-overview__copy {
+    display: grid;
+    align-content: start;
+    gap: var(--space-10);
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    line-height: var(--font-headline-line);
+    font-weight: var(--font-headline-weight);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .soulmatcher-overview__copy p {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    line-height: var(--font-body-line);
+  }
+
+  .soulmatcher-overview__info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(312px, 1fr));
+    gap: 2px;
+    align-content: start;
+  }
+
+  .soulmatcher-overview__info-grid :global(.info-card) {
+    max-width: none;
+    min-height: 122px;
+    border-color: var(--color-border-strong);
+  }
+
+  @media (min-width: 1025px) and (max-width: 1439px) {
+    .soulmatcher-overview__details {
+      display: block;
+    }
+
+    .soulmatcher-overview__copy {
+      min-width: 489px;
+    }
+
+    .soulmatcher-overview__info-grid {
+      min-width: 626px;
+      margin-top: var(--space-12);
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-overview__details {
+      display: block;
+    }
+
+    .soulmatcher-overview__copy {
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-overview__copy p {
+      font-size: 18px;
+      line-height: 30px;
+    }
+
+    .soulmatcher-overview__info-grid {
+      min-width: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: var(--space-12);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-overview__details {
+      display: block;
+    }
+
+    .soulmatcher-overview__copy {
+      gap: var(--space-8);
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .soulmatcher-overview__copy p {
+      font-size: 16px;
+      line-height: 26px;
+    }
+
+    .soulmatcher-overview__info-grid {
+      min-width: 0;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+      margin-top: var(--space-8);
+    }
+
+    .soulmatcher-overview__info-grid :global(.info-card) {
+      min-height: 94px;
+      border-color: #6f7bbb;
+    }
+  }
+</style>

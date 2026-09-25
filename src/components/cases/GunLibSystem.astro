@@ -1,0 +1,201 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = locale === 'uk'
+  ? {
+      title: 'Не фінал, а початок',
+      body: 'Дані реальних сесій допомогли нам вчасно відкинути непрацюючі гіпотези, опрацювати і зменшити зайві дії користувача та скорегувати плани з покращення.',
+      closing: 'Робота над GunLib триває.',
+    }
+  : {
+      title: 'Not the end, but the beginning',
+      body: 'Data from real sessions helped us reject ineffective hypotheses in time, refine and reduce unnecessary user actions, and adjust our improvement plans.',
+      closing: 'Work on GunLib continues.',
+    };
+---
+
+<section class="gunlib-system" aria-labelledby="gunlib-system-title">
+  <div class="gunlib-system__body">
+    <article class="gunlib-system__intro">
+      <div class="gunlib-system__header">
+        <h2 id="gunlib-system-title">{copy.title}</h2>
+        <div class="gunlib-system__copy">
+          <p>{copy.body}</p>
+          <p><strong>{copy.closing}</strong></p>
+        </div>
+        <img class="gunlib-system__icon" src="/images/cases/gunlib-system-icon.svg" alt="" aria-hidden="true" width="137" height="141" />
+      </div>
+    </article>
+
+    <img class="gunlib-system__card gunlib-system__card--2" src="/images/cases/gunlib-system-card-2.png" alt="" aria-hidden="true" width="632" height="632" loading="lazy" decoding="async" />
+    <img class="gunlib-system__card gunlib-system__card--3" src="/images/cases/gunlib-system-card-3.png" alt="" aria-hidden="true" width="632" height="632" loading="lazy" decoding="async" />
+    <img class="gunlib-system__card gunlib-system__card--4" src="/images/cases/gunlib-system-card-4.png" alt="" aria-hidden="true" width="632" height="632" loading="lazy" decoding="async" />
+  </div>
+</section>
+
+<style>
+  .gunlib-system {
+    width: 100%;
+  }
+
+  .gunlib-system__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 17.655px;
+    width: 100%;
+    height: 1280px;
+  }
+
+  .gunlib-system__intro,
+  .gunlib-system__card {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 24px;
+  }
+
+  .gunlib-system__intro {
+    position: relative;
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    background: #1c1c1c;
+    color: #fff;
+  }
+
+  .gunlib-system__header {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 471px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+
+  .gunlib-system h2,
+  .gunlib-system p {
+    margin: 0;
+  }
+
+  .gunlib-system h2 {
+    width: 100%;
+    color: #fff;
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .gunlib-system__copy {
+    width: 100%;
+    color: #fff;
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .gunlib-system__copy strong {
+    font-weight: var(--font-body-semibold-weight);
+  }
+
+  .gunlib-system__icon {
+    position: absolute;
+    top: 330px;
+    left: 0;
+    width: 136.8px;
+    height: 140.886px;
+    object-fit: contain;
+  }
+
+  .gunlib-system__card {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gunlib-system__card--2 { grid-column: 2; grid-row: 1; }
+  .gunlib-system__card--3 { grid-column: 1; grid-row: 2; }
+  .gunlib-system__card--4 { grid-column: 2; grid-row: 2; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-system__body {
+      display: flex;
+      height: auto;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gunlib-system__intro {
+      height: 350.67px;
+      flex: 0 0 350.67px;
+      padding: 40px;
+    }
+
+    .gunlib-system__header {
+      height: auto;
+      gap: 32px;
+    }
+
+    .gunlib-system__icon {
+      position: static;
+      width: 64.736px;
+      height: 66.67px;
+    }
+
+    .gunlib-system__card {
+      height: auto;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-system__body {
+      display: flex;
+      height: auto;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gunlib-system__intro {
+      height: 336.67px;
+      flex: 0 0 336.67px;
+      padding: 20px;
+    }
+
+    .gunlib-system__header {
+      height: auto;
+      gap: 16px;
+    }
+
+    .gunlib-system h2 {
+      font-size: var(--font-title-size);
+      line-height: var(--font-title-line);
+    }
+
+    .gunlib-system__icon {
+      position: static;
+      width: 64.736px;
+      height: 66.67px;
+    }
+
+    .gunlib-system__card {
+      height: auto;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+    }
+  }
+</style>

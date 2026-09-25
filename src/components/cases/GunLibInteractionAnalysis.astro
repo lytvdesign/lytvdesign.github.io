@@ -1,0 +1,279 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: ['Аналіз взаємодій', 'за ключовими секціями платформи'],
+    images: [
+      { src: '/images/cases/gunlib-interaction-1.png', alt: 'Аналіз кліків у документації GunLib', width: 380, height: 476, className: 'gunlib-interaction__image--one' },
+      { src: '/images/cases/gunlib-interaction-2.png', alt: 'Аналіз кліків у розділі частин та механізмів GunLib', width: 382, height: 476, className: 'gunlib-interaction__image--two' },
+      { src: '/images/cases/gunlib-interaction-3.png', alt: 'Аналіз кліків у навігації GunLib', width: 382, height: 474, className: 'gunlib-interaction__image--three' },
+      { src: '/images/cases/gunlib-interaction-heatmap.png', alt: 'Теплова карта взаємодій із GunLib', width: 1256, height: 657, className: 'gunlib-interaction__image--heatmap' },
+    ],
+    points: [
+      {
+        title: 'Висока затребуваність практичних інструкцій та мануалів:',
+        body: "Найбільша щільність натискань у блоці з документацією зафіксована на іконках перегляду та завантаження файлів (інструкції з пристрілки, пам'ятки та офіційні посібники).",
+      },
+      {
+        title: 'Активне використання інтерактивних розділів:',
+        body: "У секції «Частини та механізми» зафіксовано точкові натискання безпосередньо на цифрові позначки вузлів та їхні назви (руків'я зведення, затворна група). Відвідувачі віддають перевагу наочному дослідженню деталей перед читанням суцільного тексту.",
+      },
+      {
+        title: 'Сформована довіра та конверсія у підтримку проєкту:',
+        body: 'Користувачі активно проявляли  увагу та натискали на кнопку «Допомогти проєкту». Це підтверджує бізнес-гіпотезу: якісний безкоштовний контент стимулює добровільну фінансову підтримку та переходи до Patreon.',
+        note: 'P.S.: кілька донатів теж прийшло ;)',
+      },
+      {
+        title: 'Ефективність якорної навігації у версії для десктопів:',
+        body: 'Теплова карта показала чітке групування натискань на бічному меню («Характеристики», «Пристрілка», «Основні частини»). Користувач переходить до необхідного розділу за 1–2 секунди, що забезпечує зручну і швидку навігацію сторінкою.',
+      },
+    ],
+  },
+  en: {
+    title: ['Interaction analysis', 'across key platform sections'],
+    images: [
+      { src: '/images/cases/gunlib-interaction-1.png', alt: 'GunLib documentation click analysis', width: 380, height: 476, className: 'gunlib-interaction__image--one' },
+      { src: '/images/cases/gunlib-interaction-2.png', alt: 'GunLib parts and mechanisms click analysis', width: 382, height: 476, className: 'gunlib-interaction__image--two' },
+      { src: '/images/cases/gunlib-interaction-3.png', alt: 'GunLib navigation click analysis', width: 382, height: 474, className: 'gunlib-interaction__image--three' },
+      { src: '/images/cases/gunlib-interaction-heatmap.png', alt: 'GunLib interaction heatmap', width: 1256, height: 657, className: 'gunlib-interaction__image--heatmap' },
+    ],
+    points: [
+      {
+        title: 'High demand for practical instructions and manuals:',
+        body: 'The highest density of clicks in the documentation block was recorded on the file view and download icons (sighting-in instructions, quick-reference notes, and official manuals).',
+      },
+      {
+        title: 'Active use of interactive sections:',
+        body: 'Within the “Parts and mechanisms” section, individual clicks were recorded directly on the numbered component markers and their labels (charging handle, bolt group). Visitors preferred visually exploring details over reading continuous text.',
+      },
+      {
+        title: 'Established trust and conversion to project support:',
+        body: 'Users actively engaged with and clicked the “Support the project” button. This confirms the business hypothesis: high-quality free content encourages voluntary financial support and visits to Patreon.',
+        note: 'P.S.: a few donations came in too ;)',
+      },
+      {
+        title: 'Effectiveness of anchor navigation on desktop:',
+        body: 'The heatmap showed clear grouping of clicks on the side menu (“Specifications”, “Sighting-in”, “Main parts”). Users reached the required section in 1–2 seconds, providing convenient and fast page navigation.',
+      },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-interaction" aria-labelledby="gunlib-interaction-title">
+  <div class="gunlib-interaction__title">
+    <h2 id="gunlib-interaction-title">
+      {copy.title.map((line) => <span>{line}</span>)}
+    </h2>
+  </div>
+
+  <div class="gunlib-interaction__content">
+    <div class="gunlib-interaction__images" aria-label={locale === 'uk' ? 'Зображення аналізу взаємодій' : 'Interaction analysis images'}>
+      {copy.images.map((image) => (
+        <figure class:list={['gunlib-interaction__image', image.className]}>
+          <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+        </figure>
+      ))}
+    </div>
+
+    <div class="gunlib-interaction__points">
+      {copy.points.map((point) => (
+        <article class="gunlib-interaction__point">
+          <img class="gunlib-interaction__icon" src="/images/cases/gunlib-check-circle.svg" alt="" aria-hidden="true" width="16" height="24" />
+          <div class="gunlib-interaction__point-copy">
+            <p><strong>{point.title}</strong></p>
+            <p>{point.body}</p>
+            {point.note && <p>{point.note}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gunlib-interaction {
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-interaction__title h2,
+  .gunlib-interaction__point-copy p {
+    margin: 0;
+  }
+
+  .gunlib-interaction__title h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .gunlib-interaction__title h2 span {
+    display: block;
+  }
+
+  .gunlib-interaction__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-6);
+    width: 100%;
+    height: 582px;
+    margin-top: var(--space-20);
+  }
+
+  .gunlib-interaction__images {
+    display: grid;
+    grid-template-columns: repeat(3, 190.627px);
+    grid-auto-rows: max-content;
+    justify-content: center;
+    align-content: start;
+    gap: var(--space-2) 24px;
+    min-width: 0;
+  }
+
+  .gunlib-interaction__image {
+    position: relative;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .gunlib-interaction__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gunlib-interaction__image--one { aspect-ratio: 190.627 / 244.227; }
+  .gunlib-interaction__image--two { aspect-ratio: 190.627 / 237.58; }
+  .gunlib-interaction__image--three { aspect-ratio: 190.627 / 245.026; }
+  .gunlib-interaction__image--heatmap {
+    grid-column: 1 / -1;
+    width: calc(100% + 8.08px);
+    justify-self: start;
+    margin-left: -4.04px;
+    aspect-ratio: 627.96 / 328.067;
+  }
+
+  .gunlib-interaction__points {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  .gunlib-interaction__point {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+    min-width: 0;
+  }
+
+  .gunlib-interaction__icon {
+    display: block;
+    width: 16px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .gunlib-interaction__point-copy {
+    min-width: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .gunlib-interaction__point-copy strong {
+    font-weight: var(--font-caption-semibold-weight);
+  }
+
+  .gunlib-interaction__point-copy p + p {
+    margin-top: 0;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-interaction__title h2 {
+      font-size: 24px;
+      line-height: 36px;
+      letter-spacing: -.4px;
+    }
+
+    .gunlib-interaction__content {
+      display: flex;
+      height: auto;
+      flex-direction: column;
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .gunlib-interaction__images {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: clamp(20px, 4.81vw, 36.926px);
+      width: 100%;
+    }
+
+    .gunlib-interaction__image--heatmap {
+      width: calc(100% - 16px);
+      justify-self: center;
+      margin-left: 0;
+    }
+
+    .gunlib-interaction__points {
+      gap: var(--space-6);
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-interaction__title h2 {
+      font-size: 24px;
+      line-height: 34px;
+      letter-spacing: -.3px;
+    }
+
+    .gunlib-interaction__content {
+      display: flex;
+      height: auto;
+      flex-direction: column;
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .gunlib-interaction__images {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 19.645px;
+      width: 100%;
+    }
+
+    .gunlib-interaction__image--heatmap {
+      width: calc(100% - 8.5px);
+      justify-self: center;
+      margin-left: 0;
+    }
+
+    .gunlib-interaction__points {
+      gap: var(--space-6);
+      justify-content: flex-start;
+    }
+  }
+</style>

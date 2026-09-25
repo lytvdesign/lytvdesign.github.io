@@ -1,0 +1,186 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const cards = [
+  {
+    title: {
+      uk: 'Обмежений бюджет і терміни',
+      en: 'Limited budget and timeline',
+    },
+    icon: '/images/cases/gunlib-hourglass.svg',
+  },
+  {
+    title: {
+      uk: 'Використання у польових умовах',
+      en: 'Use in field conditions',
+    },
+    icon: '/images/cases/gunlib-compass.svg',
+  },
+  {
+    title: {
+      uk: 'Складна інформаційна архітектура',
+      en: 'Complex information architecture',
+    },
+    icon: '/images/cases/gunlib-tree-structure.svg',
+  },
+  {
+    title: {
+      uk: 'Донатна модель монетизації',
+      en: 'Donation-based monetization model',
+    },
+    icon: '/images/cases/gunlib-hand-heart.svg',
+  },
+  {
+    title: {
+      uk: 'Точність та перевіреність даних',
+      en: 'Data accuracy and verification',
+    },
+    icon: '/images/cases/gunlib-shield-check.svg',
+  },
+] as const;
+---
+
+<section class="gunlib-constraints" aria-labelledby="gunlib-constraints-title">
+  <h2 id="gunlib-constraints-title">{locale === 'uk' ? 'Обмеження' : 'Constraints'}</h2>
+
+  <div class="gunlib-constraints__cards">
+    {cards.map((card) => (
+      <article class="gunlib-constraints__card">
+        <p>{card.title[locale]}</p>
+        <img src={card.icon} alt="" aria-hidden="true" width="48" height="48" />
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .gunlib-constraints {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+    background: var(--color-surface-secondary);
+  }
+
+  .gunlib-constraints h2,
+  .gunlib-constraints p {
+    margin: 0;
+  }
+
+  .gunlib-constraints h2 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+    white-space: nowrap;
+  }
+
+  .gunlib-constraints__cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .gunlib-constraints__card {
+    display: flex;
+    min-width: 0;
+    height: 180px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-6);
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background: var(--color-surface-primary);
+  }
+
+  .gunlib-constraints__card p {
+    width: 100%;
+    color: var(--color-text-primary);
+    font-size: var(--font-body-semibold-size);
+    font-weight: var(--font-body-semibold-weight);
+    line-height: var(--font-body-semibold-line);
+    letter-spacing: var(--font-body-semibold-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+
+  .gunlib-constraints__card img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+  }
+
+  @media (min-width: 880px) and (max-width: 1439px) {
+    .gunlib-constraints__cards {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .gunlib-constraints__card:nth-child(-n + 3) {
+      grid-column: span 2;
+    }
+
+    .gunlib-constraints__card:nth-child(n + 4) {
+      grid-column: span 3;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 879px) {
+    .gunlib-constraints__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gunlib-constraints__card:nth-child(5) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-constraints {
+      gap: var(--space-12);
+    }
+
+    .gunlib-constraints h2 {
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    .gunlib-constraints__cards {
+      grid-template-columns: 1fr;
+    }
+
+    .gunlib-constraints__card {
+      height: auto;
+      min-height: 96px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: var(--space-5);
+    }
+
+    .gunlib-constraints__card:nth-child(1),
+    .gunlib-constraints__card:nth-child(4) {
+      height: 96px;
+    }
+
+    .gunlib-constraints__card:nth-child(2),
+    .gunlib-constraints__card:nth-child(3),
+    .gunlib-constraints__card:nth-child(5) {
+      height: 100px;
+    }
+
+    .gunlib-constraints__card p {
+      flex: 1 1 auto;
+    }
+  }
+</style>

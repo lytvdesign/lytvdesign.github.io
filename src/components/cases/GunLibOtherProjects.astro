@@ -1,0 +1,254 @@
+---
+import type { CaseSlug, Locale } from '../../content/site';
+import { casePath } from '../../lib/routes';
+
+interface Props {
+  locale: Locale;
+  currentProject: CaseSlug;
+}
+
+const { locale, currentProject } = Astro.props;
+
+const allProjects: Array<{
+  slug: CaseSlug;
+  title: string;
+  image: string;
+  imageWidth: number;
+  imageHeight: number;
+  crop: string;
+}> = [
+  {
+    slug: 'gunlib',
+    title: 'GunLib',
+    image: '/images/home/portfolio-gunlib.png',
+    imageWidth: 1786,
+    imageHeight: 1242,
+    crop: 'width: 100%; height: 100%; left: 0; top: 0;',
+  },
+  {
+    slug: 'trexim',
+    title: 'Trexim',
+    image: '/images/home/portfolio-trexim.png',
+    imageWidth: 3110,
+    imageHeight: 2332,
+    crop: 'width: 136.58%; height: 89.85%; left: -18.29%; top: -4.15%;',
+  },
+  {
+    slug: 'enismaro',
+    title: 'Enismaro',
+    image: '/images/home/portfolio-enismaro.png',
+    imageWidth: 1842,
+    imageHeight: 1330,
+    crop: 'width: 164.78%; height: 112.29%; left: -32.39%; top: -12.21%;',
+  },
+  {
+    slug: 'soulmatcher',
+    title: 'SoulMatcher',
+    image: '/images/home/portfolio-soulmatcher.png',
+    imageWidth: 1900,
+    imageHeight: 2380,
+    crop: 'width: 171.4%; height: 202.62%; left: -70.96%; top: -3.13%;',
+  },
+  {
+    slug: 'complexity',
+    title: 'Complexity',
+    image: '/images/home/portfolio-complexity.png',
+    imageWidth: 2086,
+    imageHeight: 1506,
+    crop: 'width: 213.36%; height: 121.68%; left: -56.63%; top: -16.86%;',
+  },
+];
+
+const sectionTitle = locale === 'uk' ? 'Інші проєкти' : 'Other projects';
+const projects = allProjects.filter((project) => project.slug !== currentProject);
+---
+
+<section class="gunlib-other-projects" aria-labelledby="gunlib-other-projects-title">
+  <h2 id="gunlib-other-projects-title">{sectionTitle}</h2>
+
+  <div class="gunlib-other-projects__scroller" tabindex="0" aria-label={sectionTitle}>
+    <div class="gunlib-other-projects__track">
+      {projects.map((project) => (
+        <a class="gunlib-other-projects__card" href={casePath(locale, project.slug)} aria-label={project.title}>
+          <span class="gunlib-other-projects__media" aria-hidden="true">
+            <img
+              src={project.image}
+              width={project.imageWidth}
+              height={project.imageHeight}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              style={project.crop}
+            />
+          </span>
+          <span class="gunlib-other-projects__footer">
+            <span class="gunlib-other-projects__title">{project.title}</span>
+            <span class="gunlib-other-projects__link" aria-hidden="true">
+              <img src="/images/icons/social-arrow.svg" alt="" />
+            </span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gunlib-other-projects {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 48px;
+    margin-inline: auto;
+    overflow: hidden;
+  }
+
+  .gunlib-other-projects h2 {
+    margin: 0;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+    white-space: nowrap;
+  }
+
+  .gunlib-other-projects__scroller {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    touch-action: pan-x pan-y;
+  }
+
+  .gunlib-other-projects__scroller::-webkit-scrollbar { display: none; }
+
+  .gunlib-other-projects__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .gunlib-other-projects__card {
+    position: relative;
+    display: flex;
+    width: 302px;
+    height: 320px;
+    flex: 0 0 302px;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 24px;
+    border-radius: 32px;
+    background: #030303;
+    color: var(--color-text-inverse);
+    isolation: isolate;
+    scroll-snap-align: start;
+  }
+
+  .gunlib-other-projects__media {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    background: #030303;
+  }
+
+  .gunlib-other-projects__media::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: inherit;
+    background: rgb(0 0 0 / 30%);
+    content: '';
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .gunlib-other-projects__media img {
+    position: absolute;
+    display: block;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .gunlib-other-projects__footer {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .gunlib-other-projects__title,
+  .gunlib-other-projects__link {
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    border-radius: 16px;
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .gunlib-other-projects__title {
+    flex: 0 1 auto;
+    padding: 16px 24px;
+    font-size: var(--font-subtitle-size);
+    font-weight: var(--font-subtitle-weight);
+    line-height: var(--font-subtitle-line);
+    white-space: nowrap;
+  }
+
+  .gunlib-other-projects__link {
+    width: 64px;
+    flex: 0 0 64px;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .gunlib-other-projects__link img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+    transition: filter 180ms ease;
+  }
+
+  .gunlib-other-projects__card:hover .gunlib-other-projects__media::after,
+  .gunlib-other-projects__card:focus-visible .gunlib-other-projects__media::after {
+    opacity: 1;
+  }
+
+  .gunlib-other-projects__card:hover .gunlib-other-projects__title,
+  .gunlib-other-projects__card:hover .gunlib-other-projects__link,
+  .gunlib-other-projects__card:focus-visible .gunlib-other-projects__title,
+  .gunlib-other-projects__card:focus-visible .gunlib-other-projects__link {
+    background: var(--color-surface-secondary);
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-other-projects__card:hover .gunlib-other-projects__link img,
+  .gunlib-other-projects__card:focus-visible .gunlib-other-projects__link img {
+    filter: none;
+  }
+
+  .gunlib-other-projects__card:focus-visible,
+  .gunlib-other-projects__scroller:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-other-projects h2 { white-space: normal; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gunlib-other-projects__media::after,
+    .gunlib-other-projects__title,
+    .gunlib-other-projects__link,
+    .gunlib-other-projects__link img { transition: none; }
+  }
+</style>

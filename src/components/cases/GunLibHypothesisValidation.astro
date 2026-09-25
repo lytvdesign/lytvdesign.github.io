@@ -1,0 +1,255 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Але були й спростування гіпотез',
+    intro: 'Запуск продукту — це завжди перевірка припущень реальністю. Аналітика показала не лише успішні рішення, а й точки, де наші первинні гіпотези не справдилися.',
+    imageAlt: 'Ілюстрація альтернативних гіпотез',
+    points: [
+      {
+        title: 'Низька залученість до текстового пошуку:',
+        body: 'Лише 12% мобільних відвідувачів скористалися полем пошуку, віддаючи перевагу переходам за прямими посиланнями з месенджерів або через каталог.',
+        resolution: 'Було вирішено перенести пошуковий інпут в компактну іконку в хедері, звільнивши простір першого екрана для карток зброї.',
+      },
+      {
+        title: 'Мінімальна взаємодія з мобільними вкладками:',
+        body: 'Користувачі рідко перемикали фіксовані у футері вкладки розділів, надаючи перевагу суцільному вертикальному прокручуванню сторінки.',
+        resolution: 'Елемент залишили для A/B-тестування нових форматів адаптації у наступних ітераціях.',
+      },
+      {
+        title: 'Неефективність тупикових сторінок (Dead-End UX):',
+        body: 'Після перегляду характеристик користувачі вимушені були повертатися на Головну сторінку для вибору наступного зразка.',
+        resolution: 'Для усунення зайвих дій вирішили додати блоки «Інші зразки зброї» внизу сторінки та перемикання між картками в один клік за допомогою тегів споріднених зразків зброї або інших модифікацій сімейства.',
+      },
+    ],
+  },
+  en: {
+    title: 'Yet some hypotheses were disproved',
+    intro: 'Launching a product is always a reality check for assumptions. The analytics revealed not only successful decisions, but also areas where our initial hypotheses did not hold up.',
+    imageAlt: 'Illustration of alternative hypotheses',
+    points: [
+      {
+        title: 'Low engagement with text search:',
+        body: 'Only 12% of mobile visitors used the search field, preferring direct links from messengers or navigating through the catalogue.',
+        resolution: 'We decided to move the search input into a compact header icon, freeing the first screen for weapon cards.',
+      },
+      {
+        title: 'Minimal interaction with mobile tabs:',
+        body: 'Users rarely switched between the section tabs fixed in the footer, preferring to scroll continuously down the page.',
+        resolution: 'The element was kept for A/B testing new adaptation formats in future iterations.',
+      },
+      {
+        title: 'Ineffective dead-end pages (Dead-End UX):',
+        body: 'After reviewing specifications, users had to return to the Home page to choose the next weapon model.',
+        resolution: 'To remove unnecessary steps, we decided to add “Other weapon models” blocks at the bottom of the page and one-click switching between cards through tags for related weapon models or other family modifications.',
+      },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-hypotheses" aria-labelledby="gunlib-hypotheses-title">
+  <div class="gunlib-hypotheses__top">
+    <h2 id="gunlib-hypotheses-title">{copy.title}</h2>
+    <div class="gunlib-hypotheses__intro">
+      <p>{copy.intro}</p>
+      <figure class="gunlib-hypotheses__image">
+        <img src="/images/cases/gunlib-hypotheses-image.png" alt={copy.imageAlt} width="750" height="1000" loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </div>
+
+  <div class="gunlib-hypotheses__points">
+    {copy.points.map((point) => (
+      <article class="gunlib-hypotheses__point">
+          <img class="gunlib-hypotheses__icon" src="/images/cases/gunlib-x-circle.svg" alt="" aria-hidden="true" width="16" height="24" />
+          <div class="gunlib-hypotheses__point-copy">
+          <p><strong>{point.title}</strong></p>
+          <p>{point.body}</p>
+          <p class="gunlib-hypotheses__resolution">{point.resolution}</p>
+          </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .gunlib-hypotheses {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-20);
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-hypotheses__top {
+    display: grid;
+    grid-template-columns: minmax(0, 456px) minmax(0, 1fr);
+    gap: var(--space-20);
+    align-items: center;
+    min-width: 0;
+  }
+
+  .gunlib-hypotheses h2,
+  .gunlib-hypotheses p {
+    margin: 0;
+  }
+
+  .gunlib-hypotheses h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap;
+  }
+
+  .gunlib-hypotheses__intro {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .gunlib-hypotheses__intro > p {
+    min-width: 0;
+    flex: 1 1 auto;
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .gunlib-hypotheses__image {
+    position: relative;
+    width: 61px;
+    height: 73px;
+    flex: 0 0 61px;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .gunlib-hypotheses__image img {
+    position: absolute;
+    top: -12.17%;
+    left: -5.97%;
+    width: 111.94%;
+    max-width: none;
+    height: 124.22%;
+    object-fit: cover;
+  }
+
+  .gunlib-hypotheses__points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-12);
+    min-width: 0;
+  }
+
+  .gunlib-hypotheses__point {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+    min-width: 0;
+  }
+
+  .gunlib-hypotheses__icon {
+    display: block;
+    width: 16px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .gunlib-hypotheses__point-copy {
+    min-width: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .gunlib-hypotheses__point-copy strong {
+    font-weight: var(--font-caption-semibold-weight);
+  }
+
+  .gunlib-hypotheses__point-copy p {
+    margin: 0;
+  }
+
+  .gunlib-hypotheses__point-copy .gunlib-hypotheses__resolution {
+    margin-top: var(--font-caption-line);
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-hypotheses {
+      gap: var(--space-8);
+    }
+
+    .gunlib-hypotheses__top {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: stretch;
+    }
+
+    .gunlib-hypotheses h2 {
+      font-size: 24px;
+      line-height: 36px;
+      letter-spacing: -.4px;
+    }
+
+    .gunlib-hypotheses__points {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-hypotheses {
+      gap: var(--space-8);
+    }
+
+    .gunlib-hypotheses__top {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: stretch;
+    }
+
+    .gunlib-hypotheses h2 {
+      font-size: 24px;
+      line-height: 34px;
+      letter-spacing: -.3px;
+      white-space: normal;
+    }
+
+    .gunlib-hypotheses__intro {
+      align-items: flex-end;
+    }
+
+    .gunlib-hypotheses__points {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+  }
+</style>

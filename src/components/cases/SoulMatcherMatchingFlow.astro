@@ -1,0 +1,342 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const cards = [
+  {
+    title: { uk: 'Розмова з ШІ', en: 'Talk to AI' },
+    number: '01',
+    icon: '/images/cases/soulmatcher-flow-talk.svg',
+  },
+  {
+    title: { uk: 'ШІ створює профіль', en: 'AI builds profile' },
+    number: '02',
+    icon: '/images/cases/soulmatcher-flow-profile.svg',
+  },
+  {
+    title: { uk: 'ШІ пропонує збіг', en: 'AI suggests a match' },
+    number: '03',
+    icon: '/images/cases/soulmatcher-flow-search.svg',
+  },
+  {
+    title: { uk: 'Користувач зацікавився', en: 'User expresses interest' },
+    number: '04',
+    icon: '/images/cases/soulmatcher-flow-heart.svg',
+  },
+  {
+    title: { uk: 'ШІ оцінює сумісність', en: 'AI evaluates compatibility' },
+    number: '05',
+    icon: '/images/cases/soulmatcher-flow-scales.svg',
+  },
+  {
+    title: { uk: 'ШІ перевіряє запит', en: "Other user's AI reviews the request" },
+    number: '06',
+    icon: '/images/cases/soulmatcher-flow-eye.svg',
+  },
+  {
+    title: { uk: 'Взаємна зацікавленість', en: 'Mutual interest' },
+    number: '07',
+    icon: '/images/cases/soulmatcher-flow-handshake.svg',
+  },
+  {
+    title: { uk: 'Починається розмова', en: 'Human conversation begins' },
+    number: '08',
+    icon: '/images/cases/soulmatcher-flow-chat.svg',
+  },
+] as const;
+
+const title = 'AI Matching Flow';
+---
+
+<section class="soulmatcher-matching-flow" aria-labelledby="soulmatcher-matching-flow-title">
+  <h2 id="soulmatcher-matching-flow-title">{title}</h2>
+
+  <div class="soulmatcher-matching-flow__cards" role="list">
+    {cards.map((card) => (
+      <article class="soulmatcher-matching-flow__card" role="listitem">
+        <p class="soulmatcher-matching-flow__label">{card.title[locale]}</p>
+        <div class="soulmatcher-matching-flow__footer">
+          <p class="soulmatcher-matching-flow__number">{card.number}</p>
+          <img src={card.icon} alt="" aria-hidden="true" width="48" height="48" />
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .soulmatcher-matching-flow {
+    display: flex;
+    width: 100%;
+    min-height: 624px;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding: var(--space-20);
+    background: #222224;
+    color: var(--color-text-inverse);
+  }
+
+  @media (min-width: 1025px) {
+    .soulmatcher-matching-flow {
+      width: calc(100% + (var(--space-20) * 2));
+      margin-left: calc(var(--space-20) * -1);
+    }
+  }
+
+  .soulmatcher-matching-flow h2,
+  .soulmatcher-matching-flow p {
+    margin: 0;
+  }
+
+  .soulmatcher-matching-flow h2 {
+    color: var(--color-surface-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+    white-space: nowrap;
+  }
+
+  .soulmatcher-matching-flow__cards {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 160px;
+    gap: var(--space-12);
+  }
+
+  .soulmatcher-matching-flow__card {
+    display: flex;
+    min-width: 0;
+    height: 160px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-6);
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background: rgb(255 255 255 / 8%);
+  }
+
+  .soulmatcher-matching-flow__label {
+    width: 100%;
+    color: var(--color-text-inverse);
+    font-size: var(--font-body-semibold-size);
+    font-weight: var(--font-body-semibold-weight);
+    line-height: var(--font-body-semibold-line);
+    letter-spacing: var(--font-body-semibold-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+
+  .soulmatcher-matching-flow__footer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .soulmatcher-matching-flow__number {
+    color: rgb(255 255 255 / 24%);
+    font-size: var(--font-title-size);
+    font-weight: 300;
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+    white-space: nowrap;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .soulmatcher-matching-flow__number {
+      transition: color 180ms ease;
+    }
+
+    .soulmatcher-matching-flow__card:hover .soulmatcher-matching-flow__number {
+      color: #c6a15a;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .soulmatcher-matching-flow__number {
+      transition: none;
+    }
+  }
+
+  .soulmatcher-matching-flow__card img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-matching-flow {
+      width: calc(100% + (var(--space-12) * 2));
+      margin-left: calc(var(--space-12) * -1);
+      min-height: 460px;
+      gap: var(--space-8);
+      padding: var(--space-12);
+    }
+
+    .soulmatcher-matching-flow__cards {
+      grid-auto-rows: 120px;
+      column-gap: var(--space-6);
+      row-gap: var(--space-12);
+    }
+
+    .soulmatcher-matching-flow__card {
+      height: 120px;
+      padding: var(--space-3);
+      border-radius: 8px;
+    }
+
+    .soulmatcher-matching-flow__label {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      color: var(--color-text-inverse);
+      font-size: var(--font-caption-size);
+      font-weight: var(--font-caption-weight);
+      line-height: var(--font-caption-line);
+      letter-spacing: var(--font-caption-tracking);
+    }
+
+    .soulmatcher-matching-flow__number {
+      font-size: var(--font-body-size);
+      font-weight: var(--font-body-weight);
+      line-height: var(--font-body-line);
+      letter-spacing: var(--font-body-tracking);
+    }
+
+    .soulmatcher-matching-flow__card img {
+      width: 20px;
+      height: 20px;
+      flex-basis: 20px;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 760px) {
+    .soulmatcher-matching-flow {
+      min-height: auto;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .soulmatcher-matching-flow h2 {
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    .soulmatcher-matching-flow__cards {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 58px;
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-matching-flow__card {
+      height: 58px;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-4) var(--space-5);
+      border-radius: var(--radius-m);
+    }
+
+    .soulmatcher-matching-flow__footer {
+      display: contents;
+    }
+
+    .soulmatcher-matching-flow__number {
+      order: -1;
+      font-size: var(--font-body-size);
+      font-weight: var(--font-body-weight);
+      line-height: var(--font-body-line);
+      letter-spacing: var(--font-body-tracking);
+    }
+
+    .soulmatcher-matching-flow__label {
+      width: auto;
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      font-size: var(--font-body-semibold-size);
+      font-weight: var(--font-body-semibold-weight);
+      line-height: var(--font-body-semibold-line);
+      white-space: nowrap;
+      text-overflow: clip;
+    }
+
+    .soulmatcher-matching-flow__card img {
+      width: 24px;
+      height: 24px;
+      flex-basis: 24px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-matching-flow {
+      width: calc(100% + (var(--space-4) * 2));
+      margin-left: calc(var(--space-4) * -1);
+      min-height: 800px;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .soulmatcher-matching-flow h2 {
+      font-size: var(--font-headline-size);
+      line-height: var(--font-headline-line);
+      letter-spacing: var(--font-headline-tracking);
+    }
+
+    .soulmatcher-matching-flow__cards {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 58px;
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-matching-flow__card {
+      height: 58px;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-4) var(--space-5);
+      border-radius: var(--radius-m);
+    }
+
+    .soulmatcher-matching-flow__footer {
+      display: contents;
+    }
+
+    .soulmatcher-matching-flow__number {
+      order: -1;
+      font-size: var(--font-body-size);
+      font-weight: var(--font-body-weight);
+      line-height: var(--font-body-line);
+      letter-spacing: var(--font-body-tracking);
+    }
+
+    .soulmatcher-matching-flow__label {
+      width: auto;
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      font-size: var(--font-body-semibold-size);
+      font-weight: var(--font-body-semibold-weight);
+      line-height: var(--font-body-semibold-line);
+      white-space: nowrap;
+      text-overflow: clip;
+    }
+
+    .soulmatcher-matching-flow__card img {
+      width: 24px;
+      height: 24px;
+      flex-basis: 24px;
+    }
+  }
+</style>

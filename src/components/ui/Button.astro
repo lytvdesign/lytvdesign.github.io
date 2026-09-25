@@ -1,0 +1,119 @@
+---
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'accent';
+type ButtonSize = 'small' | 'default' | 'large';
+type ButtonIcon = 'arrow-up-right' | 'arrow-right' | 'none';
+
+interface Props {
+  label: string;
+  href?: string;
+  target?: '_blank' | '_self';
+  type?: 'button' | 'submit' | 'reset';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  icon?: ButtonIcon;
+  iconOnly?: boolean;
+  ariaLabel?: string;
+  disabled?: boolean;
+}
+
+const {
+  label,
+  href,
+  target = '_self',
+  type = 'button',
+  variant = 'primary',
+  size = 'default',
+  icon = 'none',
+  iconOnly = false,
+  ariaLabel = label,
+  disabled = false,
+} = Astro.props;
+
+const isLink = Boolean(href) && !disabled;
+const isExternal = target === '_blank';
+const resolvedIcon = iconOnly && icon === 'none' ? 'arrow-up-right' : icon;
+const classNames = ['button', `button--${variant}`, `button--${size}`, { 'button--icon-only': iconOnly }];
+---
+
+{isLink ? (
+  <a class:list={classNames} href={href} target={target} rel={isExternal ? 'noopener noreferrer' : undefined} aria-label={iconOnly ? ariaLabel : undefined}>
+    {!iconOnly && <span class="button__label">{label}</span>}
+    {resolvedIcon !== 'none' && <span class="button__icon" aria-hidden="true">{resolvedIcon === 'arrow-up-right' ? <img src="/images/icons/social-arrow.svg" alt="" /> : '→'}</span>}
+  </a>
+) : (
+  <button class:list={classNames} type={type} disabled={disabled} aria-label={iconOnly ? ariaLabel : undefined}>
+    {!iconOnly && <span class="button__label">{label}</span>}
+    {resolvedIcon !== 'none' && <span class="button__icon" aria-hidden="true">{resolvedIcon === 'arrow-up-right' ? <img src="/images/icons/social-arrow.svg" alt="" /> : '→'}</span>}
+  </button>
+)}
+
+<style>
+  .button {
+    --button-bg: var(--color-accent-primary);
+    --button-color: var(--color-text-inverse);
+    --button-border: transparent;
+    --button-hover-bg: var(--color-accent-hover);
+    --button-pressed-bg: var(--color-accent-pressed);
+    --button-icon-filter: brightness(0) invert(1);
+    display: inline-flex;
+    width: fit-content;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--button-border);
+    border-radius: var(--radius-m);
+    background: var(--button-bg);
+    color: var(--button-color);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-semibold-weight);
+    line-height: var(--font-caption-line);
+    text-decoration: none;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .button--secondary {
+    --button-bg: var(--color-surface-elevated);
+    --button-color: var(--color-text-primary);
+    --button-border: var(--color-border-subtle);
+    --button-hover-bg: var(--color-surface-tertiary);
+    --button-pressed-bg: var(--color-border-default);
+    --button-icon-filter: none;
+  }
+
+  .button--outline {
+    --button-bg: transparent;
+    --button-color: var(--color-text-primary);
+    --button-border: var(--color-border-default);
+    --button-hover-bg: var(--color-surface-tertiary);
+    --button-pressed-bg: var(--color-border-subtle);
+    --button-icon-filter: none;
+  }
+
+  .button--accent {
+    --button-bg: var(--color-status-info);
+    --button-color: var(--color-text-inverse);
+    --button-hover-bg: var(--color-foundation-navy-500);
+    --button-pressed-bg: var(--color-foundation-navy-400);
+    --button-icon-filter: brightness(0) invert(1);
+  }
+
+  .button--small { min-height: 2rem; padding: var(--space-1) var(--space-2); }
+  .button--large { min-height: 3rem; padding: var(--space-3) var(--space-4); font-size: var(--font-label-size); line-height: var(--font-label-line); }
+  .button--icon-only { width: 2.5rem; padding: var(--space-2); }
+  .button--small.button--icon-only { width: 2rem; padding: var(--space-1); }
+  .button--large.button--icon-only { width: 3rem; padding: var(--space-3); }
+  .button__icon { display: grid; flex: 0 0 auto; width: 1rem; height: 1rem; place-items: center; font-size: var(--font-label-size); line-height: 1; }
+  .button__icon img { display: block; width: .875rem; height: .875rem; filter: var(--button-icon-filter); }
+
+  .button:hover { background: var(--button-hover-bg); }
+  .button:active { background: var(--button-pressed-bg); transform: scale(.97); }
+  .button:focus-visible { outline: 2px solid var(--color-status-info); outline-offset: var(--space-1); }
+  .button:disabled { cursor: not-allowed; opacity: .5; }
+  .button:disabled:hover, .button:disabled:active { background: var(--button-bg); transform: none; }
+
+  @media (prefers-reduced-motion: reduce) { .button { transition: none; } }
+</style>

@@ -1,0 +1,287 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Підтвердження Mobile-First стратегії реальними даними:',
+    description:
+      'На етапі дослідження ми висунули гіпотезу, що ключовий контекст використання GunLib — це швидкий пошук ТТХ, інструкцій та схем пристрілки безпосередньо у польових умовах або на навчальних локаціях.',
+    introBefore: 'Глибокий аналіз сесій у Google Analytics 4 підтвердив не лише кількісне домінування мобільного трафіку ',
+    introMetric: '(78.05%)',
+    introAfter: ', а й вищу якість взаємодії користувачів зі смартфонів:',
+    image: '/images/cases/gunlib-mobile-traffic.png',
+    imageAlt: 'Звіт Google Analytics 4 про мобільний і десктопний трафік GunLib',
+    imageWidth: 1608,
+    imageHeight: 844,
+    points: [
+      {
+        title: 'Вища залученість (51.0% Engagement Rate):',
+        body: 'Частка якісних сесій на мобільних пристроях перевищує десктопні показники (44.24%). Це підтверджує, що спрощена двошарова навігація, адаптивні деталізовані схеми та швидкі завантаження дозволяють користувачам комфортно вивчати матеріали навіть на малих екранах.',
+      },
+      {
+        title: 'Основний канал залучення (79.03% New Mobile Users):',
+        body: "Близько 80% нових користувачів відкривають GunLib уперше зі смартфона. Це підтвердило правильність відмови від обов'язкової реєстрації на користь миттєвого доступу.",
+      },
+      {
+        title: 'Розмежування сценаріїв (JTBD Validation):',
+        body: 'Мобільна версія слугує інструментом для швидких точкових задач у полях (Time-to-Value), тоді як десктоп використовується для тривалого дослідження та підготовки навчальних матеріалів.',
+      },
+    ],
+  },
+  en: {
+    title: 'Validating the Mobile-First strategy with real data:',
+    description:
+      'During the research stage, we hypothesized that GunLib’s key usage context was the quick search for technical specifications, instructions, and sighting-in diagrams directly in the field or at training locations.',
+    introBefore: 'An in-depth analysis of Google Analytics 4 sessions confirmed not only the quantitative dominance of mobile traffic ',
+    introMetric: '(78.05%)',
+    introAfter: ', but also a higher quality of interaction from smartphone users:',
+    image: '/images/cases/gunlib-mobile-traffic.png',
+    imageAlt: 'Google Analytics 4 report comparing GunLib mobile and desktop traffic',
+    imageWidth: 1608,
+    imageHeight: 844,
+    points: [
+      {
+        title: 'Higher engagement (51.0% Engagement Rate):',
+        body: 'The share of quality sessions on mobile devices exceeds the desktop result (44.24%). This confirms that simplified two-layer navigation, responsive detailed diagrams, and fast loading let users comfortably explore the materials even on small screens.',
+      },
+      {
+        title: 'Primary acquisition channel (79.03% New Mobile Users):',
+        body: 'Around 80% of new users open GunLib for the first time from a smartphone. This validated removing mandatory registration in favor of instant access.',
+      },
+      {
+        title: 'Scenario separation (JTBD Validation):',
+        body: 'The mobile version serves quick, focused tasks in the field (Time-to-Value), while desktop is used for extended research and preparation of training materials.',
+      },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-mobile-first" aria-labelledby="gunlib-mobile-first-title">
+  <div class="gunlib-mobile-first__title-row">
+    <h2 id="gunlib-mobile-first-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="gunlib-mobile-first__content">
+    <div class="gunlib-mobile-first__analysis">
+      <p class="gunlib-mobile-first__intro">
+        {copy.introBefore}<strong>{copy.introMetric}</strong>{copy.introAfter}
+      </p>
+
+      <div class="gunlib-mobile-first__points">
+        {copy.points.map((point) => (
+          <div class="gunlib-mobile-first__point">
+            <img src="/images/cases/gunlib-check-circle.svg" alt="" aria-hidden="true" width="16" height="24" />
+            <p>
+              <strong>{point.title}</strong>
+              <span>{point.body}</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <figure class="gunlib-mobile-first__image">
+      <img
+        src={copy.image}
+        alt={copy.imageAlt}
+        width={copy.imageWidth}
+        height={copy.imageHeight}
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .gunlib-mobile-first {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-16);
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-mobile-first h2,
+  .gunlib-mobile-first p,
+  .gunlib-mobile-first figure {
+    margin: 0;
+  }
+
+  .gunlib-mobile-first__title-row {
+    display: grid;
+    grid-template-columns: 465px minmax(0, 1fr);
+    gap: var(--space-6);
+    width: 100%;
+    align-items: start;
+  }
+
+  .gunlib-mobile-first h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .gunlib-mobile-first__title-row > p {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .gunlib-mobile-first__content {
+    display: grid;
+    grid-template-columns: 428px minmax(0, 1fr);
+    gap: var(--space-12);
+    width: 100%;
+    align-items: center;
+  }
+
+  .gunlib-mobile-first__analysis {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-8);
+    align-items: flex-start;
+  }
+
+  .gunlib-mobile-first__intro,
+  .gunlib-mobile-first__point p {
+    color: var(--color-text-primary);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+  }
+
+  .gunlib-mobile-first__intro strong {
+    font-weight: var(--font-caption-semibold-weight);
+  }
+
+  .gunlib-mobile-first__points {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .gunlib-mobile-first__point {
+    display: flex;
+    width: 100%;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+
+  .gunlib-mobile-first__point > img {
+    display: block;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 24px;
+  }
+
+  .gunlib-mobile-first__point p {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .gunlib-mobile-first__point strong {
+    font-weight: var(--font-caption-semibold-weight);
+  }
+
+  .gunlib-mobile-first__point span {
+    font-weight: var(--font-caption-weight);
+  }
+
+  .gunlib-mobile-first__image {
+    position: relative;
+    width: 100%;
+    height: 422px;
+    overflow: hidden;
+  }
+
+  .gunlib-mobile-first__image > img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-mobile-first {
+      gap: var(--space-8);
+      margin-bottom: calc(-1 * var(--space-16));
+    }
+
+    .gunlib-mobile-first__title-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .gunlib-mobile-first__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+
+    .gunlib-mobile-first__analysis {
+      gap: var(--space-8);
+    }
+
+    .gunlib-mobile-first__image {
+      height: auto;
+      aspect-ratio: 1113 / 585;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-mobile-first {
+      gap: var(--space-8);
+      margin-bottom: 0;
+    }
+
+    .gunlib-mobile-first__title-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .gunlib-mobile-first__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+
+    .gunlib-mobile-first__analysis {
+      gap: var(--space-8);
+    }
+
+    .gunlib-mobile-first__points {
+      gap: var(--space-6);
+    }
+
+    .gunlib-mobile-first__image {
+      height: auto;
+      aspect-ratio: 1113 / 585;
+    }
+  }
+</style>

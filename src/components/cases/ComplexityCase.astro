@@ -1,0 +1,55 @@
+---
+import type { Locale } from '../../content/site';
+import ComplexityIntro from './ComplexityIntro.astro';
+import ComplexityContext from './ComplexityContext.astro';
+import ComplexityConstraints from './ComplexityConstraints.astro';
+import ComplexityImprovements from './ComplexityImprovements.astro';
+import ComplexityReflection from './ComplexityReflection.astro';
+import GunLibOtherProjects from './GunLibOtherProjects.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+---
+
+<main class="complexity-case" aria-labelledby="complexity-title">
+  <div class="complexity-case__content">
+    <ComplexityIntro locale={locale} />
+    <section class="complexity-case__context" aria-labelledby="complexity-context-title"><ComplexityContext locale={locale} /></section>
+    <section class="complexity-case__constraints" aria-labelledby="complexity-constraints-title"><ComplexityConstraints locale={locale} /></section>
+    <section class="complexity-case__improvements" aria-labelledby="complexity-improvements-title"><ComplexityImprovements locale={locale} /></section>
+    <section class="complexity-case__reflection" aria-labelledby="complexity-reflection-title"><ComplexityReflection locale={locale} /></section>
+    <section class="complexity-case__other-projects" aria-labelledby="gunlib-other-projects-title"><GunLibOtherProjects locale={locale} currentProject="complexity" /></section>
+  </div>
+</main>
+
+<style>
+  .complexity-case {
+    --complexity-gutter: 80px;
+    padding: 228px var(--complexity-gutter) 0;
+    background: var(--color-surface-secondary);
+  }
+  .complexity-case__content { width: min(1280px, 100%); margin: 0 auto; }
+  .complexity-case__context { margin-top: 220px; }
+  .complexity-case__constraints { width: calc(100% + 160px); margin-top: 80px; margin-left: -80px; padding-inline: 80px; }
+  .complexity-case__improvements { width: calc(100% + 160px); margin-top: 80px; margin-left: -80px; padding-inline: 80px; }
+  .complexity-case__reflection { margin-top: 220px; }
+  .complexity-case__other-projects { margin-top: 220px; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .complexity-case { --complexity-gutter: 48px; padding-top: 164px; }
+    .complexity-case__context { margin-top: 128px; }
+    .complexity-case__constraints { width: 100%; margin-top: 128px; margin-left: 0; padding-inline: 0; }
+    .complexity-case__improvements { width: 100%; margin-top: 128px; margin-left: 0; padding-inline: 0; }
+    .complexity-case__reflection { margin-top: 128px; }
+    .complexity-case__other-projects { margin-top: 128px; }
+  }
+
+  @media (max-width: 640px) {
+    .complexity-case { --complexity-gutter: 16px; padding-top: 104px; }
+    .complexity-case__context { margin-top: 80px; }
+    .complexity-case__constraints { width: 100%; margin-top: 80px; margin-left: 0; padding-inline: 0; }
+    .complexity-case__improvements { width: 100%; margin-top: 276px; margin-left: 0; padding-inline: 0; }
+    .complexity-case__reflection { margin-top: 80px; }
+    .complexity-case__other-projects { margin-top: 80px; }
+  }
+</style>

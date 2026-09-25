@@ -1,0 +1,207 @@
+---
+import type { Locale } from '../../content/site';
+import GunLibIntro from './GunLibIntro.astro';
+import GunLibContext from './GunLibContext.astro';
+import GunLibConstraints from './GunLibConstraints.astro';
+import GunLibResearch from './GunLibResearch.astro';
+import GunLibBehavioralAnalytics from './GunLibBehavioralAnalytics.astro';
+import GunLibMobileFirst from './GunLibMobileFirst.astro';
+import GunLibInteractionAnalysis from './GunLibInteractionAnalysis.astro';
+import GunLibHypothesisValidation from './GunLibHypothesisValidation.astro';
+import GunLibSystem from './GunLibSystem.astro';
+import GunLibOtherProjects from './GunLibOtherProjects.astro';
+import { homePath } from '../../lib/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const labels = locale === 'uk'
+  ? {
+      intro: 'GunLib',
+      context: 'Контекст проєкту',
+      constraints: 'Обмеження',
+      back: 'Назад',
+    }
+  : {
+      intro: 'GunLib',
+      context: 'Project context',
+      constraints: 'Constraints',
+      back: 'Back',
+    };
+const backHref = homePath(locale);
+---
+
+<main class="gunlib-case" aria-labelledby="gunlib-intro-title">
+  <div class="gunlib-case__content">
+    <div class="gunlib-case__intro-shell" data-case-title-container>
+      <a class="gunlib-case__back" href={backHref} aria-label={labels.back} title={labels.back} data-case-back>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M15 8H1M1 8l6-6M1 8l6 6" />
+        </svg>
+      </a>
+      <GunLibIntro locale={locale} />
+    </div>
+
+    <GunLibContext locale={locale} />
+
+    <GunLibConstraints locale={locale} />
+
+    <GunLibResearch locale={locale} />
+
+    <GunLibBehavioralAnalytics locale={locale} />
+
+    <GunLibMobileFirst locale={locale} />
+
+    <GunLibInteractionAnalysis locale={locale} />
+
+    <GunLibHypothesisValidation locale={locale} />
+
+    <GunLibSystem locale={locale} />
+
+    <GunLibOtherProjects locale={locale} currentProject="gunlib" />
+  </div>
+</main>
+
+<style>
+  .gunlib-case {
+    position: relative;
+    --gunlib-gutter: 80px;
+    --gunlib-gap: 160px;
+    --gunlib-placeholder: var(--color-foundation-neutral-200);
+    --gunlib-placeholder-strong: var(--color-foundation-neutral-300);
+    padding: 228px var(--gunlib-gutter) 0;
+    background: var(--color-surface-secondary);
+  }
+
+  .gunlib-case__back {
+    --case-back-inline-offset: 0px;
+    position: absolute;
+    z-index: 2;
+    top: 32px;
+    left: 0;
+    display: grid;
+    width: 64px;
+    height: 40px;
+    place-items: center;
+    border: .5px solid #94acde;
+    border-radius: 9999px;
+    color: var(--color-text-primary);
+    transition: background-color 180ms ease, border-color 180ms ease;
+  }
+
+  .gunlib-case__intro-shell {
+    position: relative;
+  }
+
+  .gunlib-case__intro-shell.case-title-container--stack-back {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gunlib-case__intro-shell.case-title-container--stack-back .gunlib-case__back {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 4px;
+  }
+
+  .gunlib-case__back svg { width: 16px; height: 16px; }
+  .gunlib-case__back path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.25; }
+  .gunlib-case__back:hover { background: var(--color-surface-tertiary); border-color: var(--color-foundation-navy-400); }
+
+  .gunlib-case__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gunlib-gap);
+    width: min(1280px, 100%);
+    margin: 0 auto;
+  }
+
+  .gunlib-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .gunlib-section h2,
+  .gunlib-section h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .gunlib-placeholder,
+  .gunlib-placeholder-grid span {
+    display: block;
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-m);
+    background: var(--gunlib-placeholder);
+  }
+
+  .gunlib-placeholder-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .gunlib-section--context { min-height: 846px; }
+  .gunlib-placeholder-grid--context-copy { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; }
+  .gunlib-placeholder-grid--context-copy span { height: 120px; }
+  .gunlib-placeholder-grid--context-media { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 80px; }
+  .gunlib-placeholder-grid--context-media span { height: 558px; }
+
+  .gunlib-section--constraints { min-height: 276px; }
+  .gunlib-placeholder-grid--constraints { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 48px; }
+  .gunlib-placeholder-grid--constraints span { height: 180px; }
+
+  .gunlib-section--analytics { min-height: 2338px; }
+  .gunlib-placeholder-grid--analytics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px 24px; margin-top: 80px; }
+  .gunlib-placeholder-grid--analytics span { height: 470px; }
+
+  .gunlib-section--product { min-height: 1280px; }
+  .gunlib-placeholder-grid--product { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 80px; }
+  .gunlib-placeholder-grid--product span { height: 564px; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-case { --gunlib-gutter: 48px; --gunlib-gap: 128px; }
+    .gunlib-case__back { top: 21px; }
+    .gunlib-case__content { width: 100%; }
+    .gunlib-section--context { min-height: 637px; }
+    .gunlib-placeholder-grid--context-copy { margin-top: 32px; }
+    .gunlib-placeholder-grid--context-copy span { height: 100px; }
+    .gunlib-placeholder-grid--context-media { margin-top: 48px; }
+    .gunlib-placeholder-grid--context-media span { height: 400px; }
+    .gunlib-section--constraints { min-height: 460px; }
+    .gunlib-placeholder-grid--constraints { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .gunlib-section--analytics { min-height: 3147px; }
+    .gunlib-section--product { min-height: 2418px; }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-case { --gunlib-gutter: 16px; --gunlib-gap: 64px; padding-top: 104px; }
+    .gunlib-case__back { top: 0; width: 40px; height: 40px; }
+    .gunlib-case__content { width: 100%; }
+    .gunlib-section h2 { font-size: var(--font-title-size); line-height: var(--font-title-line); }
+    .gunlib-section--context { min-height: 1117.05px; }
+    .gunlib-placeholder-grid--context-media span { height: 345px; }
+    .gunlib-placeholder-grid--context-copy { grid-template-columns: 1fr; margin-top: 32px; }
+    .gunlib-placeholder-grid--context-copy span { height: 120px; }
+    .gunlib-placeholder-grid--context-media { grid-template-columns: 1fr; margin-top: 64px; }
+    .gunlib-placeholder-grid--context-media span { height: 380px; }
+    .gunlib-section--constraints { min-height: 612px; }
+    .gunlib-placeholder-grid--constraints { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 32px; }
+    .gunlib-placeholder-grid--constraints span { height: 180px; }
+    .gunlib-placeholder-grid--constraints span:last-child { grid-column: 1 / -1; }
+    .gunlib-section--analytics { min-height: 3429.14px; }
+    .gunlib-placeholder-grid--analytics { grid-template-columns: 1fr; gap: 32px; margin-top: 64px; }
+    .gunlib-placeholder-grid--analytics span { height: 700px; }
+    .gunlib-section--product { min-height: 1458.67px; }
+    .gunlib-placeholder-grid--product { grid-template-columns: 1fr; margin-top: 64px; }
+    .gunlib-placeholder-grid--product span { height: 320px; }
+  }
+</style>

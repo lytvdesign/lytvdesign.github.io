@@ -1,0 +1,230 @@
+---
+import type { Locale } from '../../content/site';
+import { homePath } from '../../lib/routes';
+import SoulMatcherOverview from './SoulMatcherOverview.astro';
+import SoulMatcherContext from './SoulMatcherContext.astro';
+import SoulMatcherContribution from './SoulMatcherContribution.astro';
+import SoulMatcherMatchingFlow from './SoulMatcherMatchingFlow.astro';
+import SoulMatcherOnboarding from './SoulMatcherOnboarding.astro';
+import SoulMatcherFeedback from './SoulMatcherFeedback.astro';
+import SoulMatcherMatchmaking from './SoulMatcherMatchmaking.astro';
+import SoulMatcherBeyond from './SoulMatcherBeyond.astro';
+import GunLibOtherProjects from './GunLibOtherProjects.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const labels = locale === 'uk'
+  ? {
+      back: 'Назад',
+      heroAlt: 'Головний екран застосунку SoulMatcher',
+      sections: ['Огляд проєкту', 'Контекст проєкту', 'Мій внесок', 'Потік AI-матчингу', 'Онбординг на основі ШІ', 'Розмовний зворотний зв’язок для кращих збігів', 'Підбір пар за участі ШІ', 'Поза межами інтерфейсу'],
+    }
+  : {
+      back: 'Back',
+      heroAlt: 'SoulMatcher app hero screen',
+      sections: ['Project overview', 'Project context', 'My contribution', 'AI Matching Flow', 'AI-First Onboarding', 'Conversational Feedback for Better Matches', 'AI-Mediated Matchmaking', 'Beyond the Interface'],
+    };
+const backHref = homePath(locale);
+const sectionIds = [
+  'soulmatcher-overview-title',
+  'soulmatcher-context-title',
+  'soulmatcher-contribution-title',
+  'soulmatcher-matching-flow-title',
+  'soulmatcher-onboarding-title',
+  'soulmatcher-feedback-title',
+  'soulmatcher-matchmaking-title',
+  'soulmatcher-beyond-title',
+];
+---
+
+<main class="soulmatcher-case" aria-labelledby="soulmatcher-title">
+  <div class="soulmatcher-case__content">
+    <section class="soulmatcher-case__intro" aria-labelledby="soulmatcher-title" data-case-title-container>
+      <a class="soulmatcher-case__back" href={backHref} aria-label={labels.back} title={labels.back} data-case-back>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M15 8H1M1 8l6-6M1 8l6 6" />
+        </svg>
+      </a>
+      <h1 id="soulmatcher-title" data-case-title>SoulMatcher</h1>
+      <img
+        class="soulmatcher-case__hero-image"
+        src="/images/cases/soulmatcher-hero.png"
+        alt={labels.heroAlt}
+        width="1280"
+        height="834"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </section>
+
+    {labels.sections.map((label, index) => (
+      <section class:list={['soulmatcher-case__stage', `soulmatcher-case__stage--${index + 1}`]} aria-labelledby={sectionIds[index]}>
+        {index === 0 ? <SoulMatcherOverview locale={locale} /> : null}
+        {index === 1 ? <SoulMatcherContext locale={locale} /> : null}
+        {index === 2 ? <SoulMatcherContribution locale={locale} /> : null}
+        {index === 3 ? <SoulMatcherMatchingFlow locale={locale} /> : null}
+        {index === 4 ? <SoulMatcherOnboarding locale={locale} /> : null}
+        {index === 5 ? <SoulMatcherFeedback locale={locale} /> : null}
+        {index === 6 ? <SoulMatcherMatchmaking locale={locale} /> : null}
+        {index === 7 ? <SoulMatcherBeyond locale={locale} /> : null}
+      </section>
+    ))}
+
+    <section class="soulmatcher-case__other-projects" aria-labelledby="gunlib-other-projects-title">
+      <GunLibOtherProjects locale={locale} currentProject="soulmatcher" />
+    </section>
+  </div>
+</main>
+
+<style>
+  .soulmatcher-case {
+    --soulmatcher-gutter: 80px;
+    --soulmatcher-section-gap: 160px;
+    --soulmatcher-improvement-gap-01-02: 164px;
+    --soulmatcher-improvement-gap-02-03: 128px;
+    padding: 228px var(--soulmatcher-gutter) 0;
+    background: var(--color-surface-secondary);
+  }
+
+  .soulmatcher-case__content {
+    width: min(1280px, 100%);
+    margin: 0 auto;
+  }
+
+  .soulmatcher-case__intro,
+  .soulmatcher-case__stage {
+    position: relative;
+    width: 100%;
+  }
+
+  .soulmatcher-case__intro { min-height: 0; }
+  .soulmatcher-case__intro.case-title-container--stack-back { display: flex; flex-direction: column; align-items: stretch; }
+  .soulmatcher-case__stage--1 { min-height: 0; margin-top: var(--soulmatcher-section-gap); }
+  .soulmatcher-case__stage--2 { min-height: 0; margin-top: var(--soulmatcher-section-gap); }
+  .soulmatcher-case__stage--3 { min-height: 72px; }
+  .soulmatcher-case__stage--3,
+  .soulmatcher-case__stage--4,
+  .soulmatcher-case__stage--5,
+  .soulmatcher-case__stage--8 { margin-top: var(--soulmatcher-section-gap); }
+  .soulmatcher-case__stage--4 { min-height: 624px; }
+  .soulmatcher-case__stage--5 { min-height: 952px; }
+  .soulmatcher-case__stage--6 { min-height: 700px; margin-top: var(--soulmatcher-improvement-gap-01-02); }
+  .soulmatcher-case__stage--7 { min-height: 836px; margin-top: var(--soulmatcher-improvement-gap-02-03); }
+  .soulmatcher-case__stage--8 { min-height: 642px; }
+  .soulmatcher-case__other-projects { margin-top: var(--soulmatcher-section-gap); }
+
+  .soulmatcher-case h1 {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-display-size);
+    font-weight: var(--font-display-weight);
+    line-height: var(--font-display-line);
+    letter-spacing: var(--font-display-tracking);
+    text-align: center;
+  }
+
+  .soulmatcher-case__hero-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1280 / 834;
+    margin-top: 40px;
+    border-radius: var(--radius-2xl);
+    object-fit: cover;
+  }
+
+  .soulmatcher-case__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .soulmatcher-case__back {
+    --case-back-inline-offset: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    width: 64px;
+    height: 40px;
+    place-items: center;
+    border: .5px solid var(--color-foundation-navy-300);
+    border-radius: var(--radius-full);
+    color: var(--color-text-primary);
+  }
+
+  .soulmatcher-case__intro.case-title-container--stack-back .soulmatcher-case__back {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 4px;
+  }
+
+  .soulmatcher-case__back svg { width: 16px; height: 16px; }
+  .soulmatcher-case__back path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.25; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-case {
+      --soulmatcher-gutter: 48px;
+      --soulmatcher-section-gap: 120px;
+      --soulmatcher-improvement-gap-01-02: 48px;
+      --soulmatcher-improvement-gap-02-03: 40px;
+      padding-top: 164px;
+    }
+    .soulmatcher-case__intro { min-height: 0; }
+    .soulmatcher-case__hero-image {
+      margin-top: 48px;
+      border-radius: 16.84px;
+    }
+    .soulmatcher-case__stage--1 { min-height: 0; }
+    .soulmatcher-case__stage--2 { min-height: 0; }
+    .soulmatcher-case__stage--3 { min-height: 164px; }
+    .soulmatcher-case__stage--4 { min-height: 460px; }
+    .soulmatcher-case__stage--5 { min-height: 836px; }
+    .soulmatcher-case__stage--6 { min-height: 1080px; }
+    .soulmatcher-case__stage--7 { min-height: 694px; }
+    .soulmatcher-case__stage--8 { min-height: 690px; }
+    .soulmatcher-case__other-projects { margin-top: var(--soulmatcher-section-gap); }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-case {
+      --soulmatcher-gutter: 16px;
+      --soulmatcher-section-gap: 80px;
+      --soulmatcher-improvement-gap-01-02: var(--soulmatcher-section-gap);
+      --soulmatcher-improvement-gap-02-03: var(--soulmatcher-section-gap);
+      padding-top: 104px;
+    }
+    .soulmatcher-case__intro { min-height: 0; }
+    .soulmatcher-case__stage--1 { min-height: 0; }
+    .soulmatcher-case__stage--2 { min-height: 0; }
+    .soulmatcher-case__stage--3 { min-height: 170px; }
+    .soulmatcher-case__stage--4 { min-height: 800px; }
+    .soulmatcher-case__stage--5 { min-height: 0; }
+    .soulmatcher-case__stage--6 { min-height: 0; }
+    .soulmatcher-case__stage--7 { min-height: 0; }
+    .soulmatcher-case__stage--8 { min-height: 624px; }
+    .soulmatcher-case__other-projects { margin-top: var(--soulmatcher-section-gap); }
+    .soulmatcher-case h1 {
+      font-size: var(--font-headline-size);
+      line-height: var(--font-headline-line);
+      letter-spacing: var(--font-headline-tracking);
+    }
+
+    .soulmatcher-case__hero-image {
+      margin-top: 32px;
+      border-radius: 9px;
+    }
+
+    .soulmatcher-case__back { width: 40px; height: 40px; }
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      title: 'Контекст проєкту',
+      paragraphs: [
+        'Клієнт мав початкову ідею продукту та кілька прикладів конкурентів, але не мав визначеної структури чи інтерфейсу. Моєю роллю було спроєктувати весь користувацький досвід з нуля — від інформаційної архітектури й навігації до фінального UI.',
+        'Продукт задуманий як легкий PWA, що відкривається безпосередньо після сканування QR-коду на пакуванні. Без встановлення застосунку чи створення облікового запису користувачі одразу отримують перевірену інформацію про походження продукту, його виробництво, транспортування та сертифікацію.',
+      ],
+      photoAlt: 'Товари з QR-маркуванням для перевірки походження та складу',
+      interfaceAlt: 'Інтерфейс Enismaro з інформацією про продукт і його життєвий цикл',
+    }
+  : {
+      title: 'Project context',
+      paragraphs: [
+        'The client had an initial product idea and several competitor references but no defined product structure or interface. My role was to design the entire user experience from scratch—from information architecture and navigation to the final UI.',
+        "The product was designed as a lightweight PWA that opens directly from a QR code printed on product packaging. Without installing an app or creating an account, users can instantly access verified information about a product's origin, production, transportation, and certifications.",
+      ],
+      photoAlt: 'Products with QR labels for checking origin and ingredients',
+      interfaceAlt: 'Enismaro interface with product information and lifecycle details',
+    };
+---
+
+<section class="enismaro-context" aria-labelledby="enismaro-context-title">
+  <header class="enismaro-context__header">
+    <h2 id="enismaro-context-title">{copy.title}</h2>
+    <div class="enismaro-context__copy">
+      {copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </header>
+  <div class="enismaro-context__media">
+    <figure class="enismaro-context__photo">
+      <img src="/images/cases/enismaro-context-photo.png" width="628" height="557" alt={copy.photoAlt} loading="lazy" decoding="async" />
+    </figure>
+    <figure class="enismaro-context__interface">
+      <picture>
+        <source media="(max-width: 430px)" srcset="/images/cases/enismaro-context-interface-mobile.png" />
+        <img src="/images/cases/enismaro-context-interface.png" width="628" height="557" alt={copy.interfaceAlt} loading="lazy" decoding="async" />
+      </picture>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .enismaro-context { display: flex; flex-direction: column; gap: 48px; width: 100%; }
+  .enismaro-context h2,
+  .enismaro-context p,
+  .enismaro-context figure { margin: 0; }
+  .enismaro-context__header { display: flex; flex-direction: column; gap: 48px; }
+  .enismaro-context h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .enismaro-context__copy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 104px; }
+  .enismaro-context p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .enismaro-context__media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .enismaro-context__media figure { min-width: 0; overflow: hidden; aspect-ratio: 628 / 557; border-radius: 16px; background: var(--color-surface-secondary); }
+  .enismaro-context__media img,
+  .enismaro-context__media picture { display: block; width: 100%; height: 100%; }
+  .enismaro-context__media img { object-fit: cover; }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .enismaro-context { gap: 48px; }
+    .enismaro-context__header { display: contents; }
+    .enismaro-context h2 { order: 1; }
+    .enismaro-context__media { order: 2; }
+    .enismaro-context__copy { order: 3; }
+    .enismaro-context__copy { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .enismaro-context__media { gap: 13px; }
+    .enismaro-context__media figure { border-radius: 12px; }
+  }
+  @media (max-width: 640px) {
+    .enismaro-context { gap: 32px; }
+    .enismaro-context__header { display: contents; }
+    .enismaro-context h2 { order: 1; }
+    .enismaro-context__media { order: 2; }
+    .enismaro-context__copy { order: 3; }
+    .enismaro-context__copy { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .enismaro-context__media { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .enismaro-context__media figure { aspect-ratio: 358 / 317; border-radius: 10px; }
+  }
+</style>

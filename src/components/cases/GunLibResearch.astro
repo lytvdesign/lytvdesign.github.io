@@ -1,0 +1,1203 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: ['Аналітичний етап:', 'Від дослідження до MVP'],
+    description:
+      'Оскільки час та ресурси на старт були обмежені, на першому етапі ми свідомо відмовилися від тривалого класичного Discovery. Замість цього ми застосували Lean MVP підхід.',
+    sliderLabel: 'Аналітичні матеріали GunLib',
+    previous: 'Попередній слайд',
+    next: 'Наступний слайд',
+    openImage: 'Відкрити зображення у високій якості',
+    slides: [
+      {
+        title: 'Competitor Analysis',
+        description:
+          'Аналіз конкурентів показав, що ринок збройових сайтів застряг у застарілих форматах 2000-х років або закритий платними підписками.',
+        image: '/images/cases/gunlib-research-competitor-a.png',
+        imageAlt: 'Таблиця аналізу конкурентів GunLib',
+        points: [
+          {
+            title: 'Заповнення ринкової ніші:',
+            description:
+              'GunLib закриває прогалину між вільними, але хаотичними джерелами (форуми, Reddit) та платними закритими каталогами (Firearms Guide).',
+          },
+          {
+            title: 'Прозора модель відкритих даних:',
+            description:
+              "Відмова від жорсткого Paywall будує високу довіру спільноти та знімає бар'єри при швидкому доступі до перевіреної інформації і першоджерел.",
+          },
+          {
+            title: 'Сучасний UX та спеціалізований інструментарій:',
+            description:
+              "На відміну від застарілих сайтів конкурентів, GunLib пропонує адаптивний Mobile-First інтерфейс, глибоку фільтрацію, модулі пристрілки та крос-зв'язки між зброєю й оптикою.",
+          },
+        ],
+      },
+      {
+        title: 'JTBD Framework',
+        description:
+          'Фреймворк JTBD дозволив трансформувати хаотичні потреби трьох сегментів (стрілець, інструктор, ентузіаст) у точні UI-механіки та пріоритети розробки',
+        image: '/images/cases/gunlib-research-framework-a.png',
+        imageAlt: 'JTBD canvas для GunLib',
+        points: [
+          {
+            title: 'Сегментація за контекстом споживання:',
+            description:
+              'Замість сухої подачі текстової інформаці, створили розгалужену систему під сценарії користувачів: від швидких поправок при пристрілюванні до повноцінних методичок інструктора.',
+          },
+          {
+            title: 'Мінімізація часу знаходження потрібних даних:',
+            description:
+              'Завдяки дворівневій подачі інформації (Progressive Disclosure) та швидким якорям користувач знаходить потрібну інструкцію менше ніж за 5 секунд.',
+          },
+          {
+            title: 'Глибока навігація та кешування:',
+            description:
+              'Впровадження Deep Linking та автономного кешування гарантує безперебійний доступ до критичних блоків даних навіть при слабкому інтернеті.',
+          },
+        ],
+      },
+      {
+        title: 'Lean Canvas',
+        description:
+          "Сформований Lean Canvas визначив стійку та низьковитратну бізнес-модель, зв'язавши ціннісну пропозицію з реальним ринковим контекстом.",
+        image: '/images/cases/gunlib-research-lean-a.png',
+        imageAlt: 'Lean Canvas бізнес-моделі GunLib',
+        points: [
+          {
+            title: 'Експертна модель контенту:',
+            description:
+              'Залучення профільних авторів та інструкторів дозволяє системно розширювати базу знань перевіреними матеріалами, зберігаючи високу якість і точність даних.',
+          },
+          {
+            title: 'Орієнтир на фонову продуктивність:',
+            description:
+              'Ключова продуктова метрика (Minimizing Time-to-Find) лягла в основу розумної фільтрації та переваги мінімалістичного UI.',
+          },
+          {
+            title: 'Вихід на ринок через вільний доступ:',
+            description:
+              'Відмова від Paywall на користь донатів, Patreon та майбутніх B2B/API знижує бар’єр входження та будує довіру користувачів.',
+          },
+        ],
+      },
+      {
+        title: 'AARRR Funnel',
+        description:
+          'Воронка піратських метрик фокусується на органічному зростанні продукту та природних умовах утримання без надлишкових витрат.',
+        image: '/images/cases/gunlib-research-aarrr-a.png',
+        imageAlt: 'AARRR-воронка метрик GunLib',
+        points: [
+          {
+            title: 'Миттєвий результат при першій сесії користування:',
+            description:
+              "Користувач отримує цінність одразу після пошуку ТТХ без обов'язкової реєстрації, що зменшує Bounce Rate.",
+          },
+          {
+            title: 'Цикл органічного залучення аудиторії:',
+            description:
+              'Можливість надіслати пряме посилання на конкретну секцію сторінки дозволяє залучати нових потенційних користувачів через шеринг інформації.',
+          },
+          {
+            title: 'Екосистемна монетизація:',
+            description:
+              'Конверсія безкоштовного користувача в патрона спирається на відчуття причетності, доступ до спільноти та ексклюзивний беклог.',
+          },
+        ],
+      },
+      {
+        title: 'Product Roadmap',
+        description:
+          'Продуктова карта GunLib будує прогнозований шлях розвитку, що дозволяє уникнути передчасного ускладнення розробки та розподіляти ресурси на етапі MVP.',
+        image: '/images/cases/gunlib-research-roadmap-a.png',
+        imageAlt: 'Продуктова карта розвитку GunLib',
+        points: [
+          {
+            title: 'Зменшення трудомісткості розробки:',
+            description:
+              'Складні інструменти винесені у майбутні оновлення, щоб насамперед перевірити користь базової версії для користувачів.',
+          },
+          {
+            title: 'Еволюція робочого простору:',
+            description:
+              'Модульний шаблон сторінки з базовим управлінням вмістом згодом перетворюється на повноцінну платформу для спільної роботи авторів.',
+          },
+          {
+            title: 'Перехід до партнерської екосистеми:',
+            description:
+              "Послідовний шлях від первинного зворотного зв'язку в спільнотах до автоматизованої підтримки через Patreon та партнерств із виробниками.",
+          },
+        ],
+      },
+    ],
+  },
+  en: {
+    title: ['Analytical stage:', 'From research to MVP'],
+    description:
+      'Since time and resources at launch were limited, at the first stage we deliberately opted out of a lengthy classic Discovery. Instead, we applied a Lean MVP approach.',
+    sliderLabel: 'GunLib analytical materials',
+    previous: 'Previous slide',
+    next: 'Next slide',
+    openImage: 'Open image in high resolution',
+    slides: [
+      {
+        title: 'Competitor Analysis',
+        description:
+          'Competitor analysis showed that the firearms website market was stuck in outdated 2000s formats or locked behind paid subscriptions.',
+        image: '/images/cases/gunlib-research-competitor-a.png',
+        imageAlt: 'GunLib competitor analysis table',
+        points: [
+          {
+            title: 'Filling a market gap:',
+            description:
+              'GunLib closes the gap between free but chaotic sources (forums, Reddit) and paid private catalogues (Firearms Guide).',
+          },
+          {
+            title: 'Transparent open-data model:',
+            description:
+              'Rejecting a hard paywall builds strong community trust and removes barriers to quick access to verified information and primary sources.',
+          },
+          {
+            title: 'Modern UX and specialized tooling:',
+            description:
+              'Unlike outdated competitor websites, GunLib offers a responsive Mobile-First interface, deep filtering, sighting-in modules, and cross-links between weapons and optics.',
+          },
+        ],
+      },
+      {
+        title: 'JTBD Framework',
+        description:
+          'The JTBD framework transformed the chaotic needs of three segments (shooter, instructor, enthusiast) into precise UI mechanics and development priorities.',
+        image: '/images/cases/gunlib-research-framework-a.png',
+        imageAlt: 'JTBD canvas for GunLib',
+        points: [
+          {
+            title: 'Segmentation by usage context:',
+            description:
+              'Instead of presenting dry text, we created a branching system for user scenarios: from quick sighting-in adjustments to complete instructor manuals.',
+          },
+          {
+            title: 'Minimizing time to find the right data:',
+            description:
+              'Progressive Disclosure and quick anchors help users find the required instruction in less than five seconds.',
+          },
+          {
+            title: 'Deep navigation and caching:',
+            description:
+              'Deep Linking and autonomous caching ensure uninterrupted access to critical data blocks even with a weak internet connection.',
+          },
+        ],
+      },
+      {
+        title: 'Lean Canvas',
+        description:
+          'The completed Lean Canvas defined a sustainable, low-cost business model by connecting the value proposition to the real market context.',
+        image: '/images/cases/gunlib-research-lean-a.png',
+        imageAlt: 'GunLib Lean Canvas business model',
+        points: [
+          {
+            title: 'Expert content model:',
+            description:
+              'Engaging subject-matter authors and instructors makes it possible to systematically expand the knowledge base with verified materials while preserving high quality and data accuracy.',
+          },
+          {
+            title: 'Focus on background productivity:',
+            description:
+              'The key product metric (Minimizing Time-to-Find) became the basis for smart filtering and a minimalist UI.',
+          },
+          {
+            title: 'Entering the market through free access:',
+            description:
+              'Replacing a paywall with donations, Patreon, and future B2B/API offerings lowers the entry barrier and builds user trust.',
+          },
+        ],
+      },
+      {
+        title: 'AARRR Funnel',
+        description:
+          'The pirate metrics funnel focuses on organic product growth and natural retention conditions without excessive spending.',
+        image: '/images/cases/gunlib-research-aarrr-a.png',
+        imageAlt: 'GunLib AARRR metrics funnel',
+        points: [
+          {
+            title: 'Immediate value in the first session:',
+            description:
+              'Users get value immediately after searching for technical specifications, without mandatory registration, reducing the bounce rate.',
+          },
+          {
+            title: 'Organic audience acquisition loop:',
+            description:
+              'Direct links to specific page sections help attract potential users through sharing useful information.',
+          },
+          {
+            title: 'Ecosystem monetization:',
+            description:
+              'Converting a free user into a patron is built on a sense of belonging, community access, and an exclusive backlog.',
+          },
+        ],
+      },
+      {
+        title: 'Product Roadmap',
+        description:
+          'The GunLib product roadmap creates a predictable path for development, avoiding premature complexity and helping allocate MVP resources.',
+        image: '/images/cases/gunlib-research-roadmap-a.png',
+        imageAlt: 'GunLib product development roadmap',
+        points: [
+          {
+            title: 'Reducing development effort:',
+            description:
+              'Complex tools are deferred to future updates so the value of the core version can be validated first.',
+          },
+          {
+            title: 'Evolution of the workspace:',
+            description:
+              'A modular page template with basic content management can later become a full platform for collaborative authoring.',
+          },
+          {
+            title: 'Transition to a partner ecosystem:',
+            description:
+              'A deliberate path from initial community feedback to automated support through Patreon and partnerships with manufacturers.',
+          },
+        ],
+      },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+
+---
+
+<section class="gunlib-research" aria-labelledby="gunlib-research-title">
+  <div class="gunlib-research__intro">
+    <h2 id="gunlib-research-title">
+      {copy.title.map((line) => <span>{line}</span>)}
+    </h2>
+    <p>{copy.description}</p>
+  </div>
+
+  <div class="gunlib-research__carousel" data-gunlib-research>
+    <div
+      class="gunlib-research__viewport"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={copy.sliderLabel}
+      tabindex="0"
+      data-gunlib-research-viewport
+    >
+      <div class="gunlib-research__track" data-gunlib-research-track>
+        {copy.slides.map((slide, index) => (
+          <article
+            class:list={[
+              'gunlib-research__slide',
+              {
+                'gunlib-research__slide--framework': index === 1,
+                'gunlib-research__slide--aarrr': index === 3,
+                'gunlib-research__slide--roadmap': index === 4,
+              },
+            ]}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} / ${copy.slides.length}`}
+            aria-current={index === 0 ? 'true' : undefined}
+            data-gunlib-research-slide
+          >
+            <div class="gunlib-research__slide-inner">
+              <div class="gunlib-research__text">
+                <div class="gunlib-research__analysis">
+                  <h3>
+                    {slide.title} <span class="gunlib-research__slide-counter">{index + 1}/{copy.slides.length}</span>
+                  </h3>
+                  <p>{slide.description}</p>
+                </div>
+
+                <ul class="gunlib-research__points">
+                  {slide.points.map((point) => (
+                    <li>
+                      <span class="gunlib-research__check">
+                        <img src="/images/cases/gunlib-check-circle.svg" alt="" aria-hidden="true" width="16" height="24" />
+                      </span>
+                      <span class="gunlib-research__point-copy">
+                        <strong>{point.title}</strong>
+                        <span>{point.description}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <button
+                type="button"
+                class="gunlib-research__image-link"
+                aria-label={`${copy.openImage}: ${slide.title}`}
+                aria-haspopup="dialog"
+                data-gunlib-research-image-trigger
+                data-image-src={slide.image}
+                data-image-alt={slide.imageAlt}
+              >
+                <img
+                  src={slide.image}
+                  alt={slide.imageAlt}
+                  width={index === 1 ? 761 : 767}
+                  height={index === 0 ? 650 : index === 1 ? 540 : index === 2 ? 771 : index === 3 ? 834 : 554}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="gunlib-research__zoom">
+                  <img src="/images/cases/gunlib-magnifying-glass-plus.svg" alt="" aria-hidden="true" width="24" height="24" />
+                </span>
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="gunlib-research__controls" aria-label={copy.sliderLabel}>
+      <button type="button" class="gunlib-research__control" data-gunlib-research-previous aria-label={copy.previous}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m14.5 5-7 7 7 7" />
+        </svg>
+      </button>
+      <span class="gunlib-research__counter" aria-live="polite" data-gunlib-research-counter>1 / {copy.slides.length}</span>
+      <button type="button" class="gunlib-research__control" data-gunlib-research-next aria-label={copy.next}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m9.5 5 7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <dialog class="gunlib-research__image-dialog" data-gunlib-research-image-dialog aria-label={copy.openImage}>
+    <div class="gunlib-research__image-dialog-inner">
+      <button type="button" class="gunlib-research__image-dialog-close" data-gunlib-research-image-close aria-label={locale === 'uk' ? 'Закрити зображення' : 'Close image'}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+      <img data-gunlib-research-image-dialog-image alt="" decoding="async" />
+    </div>
+  </dialog>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gunlib-research]').forEach((carousel) => {
+    if (carousel.dataset.initialized === 'true') return;
+    carousel.dataset.initialized = 'true';
+
+    const viewport = carousel.querySelector<HTMLElement>('[data-gunlib-research-viewport]');
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>('[data-gunlib-research-slide]'));
+    const counter = carousel.querySelector<HTMLElement>('[data-gunlib-research-counter]');
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-gunlib-research-previous]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-gunlib-research-next]');
+    const imageDialog = carousel.parentElement?.querySelector<HTMLDialogElement>('[data-gunlib-research-image-dialog]');
+    const imageDialogInner = imageDialog?.querySelector<HTMLElement>('.gunlib-research__image-dialog-inner');
+    const imageDialogImage = imageDialog?.querySelector<HTMLImageElement>('[data-gunlib-research-image-dialog-image]');
+    const imageDialogClose = imageDialog?.querySelector<HTMLButtonElement>('[data-gunlib-research-image-close]');
+    const imageTriggers = Array.from(carousel.querySelectorAll<HTMLButtonElement>('[data-gunlib-research-image-trigger]'));
+
+    if (!viewport || !slides.length || !counter) return;
+
+    let activeIndex = 0;
+    let scrollFrame = 0;
+    let activationScroll: { left: number; top: number } | null = null;
+
+    const update = (index: number) => {
+      activeIndex = Math.min(Math.max(index, 0), slides.length - 1);
+      counter.textContent = `${activeIndex + 1} / ${slides.length}`;
+      slides.forEach((slide, slideIndex) => {
+        if (slideIndex === activeIndex) {
+          slide.setAttribute('aria-current', 'true');
+        } else {
+          slide.removeAttribute('aria-current');
+        }
+      });
+      if (previous) previous.disabled = activeIndex === 0;
+      if (next) next.disabled = activeIndex === slides.length - 1;
+    };
+
+    const goTo = (index: number) => {
+      const target = slides[index];
+      if (!target) return;
+
+      // Scroll only the carousel viewport. `scrollIntoView()` can also move
+      // the document when the controls are near the bottom of the page.
+      viewport.scrollTo({
+        left: target.offsetLeft,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+      update(index);
+    };
+
+    const rememberPageScroll = (event: Event) => {
+      if (event.type === 'keydown' && !['Enter', ' ', 'Spacebar'].includes((event as KeyboardEvent).key)) return;
+      activationScroll = { left: window.scrollX, top: window.scrollY };
+    };
+
+    const restorePageScroll = () => {
+      const position = activationScroll;
+      activationScroll = null;
+      if (!position) return;
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (window.scrollX === position.left && window.scrollY === position.top) return;
+          window.scrollTo({ left: position.left, top: position.top, behavior: 'auto' });
+        });
+      });
+    };
+
+    const bindControl = (control: HTMLButtonElement | null, direction: -1 | 1) => {
+      if (!control) return;
+      control.addEventListener(
+        'pointerdown',
+        (event) => {
+          rememberPageScroll(event);
+          // Keep a mouse click from moving the document to reveal the focused
+          // button. Keyboard focus remains available for keyboard users.
+          if ((event as PointerEvent).pointerType === 'mouse') event.preventDefault();
+        },
+        { capture: true },
+      );
+      control.addEventListener('keydown', rememberPageScroll, { capture: true });
+      control.addEventListener('click', () => {
+        goTo(activeIndex + direction);
+        restorePageScroll();
+      });
+    };
+
+    bindControl(previous, -1);
+    bindControl(next, 1);
+
+    let imageTriggerToRestore: HTMLButtonElement | null = null;
+
+    imageTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (!imageDialog || !imageDialogImage) return;
+        imageTriggerToRestore = trigger;
+        imageDialogImage.src = trigger.dataset.imageSrc ?? '';
+        imageDialogImage.alt = trigger.dataset.imageAlt ?? '';
+        imageDialog.showModal();
+        imageDialogClose?.focus();
+      });
+    });
+
+    const closeImageDialog = () => {
+      if (!imageDialog?.open) return;
+      imageDialog.close();
+    };
+
+    imageDialogClose?.addEventListener('click', closeImageDialog);
+    imageDialogInner?.addEventListener('click', (event) => {
+      if (event.target === imageDialogInner) closeImageDialog();
+    });
+    imageDialog?.addEventListener('close', () => {
+      imageDialogImage?.removeAttribute('src');
+      imageDialogImage?.removeAttribute('alt');
+      imageTriggerToRestore?.focus({ preventScroll: true });
+      imageTriggerToRestore = null;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const index = visible ? slides.indexOf(visible.target as HTMLElement) : -1;
+        if (index >= 0) update(index);
+      },
+      { root: viewport, threshold: 0.6 },
+    );
+
+    slides.forEach((slide) => observer.observe(slide));
+
+    viewport.addEventListener(
+      'scroll',
+      () => {
+        cancelAnimationFrame(scrollFrame);
+        scrollFrame = requestAnimationFrame(() => {
+          const slideWidth = viewport.clientWidth;
+          if (!slideWidth) return;
+          update(Math.round(viewport.scrollLeft / slideWidth));
+        });
+      },
+      { passive: true },
+    );
+
+    update(0);
+  });
+</script>
+
+<style>
+  .gunlib-research,
+  .gunlib-research h2,
+  .gunlib-research h3,
+  .gunlib-research p,
+  .gunlib-research ul,
+  .gunlib-research figure {
+    margin: 0;
+  }
+
+  .gunlib-research {
+    --research-dark: #1c1c1c;
+    --research-text: #fff;
+    --research-muted: rgb(255 255 255 / 88%);
+    margin-inline: calc(-1 * var(--gunlib-gutter, 80px));
+    width: calc(100% + (2 * var(--gunlib-gutter, 80px)));
+    padding: var(--space-40) 0;
+    overflow: hidden;
+    background: var(--research-dark);
+    color: var(--research-text);
+  }
+
+  .gunlib-research__intro {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding: 0 var(--space-20);
+  }
+
+  .gunlib-research__intro h2 {
+    display: flex;
+    flex: 0 1 469px;
+    flex-direction: column;
+    color: var(--research-text);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .gunlib-research__intro p {
+    flex: 0 1 628px;
+    color: var(--research-muted);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .gunlib-research__carousel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-top: var(--space-32);
+  }
+
+  .gunlib-research__viewport {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gunlib-research__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gunlib-research__track {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+  }
+
+  .gunlib-research__slide {
+    width: 100%;
+    scroll-snap-align: start;
+  }
+
+  .gunlib-research__slide-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 449px) minmax(0, 767px);
+    align-items: center;
+    gap: var(--space-16);
+    padding: 0 var(--space-20);
+  }
+
+  .gunlib-research__slide:nth-child(even) .gunlib-research__slide-inner {
+    grid-template-columns: minmax(0, 761px) minmax(0, 455px);
+  }
+
+  .gunlib-research__slide:nth-child(even) .gunlib-research__text {
+    order: 2;
+  }
+
+  .gunlib-research__slide:nth-child(even) .gunlib-research__image-link {
+    order: 1;
+  }
+
+  .gunlib-research__text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .gunlib-research__analysis {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .gunlib-research__analysis h3 {
+    color: var(--research-text);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .gunlib-research__slide-counter {
+    display: none;
+  }
+
+  .gunlib-research__analysis p {
+    color: var(--research-text);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .gunlib-research__points {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .gunlib-research__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .gunlib-research__check {
+    display: block;
+    width: 16px;
+    min-width: 16px;
+    height: 24px;
+    color: var(--research-text);
+  }
+
+  .gunlib-research__check svg,
+  .gunlib-research__zoom svg,
+  .gunlib-research__control svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .gunlib-research__check svg {
+    stroke-width: 1.4;
+  }
+
+  .gunlib-research__check img,
+  .gunlib-research__zoom img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .gunlib-research__point-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+    color: var(--research-text);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+
+  .gunlib-research__point-copy strong {
+    font-weight: var(--font-caption-semibold-weight);
+  }
+
+  .gunlib-research__image-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    aspect-ratio: 767 / 650;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--research-dark);
+    color: var(--research-text);
+    cursor: zoom-in;
+    text-align: left;
+  }
+
+  .gunlib-research__slide--framework .gunlib-research__image-link {
+    aspect-ratio: 761 / 540;
+    border-radius: 21px;
+  }
+
+  .gunlib-research__slide:nth-child(3) .gunlib-research__image-link {
+    aspect-ratio: 767 / 771;
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__slide-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-16);
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__text {
+    gap: var(--space-12);
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__analysis {
+    width: 616px;
+    max-width: 100%;
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__points {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__points li {
+    flex: 1 1 0;
+  }
+
+  .gunlib-research__slide--aarrr .gunlib-research__image-link {
+    aspect-ratio: 1280 / 834;
+  }
+
+  .gunlib-research__slide--roadmap .gunlib-research__image-link {
+    aspect-ratio: 767 / 554;
+  }
+
+  .gunlib-research__image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gunlib-research__zoom {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    padding: 16px;
+    border-radius: var(--radius-full);
+    background: rgb(255 255 255 / 8%);
+    backdrop-filter: blur(4px);
+  }
+
+  .gunlib-research__slide--framework .gunlib-research__zoom {
+    right: 44px;
+  }
+
+  .gunlib-research__zoom svg {
+    stroke-width: 1.6;
+  }
+
+  .gunlib-research__controls {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 var(--space-12);
+  }
+
+  .gunlib-research__control {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    padding: 10px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--research-text);
+    cursor: pointer;
+  }
+
+  .gunlib-research__control:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .gunlib-research__control:focus-visible,
+  .gunlib-research__image-link:focus-visible,
+  .gunlib-research__viewport:focus-visible {
+    outline: 2px solid var(--color-status-info);
+    outline-offset: 4px;
+  }
+
+  .gunlib-research__counter {
+    color: var(--research-text);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+  }
+
+  .gunlib-research__image-dialog {
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-xl);
+    background: transparent;
+    color: var(--research-text);
+    overflow: visible;
+  }
+
+  .gunlib-research__image-dialog::backdrop {
+    background: rgb(0 0 0 / 82%);
+    backdrop-filter: blur(4px);
+  }
+
+  .gunlib-research__image-dialog-inner {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+  }
+
+  .gunlib-research__image-dialog-inner > img {
+    display: block;
+    width: auto;
+    max-width: 92vw;
+    height: auto;
+    max-height: 92vh;
+    object-fit: contain;
+    border-radius: var(--radius-xl);
+  }
+
+  .gunlib-research__image-dialog-close {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 10px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: rgb(28 28 28 / 86%);
+    color: var(--research-text);
+    cursor: pointer;
+  }
+
+  .gunlib-research__image-dialog-close svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  .gunlib-research__image-link:focus-visible,
+  .gunlib-research__image-dialog-close:focus-visible {
+    outline: 2px solid var(--color-status-info);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-research__image-dialog {
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      border-radius: 0;
+    }
+
+    .gunlib-research__image-dialog-inner {
+      max-height: 100vh;
+    }
+
+    .gunlib-research__image-dialog-inner > img {
+      max-width: 94vw;
+      max-height: 90vh;
+      border-radius: var(--radius-m);
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-research {
+      padding: var(--space-20) 0;
+    }
+
+    .gunlib-research__intro {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: 0 var(--space-12);
+    }
+
+    .gunlib-research__intro h2,
+    .gunlib-research__intro p {
+      flex: none;
+      width: 100%;
+      max-width: none;
+    }
+
+    .gunlib-research__carousel {
+      gap: var(--space-8);
+      margin-top: var(--space-16);
+    }
+
+    .gunlib-research__viewport {
+      scrollbar-width: none;
+    }
+
+    .gunlib-research__track {
+      width: max-content;
+      flex-direction: row;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .gunlib-research__slide {
+      width: 100vw;
+      min-width: 100vw;
+      height: auto;
+    }
+
+    .gunlib-research__slide-inner,
+    .gunlib-research__slide:nth-child(even) .gunlib-research__slide-inner {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-12);
+      padding: 0 var(--space-12);
+    }
+
+    .gunlib-research__slide-inner {
+      height: 100%;
+    }
+
+    .gunlib-research__slide:nth-child(even) .gunlib-research__text,
+    .gunlib-research__slide:nth-child(even) .gunlib-research__image-link {
+      order: initial;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__analysis {
+      width: auto;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__points {
+      flex-direction: column;
+    }
+
+    .gunlib-research__text {
+      gap: var(--space-8);
+    }
+
+    .gunlib-research__analysis {
+      gap: var(--space-6);
+    }
+
+    .gunlib-research__points {
+      gap: var(--space-6);
+    }
+
+    .gunlib-research__image-link,
+    .gunlib-research__slide:nth-child(3) .gunlib-research__image-link {
+      width: 100%;
+      aspect-ratio: 673 / 570.638;
+      border-radius: var(--radius-xl);
+    }
+
+    .gunlib-research__slide--framework .gunlib-research__image-link {
+      aspect-ratio: 673 / 477.556;
+    }
+
+    .gunlib-research__slide:nth-child(3) .gunlib-research__image-link {
+      aspect-ratio: 673 / 676.51;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__image-link {
+      aspect-ratio: 673 / 449.638;
+    }
+
+    .gunlib-research__slide--roadmap .gunlib-research__image-link {
+      aspect-ratio: 673 / 486.638;
+    }
+
+    .gunlib-research__zoom,
+    .gunlib-research__slide--framework .gunlib-research__zoom {
+      right: 0;
+      bottom: 0;
+    }
+
+    .gunlib-research__controls {
+      display: flex;
+    }
+
+    .gunlib-research__slide-counter {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-research {
+      padding: var(--space-20) 0;
+    }
+
+    .gunlib-research__intro {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: 0 var(--space-4);
+    }
+
+    .gunlib-research__intro h2 {
+      font-size: 30px;
+      line-height: 40px;
+    }
+
+    .gunlib-research__intro h2,
+    .gunlib-research__intro p {
+      flex: none;
+      width: 100%;
+      max-width: none;
+    }
+
+    .gunlib-research__carousel {
+      gap: var(--space-8);
+      margin-top: var(--space-16);
+    }
+
+    .gunlib-research__track {
+      width: max-content;
+      flex-direction: row;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .gunlib-research__slide {
+      width: 100vw;
+      min-width: 100vw;
+      height: auto;
+    }
+
+    .gunlib-research__slide-inner,
+    .gunlib-research__slide:nth-child(even) .gunlib-research__slide-inner {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-12);
+      padding: 0 var(--space-4);
+    }
+
+    .gunlib-research__slide-inner {
+      height: 100%;
+    }
+
+    .gunlib-research__slide:nth-child(even) .gunlib-research__text,
+    .gunlib-research__slide:nth-child(even) .gunlib-research__image-link {
+      order: initial;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__analysis {
+      width: auto;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__points {
+      flex-direction: column;
+    }
+
+    .gunlib-research__text {
+      gap: var(--space-8);
+    }
+
+    .gunlib-research__analysis {
+      gap: var(--space-6);
+    }
+
+    .gunlib-research__points {
+      gap: var(--space-6);
+    }
+
+    .gunlib-research__image-link,
+    .gunlib-research__slide:nth-child(3) .gunlib-research__image-link {
+      width: 100%;
+      aspect-ratio: 358 / 303.482;
+      border-radius: var(--radius-m);
+    }
+
+    .gunlib-research__slide--framework .gunlib-research__image-link {
+      aspect-ratio: 358 / 254.034;
+    }
+
+    .gunlib-research__slide:nth-child(3) .gunlib-research__image-link {
+      aspect-ratio: 358 / 359.867;
+    }
+
+    .gunlib-research__slide--aarrr .gunlib-research__image-link {
+      aspect-ratio: 358 / 238.981;
+    }
+
+    .gunlib-research__slide--roadmap .gunlib-research__image-link {
+      aspect-ratio: 358 / 258.736;
+    }
+
+    .gunlib-research__zoom,
+    .gunlib-research__slide--framework .gunlib-research__zoom {
+      right: 0;
+      bottom: 0;
+    }
+
+    .gunlib-research__controls {
+      display: flex;
+      padding: 0 var(--space-12);
+    }
+
+    .gunlib-research__slide-counter {
+      display: inline;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gunlib-research__viewport {
+      scroll-behavior: auto;
+    }
+  }
+</style>

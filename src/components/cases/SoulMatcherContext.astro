@@ -1,0 +1,234 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Контекст проєкту',
+    columns: [
+      [
+        'Клієнт мав початкову ідею продукту та кілька референсів конкурентів, але не мав визначеної структури продукту чи інтерфейсу. На ранньому етапі існував прототип із кількома технічними екранами, адаптованими з десктопного інтерфейсу. Мета полягала в тому, щоб перетворити цю концепцію на сучасний мобільний досвід, зберігши основну функціональність ШІ.',
+      ],
+      [
+        'Моєю роллю було спроєктувати весь користувацький досвід з нуля — від інформаційної архітектури й навігації до фінального UI.',
+        'Працюючи безпосередньо з клієнтом, я перебудувала продукт, спроєктувала нові користувацькі сценарії, адаптувала дизайн-систему Ionic у цілісний UI-kit і створила основний MVP-досвід в умовах обмеженого бюджету.',
+      ],
+    ],
+    photoAlt: 'Користувач SoulMatcher у місті',
+    interfaceAlt: 'Інтерфейс SoulMatcher з карткою сумісного профілю',
+  },
+  en: {
+    title: 'Project context',
+    columns: [
+      [
+        'The client had an initial product idea and several competitor references but no defined product structure or interface. The client had an early prototype consisting of several technical screens adapted from a desktop interface. The goal was to transform this concept into a modern mobile experience while preserving the core AI functionality.',
+      ],
+      [
+        'My role was to design the entire user experience from scratch—from information architecture and navigation to the final UI.',
+        'Working directly with the client, I restructured the product, designed new user flows, adapted the Ionic design system into a cohesive UI kit, and created the core MVP experience within a limited budget.',
+      ],
+    ],
+    photoAlt: 'SoulMatcher user in the city',
+    interfaceAlt: 'SoulMatcher interface with a compatible profile card',
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="soulmatcher-context" aria-labelledby="soulmatcher-context-title">
+  <div class="soulmatcher-context__intro">
+    <h2 id="soulmatcher-context-title">{copy.title}</h2>
+
+    <div class="soulmatcher-context__copy">
+      {copy.columns.map((column) => (
+        <div class="soulmatcher-context__copy-column">
+          {column.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="soulmatcher-context__media" aria-label={copy.title}>
+    <figure class="soulmatcher-context__media-item soulmatcher-context__media-item--photo">
+      <img
+        src="/images/cases/soulmatcher-context-photo.png"
+        alt={copy.photoAlt}
+        width="1257"
+        height="1115"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+    <figure class="soulmatcher-context__media-item soulmatcher-context__media-item--interface">
+      <img
+        src="/images/cases/soulmatcher-context-ui.png"
+        alt={copy.interfaceAlt}
+        width="1257"
+        height="1115"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .soulmatcher-context {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  .soulmatcher-context__intro,
+  .soulmatcher-context h2,
+  .soulmatcher-context p,
+  .soulmatcher-context figure {
+    margin: 0;
+  }
+
+  .soulmatcher-context__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .soulmatcher-context h2 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .soulmatcher-context__copy {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-32);
+  }
+
+  .soulmatcher-context__copy-column {
+    display: grid;
+    align-content: start;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+
+  .soulmatcher-context__copy p {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+    white-space: pre-wrap;
+  }
+
+  .soulmatcher-context__media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+    height: auto;
+    order: 3;
+  }
+
+  .soulmatcher-context__media-item {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    aspect-ratio: 628.059 / 557.055;
+    border-radius: 12px;
+  }
+
+  .soulmatcher-context__media-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-context {
+      gap: var(--space-12);
+    }
+
+    .soulmatcher-context__intro {
+      display: contents;
+    }
+
+    .soulmatcher-context h2 {
+      order: 1;
+    }
+
+    .soulmatcher-context__media {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+      order: 2;
+    }
+
+    .soulmatcher-context__media-item {
+      aspect-ratio: 330.2058 / 292.8748;
+      border-radius: 6.299px;
+    }
+
+    .soulmatcher-context__copy {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      order: 3;
+    }
+
+    .soulmatcher-context__copy-column {
+      gap: var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-context {
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-context__intro {
+      display: contents;
+    }
+
+    .soulmatcher-context h2 {
+      order: 1;
+      white-space: nowrap;
+    }
+
+    .soulmatcher-context__media {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      order: 2;
+    }
+
+    .soulmatcher-context__media-item {
+      border-radius: 12px;
+    }
+
+    .soulmatcher-context__media-item--photo {
+      aspect-ratio: 358 / 317.527;
+    }
+
+    .soulmatcher-context__media-item--interface {
+      aspect-ratio: 358 / 318.473;
+      border-radius: 6.856px;
+    }
+
+    .soulmatcher-context__copy {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      order: 3;
+    }
+
+    .soulmatcher-context__copy-column {
+      gap: var(--space-6);
+    }
+  }
+</style>

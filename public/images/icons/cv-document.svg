@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24.7333" height="28" viewBox="0 0 24.7333 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Rectangle 6" d="M22.7328 28H2.00049C0.895651 28 0 27.1046 0 26V2C0 0.895431 0.89565 0 2.00049 0H15.4583L24.7333 9.27273V26C24.7333 27.1046 23.8377 28 22.7328 28Z" fill="url(#paint0_linear_0_11)"/>
+<defs>
+<linearGradient id="paint0_linear_0_11" x1="12.3667" y1="0" x2="12.3667" y2="28" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7981"/>
+<stop offset="1" stop-color="#E85567"/>
+</linearGradient>
+</defs>
+</svg>

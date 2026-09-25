@@ -1,0 +1,35 @@
+---
+type Icon = 'linkedin' | 'cv';
+type PreviewState = 'default' | 'hover';
+
+interface Props {
+  icon: Icon;
+  ariaLabel: string;
+  href?: string;
+  target?: '_blank' | '_self';
+  disabled?: boolean;
+  previewState?: PreviewState;
+}
+
+const { icon, ariaLabel, href, target, disabled = false, previewState = 'default' } = Astro.props;
+const isLink = Boolean(href) && !disabled;
+const iconSrc = icon === 'linkedin' ? '/images/icons/linkedin-header.svg' : '/images/icons/cv-header.svg';
+const className = ['header-action', { 'header-action--linkedin': icon === 'linkedin', 'header-action--cv': icon === 'cv', 'header-action--disabled': disabled, 'header-action--preview-hover': previewState === 'hover' }];
+---
+
+{isLink ? (
+  <a class:list={className} href={href} target={target} rel={target === '_blank' ? 'noreferrer' : undefined} aria-label={ariaLabel}>
+    <img class="header-action__icon" src={iconSrc} width="32" height="32" alt="" />
+  </a>
+) : (
+  <span class:list={className} aria-label={ariaLabel} aria-disabled={disabled ? 'true' : undefined}>
+    <img class="header-action__icon" src={iconSrc} width="32" height="32" alt="" />
+  </span>
+)}
+
+<style>
+  .header-action { display: grid; width: 44px; height: 44px; place-items: center; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  .header-action:focus-visible { outline: 2px solid var(--color-status-info); outline-offset: 3px; }
+  .header-action__icon { display: block; width: 32px; height: 32px; object-fit: contain; }
+  .header-action--disabled { cursor: default; opacity: 1; }
+</style>

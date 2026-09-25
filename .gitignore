@@ -1,0 +1,30 @@
+node_modules/
+.pnpm-store/
+dist/
+.astro/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and local system files
+*.log
+.DS_Store
+Thumbs.db
+
+# Local Codex and project notes
+AGENTS.md
+.codex/
+
+# Local-only UI kit and sensitive case-study exports
+src/pages/ui-kit.astro
+public/images/ui-kit/
+
+# Credentials and local databases
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.db

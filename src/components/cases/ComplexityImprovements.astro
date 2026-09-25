@@ -1,0 +1,179 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      heading: 'Ключові покращення продукту',
+      challenge: 'Виклик',
+      solution: 'Рішення',
+      one: {
+        title: 'Поєднання пошуку місць із соціальним контентом',
+        challenge: 'Продукт мав поєднати пошук місць із соціальною взаємодією, не створюючи відчуття фрагментованого досвіду.',
+        solution: 'Я спроєктувала соціальну стрічку з урахуванням місцезнаходження, у якій користувачі можуть знаходити місця поблизу через публікації спільноти. Кожна публікація розгортається в детальну інформацію, відгуки, фотографії, коментарі та навігацію, створюючи плавний перехід між переглядом і дослідженням.',
+      },
+      two: {
+        title: 'Зручне створення відгуків',
+        challenge: 'Написання відгуку вимагало більшого, ніж проста текстова форма — потрібно було поєднати структуровану інформацію з особистим досвідом.',
+        solution: 'Я спроєктувала керований сценарій відгуку, який поєднує фотографії, оцінки, деталі напою та письмовий відгук в одному інтуїтивному процесі, роблячи створення контенту швидким і водночас інформативним.',
+      },
+      three: {
+        title: 'Організація особистого та соціального контенту',
+        body: 'Я спроєктувала профіль із окремими розділами для особистих публікацій, друзів і налаштувань облікового запису, надавши користувачам більше контролю над власним контентом і соціальними зв’язками.',
+      },
+    }
+  : {
+      heading: 'Key Product Improvements',
+      challenge: 'Challenge',
+      solution: 'Solution',
+      one: {
+        title: 'Connecting Discovery with Social Content',
+        challenge: 'The product needed to combine venue discovery with social engagement without making the experience feel fragmented.',
+        solution: 'Designed a location-aware social feed where users can explore nearby venues through community posts. Each post expands into detailed information, reviews, photos, comments, and navigation, creating a seamless transition between browsing and exploration.',
+      },
+      two: {
+        title: 'Making Reviews Easy to Create',
+        challenge: 'Writing reviews required more than a simple text form—it had to combine structured information with personal experiences.',
+        solution: 'Designed a guided review flow that combines photos, ratings, beverage details, and written feedback into a single intuitive process, making content creation fast while keeping reviews informative.',
+      },
+      three: {
+        title: 'Organizing Personal and Social Content',
+        body: 'Designed a profile experience with dedicated sections for personal posts, friends, and account settings, giving users greater control over both their content and social connections.',
+      },
+    };
+
+---
+
+<section class="complexity-improvements" aria-labelledby="complexity-improvements-title">
+  <h2 id="complexity-improvements-title" class="complexity-improvements__heading">{copy.heading}</h2>
+
+  <article class="complexity-improvement complexity-improvement--one">
+    <header class="complexity-improvement__header">
+      <div class="complexity-improvement__title-row"><span aria-hidden="true">01</span><h3>{copy.one.title}</h3></div>
+      <div class="complexity-improvement__comparison">
+        <div><h4>{copy.challenge}</h4><p>{copy.one.challenge}</p></div>
+        <span aria-hidden="true"></span>
+        <div><h4>{copy.solution}</h4><p>{copy.one.solution}</p></div>
+      </div>
+    </header>
+    <div class="complexity-improvement__visual-grid">
+      <img src="/images/cases/complexity-content-frame.png" alt={locale === 'uk' ? 'Екран публікації Complexity з деталями напою' : 'Complexity post screen with beverage details'} width="2512" height="2832" loading="lazy" decoding="async" />
+      <img src="/images/cases/complexity-sidebar.png" alt={locale === 'uk' ? 'Стрічка Complexity і карта місць поблизу' : 'Complexity feed and nearby venue map'} width="2512" height="2832" loading="lazy" decoding="async" />
+    </div>
+  </article>
+
+  <article class="complexity-improvement complexity-improvement--two">
+    <div class="complexity-improvement__copy-column">
+      <header class="complexity-improvement__header">
+        <div class="complexity-improvement__title-row"><span aria-hidden="true">02</span><h3>{copy.two.title}</h3></div>
+        <div class="complexity-improvement__comparison">
+          <div><h4>{copy.challenge}</h4><p>{copy.two.challenge}</p></div>
+          <span aria-hidden="true"></span>
+          <div><h4>{copy.solution}</h4><p>{copy.two.solution}</p></div>
+        </div>
+      </header>
+    </div>
+    <img class="complexity-improvement__account" src="/images/cases/complexity-account-container.png" alt={locale === 'uk' ? 'Сценарій створення відгуку в Complexity' : 'Complexity review creation flow'} width="3164" height="2460" loading="lazy" decoding="async" />
+  </article>
+
+  <article class="complexity-improvement complexity-improvement--three">
+    <div class="complexity-design-card complexity-design-card--copy">
+      <span class="complexity-design-card__number" aria-hidden="true">03</span>
+      <h3>{copy.three.title}</h3>
+      <p>{copy.three.body}</p>
+      <img src="/images/cases/complexity-ia-cocktail.png" alt="" aria-hidden="true" width="114" height="157" loading="lazy" decoding="async" />
+    </div>
+    <img class="complexity-design-card" src="/images/cases/complexity-ia-card-1.png" alt={locale === 'uk' ? 'Екран редагування профілю Complexity' : 'Complexity profile editing screen'} width="2525" height="2525" loading="lazy" decoding="async" />
+    <img class="complexity-design-card" src="/images/cases/complexity-ia-card-2.png" alt={locale === 'uk' ? 'Екран друзів у профілі Complexity' : 'Complexity friends profile screen'} width="2525" height="2525" loading="lazy" decoding="async" />
+    <img class="complexity-design-card" src="/images/cases/complexity-ia-card-3.png" alt={locale === 'uk' ? 'Екран публікацій у профілі Complexity' : 'Complexity profile posts screen'} width="2525" height="2525" loading="lazy" decoding="async" />
+  </article>
+</section>
+
+<style>
+  .complexity-improvements,
+  .complexity-improvement,
+  .complexity-improvement__header,
+  .complexity-improvement__title-row,
+  .complexity-improvement__comparison,
+  .complexity-improvement__comparison > div,
+  .complexity-design-card,
+  .complexity-improvements h3,
+  .complexity-improvements h4,
+  .complexity-improvements p { margin: 0; }
+  .complexity-improvements { display: flex; width: 100%; flex-direction: column; color: var(--color-text-primary); }
+  .complexity-improvements__heading { margin: 0 0 120px; color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .complexity-improvement { display: flex; min-width: 0; }
+  .complexity-improvement--one { flex-direction: column; gap: 48px; }
+  .complexity-improvement--two { margin-top: 160px; display: flex; flex-direction: column; gap: 48px; align-items: stretch; }
+  .complexity-improvement--three { margin-top: 160px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+  .complexity-improvement__header { display: flex; flex-direction: column; gap: 16px; }
+  .complexity-improvement__title-row { display: flex; align-items: center; gap: 16px; }
+  .complexity-improvement__title-row span { flex: 0 0 auto; color: var(--color-surface-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .complexity-improvement__title-row h3 { color: var(--color-text-primary); font-size: var(--font-title-size); font-weight: var(--font-title-weight); line-height: var(--font-title-line); letter-spacing: var(--font-title-tracking); }
+  .complexity-improvement__comparison { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: 48px; align-items: stretch; padding: 16px 0 15px; }
+  .complexity-improvement__comparison > div { display: flex; min-width: 0; flex-direction: column; gap: 12px; }
+  .complexity-improvement__comparison h4 { color: var(--color-text-tertiary); font-size: var(--font-caption-semibold-size); font-weight: var(--font-caption-semibold-weight); line-height: var(--font-caption-semibold-line); letter-spacing: var(--font-caption-semibold-tracking); text-transform: uppercase; }
+  .complexity-improvement__comparison > div:last-child h4 { color: #f7b620; }
+  .complexity-improvement__comparison p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .complexity-improvement__comparison > span { width: 1px; background: #f7b620; }
+  .complexity-improvement__visual-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .complexity-improvement__visual-grid img,
+  .complexity-improvement__account,
+  .complexity-design-card { display: block; width: 100%; height: auto; }
+  .complexity-improvement__visual-grid img { aspect-ratio: 628 / 708; object-fit: cover; border-radius: 16px; }
+  .complexity-improvement--two .complexity-improvement__header { padding-top: 0; }
+  .complexity-improvement__account { align-self: stretch; object-fit: contain; object-position: center; }
+  .complexity-design-card { aspect-ratio: 1; object-fit: cover; border-radius: 16px; }
+  .complexity-design-card--copy { position: relative; display: flex; flex-direction: column; gap: 24px; padding: 80px 80px 112px; overflow: hidden; background: #e5eaff; }
+  .complexity-design-card--copy .complexity-design-card__number { color: #b9c7ff; font-size: var(--font-headline-size); line-height: var(--font-headline-line); }
+  .complexity-design-card--copy h3 { max-width: 100%; font-size: var(--font-title-size); font-weight: var(--font-title-weight); line-height: var(--font-title-line); letter-spacing: var(--font-title-tracking); }
+  .complexity-design-card--copy p { max-width: 100%; margin: 0; font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); }
+  .complexity-design-card--copy img { position: absolute; bottom: 34px; left: 80px; width: 57px; height: auto; }
+
+  @media (min-width: 400px) and (max-width: 1024px) {
+    .complexity-improvements__heading { margin-bottom: 60px; }
+    .complexity-improvement--one { margin-top: 0; gap: 32px; }
+    .complexity-improvement--two { margin-top: 80px; gap: 48px; }
+    .complexity-improvement--three { margin-top: 80px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .complexity-improvement__header { gap: 32px; }
+    .complexity-improvement__title-row { align-items: flex-start; flex-direction: column; gap: 16px; }
+    .complexity-improvement__comparison { display: flex; flex-direction: column; gap: 24px; padding: 16px 0 15px; }
+    .complexity-improvement__comparison > span { width: 100%; height: 1px; }
+    .complexity-improvement__visual-grid { gap: 13px; }
+    .complexity-improvement__visual-grid img { border-radius: 12px; }
+    .complexity-design-card--copy { min-height: 420px; gap: 20px; aspect-ratio: auto; padding: 48px 48px 96px; }
+    .complexity-design-card--copy h3 { font-size: 28px; line-height: 36px; }
+    .complexity-design-card--copy p { font-size: 16px; line-height: 26px; }
+    .complexity-design-card--copy img { bottom: 24px; left: 48px; }
+    .complexity-improvement--three > .complexity-design-card:not(.complexity-design-card--copy) { height: 100%; object-fit: cover; }
+  }
+
+  @media (min-width: 400px) and (max-width: 899px) {
+    .complexity-improvement--three { grid-template-columns: 1fr; gap: 16px; }
+    .complexity-improvement--three > .complexity-design-card:not(.complexity-design-card--copy) { height: auto; aspect-ratio: 1; }
+  }
+
+  @media (min-width: 400px) and (max-width: 640px) {
+    .complexity-design-card--copy { min-height: 0; height: auto; padding: 24px; }
+    .complexity-design-card--copy img { display: none; }
+  }
+
+  @media (max-width: 399px) {
+    .complexity-improvements__heading { margin-bottom: 40px; }
+    .complexity-improvement--one { margin-top: 0; gap: 32px; }
+    .complexity-improvement--two { margin-top: 80px; display: flex; flex-direction: column; gap: 32px; }
+    .complexity-improvement--three { margin-top: 80px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .complexity-improvement__header { gap: 24px; }
+    .complexity-improvement__title-row { align-items: flex-start; flex-direction: column; gap: 16px; }
+    .complexity-improvement__title-row h3 { font-size: var(--font-title-size); line-height: var(--font-title-line); }
+    .complexity-improvement__comparison { display: flex; flex-direction: column; gap: 24px; padding: 16px 0 15px; }
+    .complexity-improvement__comparison > span { width: 100%; height: 1px; }
+    .complexity-improvement__visual-grid { grid-template-columns: 1fr; gap: 16px; }
+    .complexity-improvement__visual-grid img { border-radius: 10px; }
+    .complexity-design-card--copy { min-height: 0; height: auto; gap: 16px; aspect-ratio: auto; padding: 24px; }
+    .complexity-design-card--copy h3 { font-size: 24px; line-height: 30px; }
+    .complexity-design-card--copy p { font-size: 16px; line-height: 26px; }
+    .complexity-design-card--copy img { display: none; }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  /** Short sequence marker, such as a number, date, or phase name. */
+  stepLabel: string;
+  /** Main description; it wraps naturally when the available width is limited. */
+  description: string;
+}
+
+const { stepLabel, description } = Astro.props;
+---
+
+<div class="timeline-step">
+  <span class="timeline-step__label">{stepLabel}</span>
+  <span class="timeline-step__description">{description}</span>
+</div>
+
+<style>
+  .timeline-step {
+    display: grid;
+    gap: 6px;
+  }
+
+  .timeline-step__label {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+  }
+
+  .timeline-step__description {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-semibold-size);
+    font-weight: var(--font-body-semibold-weight);
+    line-height: var(--font-body-semibold-line);
+    letter-spacing: var(--font-body-semibold-tracking);
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+type TagTone = 'surface' | 'inverse' | 'muted';
+type TagSize = 'small' | 'default' | 'case-card';
+
+interface Props {
+  label: string;
+  tone?: TagTone;
+  size?: TagSize;
+}
+
+const { label, tone = 'surface', size = 'default' } = Astro.props;
+---
+
+<span class:list={['tag', `tag--${tone}`, `tag--${size}`]}>{label}</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+    font-size: var(--font-overline-size);
+    font-weight: var(--font-overline-weight);
+    line-height: var(--font-overline-line);
+    letter-spacing: var(--font-overline-tracking);
+    white-space: nowrap;
+  }
+
+  .tag--inverse { background: var(--color-accent-primary); color: var(--color-text-inverse); }
+  .tag--muted { background: var(--color-surface-tertiary); color: var(--color-text-secondary); }
+  .tag--small { padding: 1px var(--space-1); }
+  .tag--case-card {
+    padding: var(--space-1) var(--space-4);
+    font-size: var(--font-caption-size);
+    line-height: var(--font-caption-line);
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      title: 'Контекст проєкту',
+      description: 'Замість проєктування платформи з нуля я долучилася до вже наявного продукту, який потребував суттєвого доопрацювання перед розробкою. Моєю метою було покращити зручність користування, перебудувати дизайн-систему, спростити складні робочі процеси та адаптувати продукт до майбутніх інтеграцій і розвитку.',
+      notificationsAlt: 'Сповіщення та авторизаційні сценарії Trexim',
+      mapAlt: 'Мапа маршруту перевезення Trexim між Полтавою та Одесою',
+    }
+  : {
+      title: 'Project context',
+      description: 'Rather than designing the platform from scratch, I joined an existing product that required significant refinement before development. My focus was to improve usability, restructure the design system, simplify complex workflows, and adapt the product for upcoming integrations and future product growth.',
+      notificationsAlt: 'Trexim notifications and authentication flows',
+      mapAlt: 'Trexim transportation route map between Poltava and Odesa',
+    };
+---
+
+<section class="trexim-context" aria-labelledby="trexim-context-title">
+  <header class="trexim-context__header">
+    <h2 id="trexim-context-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </header>
+  <div class="trexim-context__media">
+    <figure><img src="/images/trexim/Frame%202087325800.png" width="2513" height="2229" alt={copy.notificationsAlt} loading="lazy" decoding="async" /></figure>
+    <figure><img src="/images/trexim/Frame%2019382.png" width="2513" height="2229" alt={copy.mapAlt} loading="lazy" decoding="async" /></figure>
+  </div>
+</section>
+
+<style>
+  .trexim-context,
+  .trexim-context h2,
+  .trexim-context p,
+  .trexim-context figure { margin: 0; }
+  .trexim-context { display: flex; width: 100%; flex-direction: column; gap: 48px; }
+  .trexim-context__header { display: grid; grid-template-columns: 38.2% 49.1%; justify-content: space-between; }
+  .trexim-context h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .trexim-context__header p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .trexim-context__media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .trexim-context__media figure { min-width: 0; aspect-ratio: 628 / 557; overflow: hidden; border-radius: 16px; background: var(--color-surface-secondary); }
+  .trexim-context__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .trexim-context__header { display: contents; }
+    .trexim-context h2 { order: 1; }
+    .trexim-context__media { order: 2; gap: 13px; }
+    .trexim-context__header p { order: 3; }
+    .trexim-context__media figure { border-radius: 12px; }
+  }
+  @media (max-width: 640px) {
+    .trexim-context { gap: 32px; }
+    .trexim-context__header { display: contents; }
+    .trexim-context h2 { order: 1; }
+    .trexim-context__media { order: 2; grid-template-columns: 1fr; gap: 16px; }
+    .trexim-context__header p { order: 3; }
+    .trexim-context__media figure { aspect-ratio: 358 / 317; border-radius: 10px; }
+  }
+</style>

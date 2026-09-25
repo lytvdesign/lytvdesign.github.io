@@ -1,0 +1,215 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Контекст проєкту',
+    paragraphs: [
+      'Засновник проєкту — досвідчений військовий інструктор навчального центру ЗСУ, який спеціалізується на вогневій підготовці. У своїй практиці він щодня стикався з тим, що інформація про стрілецьку зброю хаотично розкидана по PDF-файлах, закритих форумах та застарілих документах.',
+      'Головна мета GunLib — централізувати та ретельно структурувати  перевірену, структуровану та легкодоступну інформацію про зброю та її пристрілку, щоб швидко й безпомилково застосувати необхідну інструкцію в польових або навчальних умовах.',
+    ],
+    founderAlt: 'Військовий інструктор під час навчання зі стрілецької зброї',
+    interfaceAlt: 'Інтерфейс GunLib зі структурованою інформацією про зброю',
+  },
+  en: {
+    title: 'Project context',
+    paragraphs: [
+      'The project founder is an experienced military instructor at a Ukrainian Armed Forces training centre who specializes in firearms training. In his practice, he encountered every day that information about small arms was scattered chaotically across PDF files, closed forums, and outdated documents.',
+      'GunLib’s main goal is to centralize and carefully structure verified, well-organized, and accessible information about weapons and their sighting-in, so that the necessary instruction can be applied quickly and accurately in field or training conditions.',
+    ],
+    founderAlt: 'Military instructor during small-arms training',
+    interfaceAlt: 'GunLib interface with structured weapon information',
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-context" aria-labelledby="gunlib-context-title">
+  <div class="gunlib-context__intro">
+    <h2 id="gunlib-context-title">{copy.title}</h2>
+
+    <div class="gunlib-context__copy">
+      {copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+
+  <div class="gunlib-context__media" aria-label={copy.title}>
+    <figure class="gunlib-context__media-item gunlib-context__media-item--founder">
+      <img
+        src="/images/cases/gunlib-context-founder.png"
+        alt={copy.founderAlt}
+        width="3840"
+        height="2160"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+    <figure class="gunlib-context__media-item">
+      <img
+        src="/images/cases/gunlib-context-ui.png"
+        alt={copy.interfaceAlt}
+        width="1603"
+        height="1422"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .gunlib-context {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-context__intro,
+  .gunlib-context h2,
+  .gunlib-context p,
+  .gunlib-context figure {
+    margin: 0;
+  }
+
+  .gunlib-context__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .gunlib-context h2 {
+    color: var(--color-text-tertiary);
+    font-size: 40px;
+    font-weight: var(--font-headline-weight);
+    line-height: 48px;
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .gunlib-context__copy {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-10);
+  }
+
+  .gunlib-context__copy p {
+    color: var(--color-text-primary);
+    font-size: 18px;
+    font-weight: var(--font-body-weight);
+    line-height: 30px;
+    letter-spacing: var(--font-body-tracking);
+    white-space: pre-wrap;
+  }
+
+  .gunlib-context__media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+    height: auto;
+    order: 3;
+  }
+
+  .gunlib-context__media-item {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    aspect-ratio: 628.059 / 557.055;
+    border-radius: 11.712px;
+  }
+
+  .gunlib-context__media-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gunlib-context__media-item--founder img {
+    position: absolute;
+    top: -27.47%;
+    left: -18.51%;
+    width: 200.99%;
+    max-width: none;
+    height: 127.47%;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-context {
+      gap: var(--space-12);
+    }
+
+    .gunlib-context__intro {
+      display: contents;
+    }
+
+    .gunlib-context h2 {
+      order: 1;
+    }
+
+    .gunlib-context__media {
+      height: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+      order: 2;
+    }
+
+    .gunlib-context__media-item {
+      aspect-ratio: 330.2058 / 292.8748;
+      border-radius: 6.158px;
+    }
+
+    .gunlib-context__copy {
+      gap: var(--space-6);
+      order: 3;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 999px) {
+    .gunlib-context__copy {
+      grid-template-columns: 1fr;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-context {
+      gap: var(--space-8);
+    }
+
+    .gunlib-context__intro {
+      display: contents;
+    }
+
+    .gunlib-context h2 {
+      order: 1;
+      white-space: nowrap;
+    }
+
+    .gunlib-context__media {
+      display: grid;
+      grid-template-columns: 1fr;
+      height: auto;
+      gap: var(--space-4);
+      order: 2;
+    }
+
+    .gunlib-context__media-item {
+      aspect-ratio: 358 / 317.527;
+      border-radius: 6.676px;
+    }
+
+    .gunlib-context__copy {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      order: 3;
+    }
+  }
+</style>

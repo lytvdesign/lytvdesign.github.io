@@ -1,0 +1,37 @@
+---
+import type { Locale } from '../content/site';
+import { alternatePath } from '../lib/routes';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const target = alternatePath(locale, currentPath);
+const alternateLocale = locale === 'uk' ? 'en' : 'uk';
+---
+
+<div class="language-switch" role="group" aria-label={locale === 'uk' ? 'Вибір мови' : 'Language selection'}>
+  {locale === 'uk' ? (
+    <>
+      <span class="language-switch__active" lang="uk" aria-current="true">UA</span>
+      <a class="language-switch__link" data-language-switch href={target} lang={alternateLocale}>EN</a>
+    </>
+  ) : (
+    <>
+      <a class="language-switch__link" data-language-switch href={target} lang={alternateLocale}>UA</a>
+      <span class="language-switch__active" lang="en" aria-current="true">EN</span>
+    </>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-language-switch]').forEach((link) => {
+    link.href += window.location.hash;
+    link.addEventListener('click', () => {
+      const nextLocale = link.lang === 'uk' ? 'uk' : 'en';
+      localStorage.setItem('lytvynenko-locale', nextLocale);
+    });
+  });
+</script>

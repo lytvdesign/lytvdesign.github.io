@@ -1,0 +1,160 @@
+---
+import type { Locale } from '../../content/site';
+import { homePath } from '../../lib/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      back: 'Назад',
+      heroAlt: 'Мобільний інтерфейс Enismaro для перевірки автентичності продукту',
+      overview: 'Огляд проєкту',
+      description: 'Enismaro — це прогресивний вебзастосунок (PWA), який дає змогу перевірити автентичність продукту й дізнатися про весь його життєвий цикл, відсканувавши QR-код. Від початкової ідеї продукту я спроєктувала повний користувацький досвід, перетворивши складні дані про ланцюг постачання, сталість та IoT на інтуїтивний і надійний мобільний досвід.',
+      details: [
+        ['Сфера', 'FoodTech · IoT · Сталість'],
+        ['Роль у проєкті', 'Product Designer'],
+        ['Дата', '2024'],
+        ['Платформа', 'Прогресивний вебзастосунок (PWA)'],
+      ],
+    }
+  : {
+      back: 'Back',
+      heroAlt: 'Enismaro mobile interface for verifying product authenticity',
+      overview: 'Project overview',
+      description: 'Enismaro is a Progressive Web App (PWA) that enables users to verify product authenticity and explore its complete lifecycle by scanning a QR code. Starting from an early product concept, I designed the end-to-end user experience, transforming complex supply chain, sustainability, and IoT data into an intuitive and trustworthy mobile experience.',
+      details: [
+        ['Industry', 'FoodTech · IoT · Sustainability'],
+        ['Role', 'Product Designer'],
+        ['Date', '2024'],
+        ['Platform', 'Progressive Web App (PWA)'],
+      ],
+    };
+
+const backHref = homePath(locale);
+---
+
+<div class="enismaro-intro">
+  <section class="enismaro-intro__hero" aria-labelledby="enismaro-title" data-case-title-container>
+    <a class="enismaro-intro__back" href={backHref} aria-label={copy.back} title={copy.back} data-case-back>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <path d="M15 8H1M1 8l6-6M1 8l6 6" />
+      </svg>
+    </a>
+    <h1 id="enismaro-title" data-case-title>Enismaro</h1>
+    <picture class="enismaro-intro__picture">
+      <source media="(max-width: 430px)" srcset="/images/cases/enismaro-hero-mobile.png" />
+      <img
+        class="enismaro-intro__image"
+        src="/images/cases/enismaro-hero-desktop-hq.png"
+        alt={copy.heroAlt}
+        width="5120"
+        height="3696"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
+  </section>
+
+  <section class="enismaro-intro__overview" aria-labelledby="enismaro-overview-title">
+    <div class="enismaro-intro__overview-copy">
+      <h2 id="enismaro-overview-title">{copy.overview}</h2>
+      <p class="enismaro-intro__description">{copy.description}</p>
+    </div>
+    <div class="enismaro-intro__details-wrap">
+      <dl class="enismaro-intro__details">
+        {copy.details.map(([label, value], index) => (
+          <div class:list={['enismaro-intro__detail', index === 0 && 'enismaro-intro__detail--industry', index === 1 && 'enismaro-intro__detail--role', index === 2 && 'enismaro-intro__detail--date', index === 3 && 'enismaro-intro__detail--platform']}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+</div>
+
+<style>
+  .enismaro-intro { display: flex; flex-direction: column; gap: 120px; width: 100%; }
+  .enismaro-intro__hero { position: relative; width: 100%; }
+  .enismaro-intro h1,
+  .enismaro-intro h2,
+  .enismaro-intro p,
+  .enismaro-intro dl,
+  .enismaro-intro dd { margin: 0; }
+  .enismaro-intro h1 {
+    color: var(--color-text-primary);
+    font-size: var(--font-display-size);
+    font-weight: var(--font-display-weight);
+    line-height: var(--font-display-line);
+    letter-spacing: var(--font-display-tracking);
+    text-align: center;
+  }
+  .enismaro-intro__picture { display: block; width: 100%; margin-top: 40px; }
+  .enismaro-intro__image { display: block; width: 100%; height: auto; }
+  .enismaro-intro__back {
+    --case-back-inline-offset: 0px;
+    position: absolute; top: 32px; left: 0; display: grid; width: 64px; height: 40px;
+    place-items: center; border: .5px solid var(--color-foundation-navy-300);
+    border-radius: var(--radius-full); color: var(--color-text-primary);
+  }
+  .enismaro-intro__back svg { width: 16px; height: 16px; }
+  .enismaro-intro__back path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.25; }
+  .enismaro-intro__hero.case-title-container--stack-back { display: flex; flex-direction: column; align-items: stretch; }
+  .enismaro-intro__hero.case-title-container--stack-back .enismaro-intro__back { position: static; align-self: flex-start; margin-bottom: 4px; }
+  .enismaro-intro__overview { display: grid; grid-template-columns: 38.2% 49.1%; justify-content: space-between; gap: 0; }
+  .enismaro-intro__overview-copy { display: flex; flex-direction: column; gap: 40px; }
+  .enismaro-intro h2 {
+    color: var(--color-text-tertiary); font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight); line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+  .enismaro-intro__description {
+    color: var(--color-text-primary); font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight); line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+  .enismaro-intro__details-wrap { padding-top: 11px; }
+  .enismaro-intro__details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 0; }
+  .enismaro-intro__detail {
+    display: flex; min-height: 122px; flex-direction: column; justify-content: space-between;
+    padding: 20px 28px; border: 1px solid #33a18c; border-radius: 16px; color: var(--color-text-primary);
+  }
+  .enismaro-intro__detail dt { color: var(--color-text-tertiary); font-size: var(--font-caption-semibold-size); font-weight: var(--font-caption-semibold-weight); line-height: var(--font-caption-semibold-line); }
+  .enismaro-intro__detail dd { font-size: var(--font-body-semibold-size); font-weight: var(--font-body-semibold-weight); line-height: var(--font-body-semibold-line); }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .enismaro-intro { gap: 80px; }
+    .enismaro-intro h1 { font-size: 64px; line-height: 82px; letter-spacing: -1.92px; }
+    .enismaro-intro__picture { margin-top: 48px; aspect-ratio: 1280 / 924; overflow: hidden; border-radius: 16px; }
+    .enismaro-intro__back { top: 21px; }
+    .enismaro-intro__image { height: 100%; object-fit: cover; }
+    .enismaro-intro__overview { display: flex; flex-direction: column; gap: 48px; }
+    .enismaro-intro__overview-copy { gap: 40px; }
+    .enismaro-intro__details-wrap { padding-top: 0; }
+    .enismaro-intro__details { gap: 2px; }
+    .enismaro-intro__detail { min-height: 122px; padding: 20px 24px; border-radius: 12px; }
+  }
+  @media (max-width: 640px) {
+    .enismaro-intro { gap: 80px; }
+    .enismaro-intro h1 { font-size: 40px; line-height: 40px; letter-spacing: -1.2px; }
+    .enismaro-intro__back { top: 0; width: 40px; height: 40px; }
+    .enismaro-intro__picture { margin-top: 32px; aspect-ratio: 358 / 233.26; overflow: hidden; border-radius: 8px; }
+    .enismaro-intro__image { height: 100%; object-fit: cover; }
+    .enismaro-intro__overview { display: flex; flex-direction: column; gap: 32px; }
+    .enismaro-intro__overview-copy { gap: 32px; }
+    .enismaro-intro__details-wrap { padding-top: 0; }
+    .enismaro-intro__details { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .enismaro-intro__detail { min-height: 94px; padding: 12px 16px; border-radius: 10px; }
+    .enismaro-intro__detail--industry { order: 1; }
+    .enismaro-intro__detail--role { order: 2; }
+    .enismaro-intro__detail--platform { order: 3; }
+    .enismaro-intro__detail--date { order: 4; }
+  }
+  @media (min-width: 431px) and (max-width: 640px) {
+    .enismaro-intro__picture { aspect-ratio: 1280 / 924; }
+  }
+</style>

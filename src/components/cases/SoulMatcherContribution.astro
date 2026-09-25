@@ -1,0 +1,143 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const title = locale === 'uk' ? 'Мій внесок' : 'My contribution';
+const skillsLabel = locale === 'uk' ? 'Напрями внеску' : 'Contribution areas';
+
+const skills = [
+  'Information Architecture',
+  'User Flows',
+  'UX Design',
+  'Ionic Design System',
+  'Branding',
+  'UI Design',
+  'Design System',
+];
+---
+
+<section class="soulmatcher-contribution" aria-labelledby="soulmatcher-contribution-title">
+  <div class="soulmatcher-contribution__inner">
+    <h2 id="soulmatcher-contribution-title">{title}</h2>
+
+    <ul class="soulmatcher-contribution__skills" aria-label={skillsLabel}>
+      {skills.map((skill) => (
+        <li><span>{skill}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .soulmatcher-contribution {
+    width: 100%;
+    min-height: 72px;
+    background: var(--color-surface-secondary);
+    color: var(--color-text-primary);
+  }
+
+  .soulmatcher-contribution__inner {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 360px;
+  }
+
+  .soulmatcher-contribution h2,
+  .soulmatcher-contribution ul,
+  .soulmatcher-contribution li {
+    margin: 0;
+  }
+
+  .soulmatcher-contribution h2 {
+    min-width: 0;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+    white-space: nowrap;
+  }
+
+  .soulmatcher-contribution__skills {
+    display: flex;
+    width: 633px;
+    flex: 0 0 633px;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 0;
+    list-style: none;
+  }
+
+  .soulmatcher-contribution__skills li {
+    display: inline-flex;
+  }
+
+  .soulmatcher-contribution__skills span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-full);
+    background: #fbfbfb;
+    color: var(--color-text-primary);
+    font-size: var(--font-label-size);
+    font-weight: var(--font-label-weight);
+    line-height: var(--font-label-line);
+    letter-spacing: var(--font-label-tracking);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-contribution {
+      min-height: 164px;
+    }
+
+    .soulmatcher-contribution__inner {
+      min-height: 164px;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: var(--space-12);
+    }
+
+    .soulmatcher-contribution__skills {
+      width: 100%;
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-contribution {
+      min-height: 170px;
+    }
+
+    .soulmatcher-contribution__inner {
+      min-height: 170px;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-contribution h2 {
+      white-space: normal;
+    }
+
+    .soulmatcher-contribution__skills span {
+      height: 30px;
+      padding-block: 3px;
+    }
+
+    .soulmatcher-contribution__skills {
+      width: 100%;
+      flex: 0 0 auto;
+    }
+  }
+</style>

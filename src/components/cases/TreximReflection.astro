@@ -1,0 +1,80 @@
+---
+import type { Locale } from '../../content/site';
+import TimelineStep from '../ui/TimelineStep.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      title: 'Етапи роботи',
+      paragraphs: [
+        'Мій внесок вийшов за межі проєктування інтерфейсів. Працюючи разом із кросфункціональною командою, я допомогла уточнити бізнес-логіку, виявити прогалини в реалізації та спроєктувати рішення, які були інтуїтивними для користувачів і практичними для розробки.',
+        'Кожне покращення мало на меті зробити складні enterprise-процеси зрозумілими, водночас створюючи масштабовану основу для майбутнього розвитку продукту.',
+      ],
+      steps: ['Виявлення проблем у бізнес-логіці', 'Валідація user flows', 'Запропонована нова функціональність', 'Підготовка сценаріїв до майбутніх інтеграцій', 'Узгодження UX із технічною реалізацією'],
+    }
+  : {
+      title: 'Design Process',
+      paragraphs: [
+        'My contribution went beyond interface design. Working closely with cross-functional teams, I helped refine business logic, identify implementation gaps, and design solutions that were both intuitive for users and practical to build.',
+        'Every improvement focused on making complex enterprise workflows feel manageable while creating a scalable foundation for future product growth.',
+      ],
+      steps: ['Identified business logic issues', 'Validated workflows', 'Proposed new functionality', 'Prepared flows for future integrations', 'Aligned UX with technical implementation'],
+    };
+const steps = copy.steps.map((description, index) => ({ stepLabel: `${locale === 'uk' ? 'Крок' : 'Step'} ${String(index + 1).padStart(2, '0')}`, description }));
+---
+
+<section class="trexim-reflection" aria-labelledby="trexim-reflection-title">
+  <header class="trexim-reflection__intro">
+    <h2 id="trexim-reflection-title">{copy.title}</h2>
+    <div class="trexim-reflection__paragraphs">
+      {copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </header>
+  <ol class="trexim-reflection__timeline" aria-label={locale === 'uk' ? 'Етапи розвитку проєкту' : 'Project development stages'}>
+    {steps.map((step) => (
+      <li class="trexim-reflection__stage">
+        <div class="trexim-reflection__stage-copy"><TimelineStep stepLabel={step.stepLabel} description={step.description} /></div>
+        <span class="trexim-reflection__dot" aria-hidden="true"></span>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .trexim-reflection,
+  .trexim-reflection h2,
+  .trexim-reflection p,
+  .trexim-reflection ol { margin: 0; }
+  .trexim-reflection { display: flex; width: 100%; flex-direction: column; gap: 120px; }
+  .trexim-reflection__intro { display: flex; flex-direction: column; gap: 48px; }
+  .trexim-reflection h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .trexim-reflection__paragraphs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 104px; }
+  .trexim-reflection__paragraphs p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .trexim-reflection__timeline { position: relative; display: grid; width: 100%; height: 280px; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 0; list-style: none; }
+  .trexim-reflection__timeline::before { position: absolute; z-index: 0; top: 139px; left: 10%; width: 80%; height: 2px; background: #d9d9d9; content: ''; }
+  .trexim-reflection__stage { position: relative; z-index: 1; display: grid; min-width: 0; grid-template-rows: 120px 40px 120px; }
+  .trexim-reflection__stage-copy { display: flex; min-width: 0; align-items: center; justify-content: center; padding-inline: 12px; text-align: center; }
+  .trexim-reflection__stage:nth-child(odd) .trexim-reflection__stage-copy { grid-row: 1; padding-bottom: 12px; }
+  .trexim-reflection__stage:nth-child(even) .trexim-reflection__stage-copy { grid-row: 3; }
+  .trexim-reflection__dot { z-index: 1; display: block; width: 18px; height: 18px; grid-row: 2; align-self: center; justify-self: center; border-radius: 50%; background: #f7b620; box-shadow: inset 0 0 0 3px #fff; }
+  .trexim-reflection__stage-copy :global(.timeline-step) { width: 100%; text-align: center; }
+  .trexim-reflection__stage-copy :global(.timeline-step__label),
+  .trexim-reflection__stage-copy :global(.timeline-step__description) { display: block; width: 100%; }
+  @media (min-width: 641px) and (max-width: 1024px) { .trexim-reflection__paragraphs { grid-template-columns: 1fr; gap: 24px; } }
+  @media (max-width: 640px) {
+    .trexim-reflection { gap: 32px; }
+    .trexim-reflection__intro { gap: 32px; }
+    .trexim-reflection__paragraphs { grid-template-columns: 1fr; gap: 24px; }
+    .trexim-reflection__timeline { height: auto; grid-template-columns: 1fr; grid-auto-rows: minmax(60px, auto); row-gap: 12px; }
+    .trexim-reflection__timeline::before { top: 30px; left: 8px; width: 1px; height: calc(100% - 60px); }
+    .trexim-reflection__stage { display: grid; grid-template-columns: 18px minmax(0, 1fr); grid-template-rows: minmax(60px, auto); column-gap: 16px; align-items: center; }
+    .trexim-reflection__stage-copy,
+    .trexim-reflection__stage:nth-child(odd) .trexim-reflection__stage-copy,
+    .trexim-reflection__stage:nth-child(even) .trexim-reflection__stage-copy { min-width: 0; grid-row: 1; grid-column: 2; justify-content: flex-start; padding: 0; text-align: left; }
+    .trexim-reflection__stage-copy :global(.timeline-step) { display: flex; align-items: center; gap: 24px; text-align: left; }
+    .trexim-reflection__stage-copy :global(.timeline-step__label) { width: auto; flex: 0 0 auto; color: #808080; font-size: var(--font-caption-size); font-weight: var(--font-caption-weight); line-height: var(--font-caption-line); letter-spacing: var(--font-caption-tracking); }
+    .trexim-reflection__stage-copy :global(.timeline-step__description) { width: auto; flex: 1 1 auto; min-width: 0; font-size: var(--font-body-semibold-size); font-weight: var(--font-body-semibold-weight); line-height: var(--font-body-semibold-line); letter-spacing: var(--font-body-semibold-tracking); }
+    .trexim-reflection__dot { width: 12px; height: 12px; grid-row: 1; grid-column: 1; }
+  }
+</style>

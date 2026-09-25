@@ -1,0 +1,72 @@
+---
+import type { Locale } from '../../content/site';
+import EnismaroIntro from './EnismaroIntro.astro';
+import EnismaroContext from './EnismaroContext.astro';
+import EnismaroContribution from './EnismaroContribution.astro';
+import EnismaroImprovements from './EnismaroImprovements.astro';
+import EnismaroReflection from './EnismaroReflection.astro';
+import GunLibOtherProjects from './GunLibOtherProjects.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+---
+
+<main class="enismaro-case" aria-labelledby="enismaro-title">
+  <div class="enismaro-case__content">
+    <EnismaroIntro locale={locale} />
+
+    <section class="enismaro-case__context enismaro-case__stage" aria-labelledby="enismaro-context-title">
+      <EnismaroContext locale={locale} />
+    </section>
+
+    <section class="enismaro-case__contribution enismaro-case__stage" aria-labelledby="enismaro-contribution-title">
+      <EnismaroContribution locale={locale} />
+    </section>
+
+    <section class="enismaro-case__improvements enismaro-case__stage" aria-label={locale === 'uk' ? 'Ключові покращення продукту' : 'Key product improvements'}>
+      <EnismaroImprovements locale={locale} />
+    </section>
+
+    <section class="enismaro-case__reflection enismaro-case__stage" aria-labelledby="enismaro-reflection-title">
+      <EnismaroReflection locale={locale} />
+    </section>
+
+    <section class="enismaro-case__other-projects enismaro-case__stage" aria-labelledby="gunlib-other-projects-title">
+      <GunLibOtherProjects locale={locale} currentProject="enismaro" />
+    </section>
+  </div>
+</main>
+
+<style>
+  .enismaro-case {
+    --enismaro-gutter: 80px;
+    padding: 228px var(--enismaro-gutter) 0;
+    background: var(--color-surface-secondary);
+  }
+
+  .enismaro-case__content { width: min(1280px, 100%); margin: 0 auto; }
+  .enismaro-case__stage { width: 100%; }
+  .enismaro-case__context { margin-top: 220px; }
+  .enismaro-case__contribution { margin-top: 80px; }
+  .enismaro-case__improvements { margin-top: 80px; }
+  .enismaro-case__reflection,
+  .enismaro-case__other-projects { margin-top: 220px; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .enismaro-case { --enismaro-gutter: 48px; padding-top: 164px; }
+    .enismaro-case__context { margin-top: 128px; }
+    .enismaro-case__contribution,
+    .enismaro-case__improvements,
+    .enismaro-case__reflection,
+    .enismaro-case__other-projects { margin-top: 128px; }
+  }
+
+  @media (max-width: 640px) {
+    .enismaro-case { --enismaro-gutter: 16px; padding-top: 104px; }
+    .enismaro-case__context,
+    .enismaro-case__contribution,
+    .enismaro-case__improvements,
+    .enismaro-case__reflection,
+    .enismaro-case__other-projects { margin-top: 80px; }
+  }
+</style>

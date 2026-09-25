@@ -1,0 +1,235 @@
+---
+import { ui, type CaseSlug, type Locale } from '../content/site';
+import { casePath } from '../lib/routes';
+import CaseCard from './ui/CaseCard.astro';
+import ContactCard from './ui/ContactCard.astro';
+import ImageSlider from './ui/ImageSlider.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = ui[locale];
+const cvHref = locale === 'en'
+  ? '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-EN.pdf'
+  : '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-UK.pdf';
+const [heroLead, heroAccent, heroEnd] = locale === 'uk'
+  ? ['Усе ', 'поєднується', ' в єдине ціле']
+  : ['', 'Everything ', 'has its place'];
+const aboutSlides = [
+  { src: '/images/home/about-slide-1.png', alt: copy.aboutContent.imageAlt },
+  {
+    src: '/images/home/about-slide-2.png',
+    alt: copy.aboutContent.imageAlt,
+    crop: { desktop: { width: '100%', height: '149.64%', left: '0', top: '-28.32%' } },
+  },
+  {
+    src: '/images/home/about-slide-3.png',
+    alt: copy.aboutContent.imageAlt,
+    crop: { desktop: { width: '142.39%', height: '212.96%', left: '-8.75%', top: '-66.45%' } },
+  },
+  {
+    src: '/images/home/about-slide-4.png',
+    alt: copy.aboutContent.imageAlt,
+    crop: { desktop: { width: '110.37%', height: '165.3%', left: '-11.32%', top: '-57.06%' } },
+  },
+  { src: '/images/home/about-slide-5.png', alt: copy.aboutContent.imageAlt },
+];
+const portfolioCases: Array<{
+  slug: CaseSlug;
+  title: string;
+  image: string;
+  imageWidth: number;
+  imageHeight: number;
+  size: 'default' | 'featured';
+  format: 'portrait' | 'landscape';
+  imageScaleX?: number;
+  imageScaleY?: number;
+  imageOffsetX?: number;
+  imageOffsetY?: number;
+}> = [
+  {
+    slug: 'gunlib',
+    title: 'GunLib',
+    image: '/images/home/portfolio-gunlib.png',
+    imageWidth: 1786,
+    imageHeight: 1242,
+    size: 'featured',
+    format: 'landscape',
+  },
+  {
+    slug: 'trexim',
+    title: 'Trexim',
+    image: '/images/home/portfolio-trexim.png',
+    imageWidth: 3110,
+    imageHeight: 2332,
+    size: 'default',
+    format: 'portrait',
+    imageScaleX: 1.4102,
+    imageScaleY: .834,
+    imageOffsetX: -20.51,
+    imageOffsetY: 2.08,
+  },
+  {
+    slug: 'complexity',
+    title: 'Complexity',
+    image: '/images/home/portfolio-complexity.png',
+    imageWidth: 2086,
+    imageHeight: 1506,
+    size: 'default',
+    format: 'portrait',
+    imageScaleX: 2.1336,
+    imageScaleY: 1.2168,
+    imageOffsetX: -56.63,
+    imageOffsetY: -16.86,
+  },
+  {
+    slug: 'enismaro',
+    title: 'Enismaro',
+    image: '/images/home/portfolio-enismaro.png',
+    imageWidth: 1842,
+    imageHeight: 1330,
+    size: 'default',
+    format: 'portrait',
+    imageScaleX: 1.923,
+    imageScaleY: 1.0968,
+    imageOffsetX: -44.25,
+    imageOffsetY: -9.59,
+  },
+  {
+    slug: 'soulmatcher',
+    title: 'SoulMatcher',
+    image: '/images/home/portfolio-soulmatcher.png',
+    imageWidth: 1900,
+    imageHeight: 2380,
+    size: 'default',
+    format: 'portrait',
+    imageScaleX: 1.9204,
+    imageScaleY: 1.9002,
+    imageOffsetX: -85.04,
+    imageOffsetY: -1.13,
+  },
+];
+---
+
+<main class="home-main" data-locale={locale}>
+  <section class="home-intro" aria-labelledby="home-hero-title">
+    <div class="home-hero">
+      <h1 id="home-hero-title" aria-label={copy.hero}>
+        <span>{heroLead}</span><strong>{heroAccent}</strong><span>{heroEnd}</span>
+      </h1>
+    </div>
+
+    <div class="photo-collage">
+      <figure class="collage-item collage-item--location" aria-hidden="true">
+        <img src="/images/home/location.png" alt="" width="512" height="342" loading="eager" decoding="async" />
+        <figcaption class="collage-location__tag">Kharkiv, Ukraine</figcaption>
+      </figure>
+      <figure class="collage-item collage-item--family" aria-hidden="true">
+        <span class="collage-photo-stack collage-photo-stack--family">
+          <img src="/images/home/family-1.png" alt="" width="1600" height="900" loading="eager" decoding="async" />
+          <img src="/images/home/family-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
+          <img src="/images/home/family-3.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
+        </span>
+      </figure>
+      <figure class="collage-item collage-item--cat" aria-hidden="true">
+        <img src="/images/home/cat.png" alt="" width="512" height="342" loading="eager" decoding="async" />
+      </figure>
+      <figure class="collage-item collage-item--dog" aria-hidden="true">
+        <span class="collage-photo-stack collage-photo-stack--dog">
+          <img src="/images/home/dog-1.png" alt="" width="512" height="342" loading="eager" decoding="async" />
+          <img src="/images/home/dog-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
+        </span>
+      </figure>
+      <article class="collage-item collage-item--projector collage-card">
+        <img class="collage-card__cover" src="/images/home/projector-card-4.jpg" alt="" width="1280" height="720" loading="eager" decoding="async" />
+        <div class="collage-card__content">
+          <p class="collage-card__eyebrow">{copy.collage.projector.eyebrow}</p>
+          <div class="collage-card__author">
+            <img src="/images/home/projector-card-5.png" alt="" width="218" height="231" loading="eager" decoding="async" />
+            <h3>{copy.collage.projector.title}</h3>
+          </div>
+          <p class="collage-card__description">{copy.collage.projector.description}</p>
+        </div>
+      </article>
+      <a class="collage-item collage-item--project collage-card collage-card--gunlib" href={casePath(locale, 'gunlib')} aria-label={copy.collage.gunlib.title}>
+        <img class="collage-card__cover" src="/images/home/gunlib-card-2.png" alt="" width="1786" height="1242" loading="eager" decoding="async" />
+        <span class="collage-card__content">
+          <span class="collage-card__eyebrow">{copy.collage.gunlib.eyebrow}</span>
+          <span class="collage-card__author">
+            <img src="/images/home/gunlib-card-3.png" alt="" width="512" height="512" loading="eager" decoding="async" />
+            <span class="collage-card__title">{copy.collage.gunlib.title}</span>
+          </span>
+          <span class="collage-card__description">{copy.collage.gunlib.description}</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section id="about" class="home-section about-section" aria-labelledby="about-title">
+    <h2 id="about-title">{copy.aboutContent.title}</h2>
+    <div class="about-layout">
+      <div class="about-copy">
+        {copy.aboutContent.paragraphs.map((paragraph) => (
+          <p>{paragraph.map((part) => part.strong ? <strong>{part.text}</strong> : part.text)}</p>
+        ))}
+      </div>
+      <ImageSlider class="about-slider" slides={aboutSlides} autoplay ariaLabel={copy.aboutContent.imageLabel} />
+    </div>
+  </section>
+
+  <section id="portfolio" class="home-section portfolio-section" aria-labelledby="portfolio-title">
+    <h2 id="portfolio-title">{copy.portfolioContent.title}</h2>
+    <div class="portfolio-grid">
+      {portfolioCases.map((project) => (
+        <CaseCard
+          id={`portfolio-${project.slug}`}
+          title={project.title}
+          href={casePath(locale, project.slug)}
+          image={project.image}
+          imageWidth={project.imageWidth}
+          imageHeight={project.imageHeight}
+          tags={copy.portfolioContent.badges[project.slug]}
+          tagsLabel={copy.portfolioContent.categoriesLabel}
+          size={project.size}
+          format={project.format}
+          theme={project.theme}
+          imageScaleX={project.imageScaleX}
+          imageScaleY={project.imageScaleY}
+          imageOffsetX={project.imageOffsetX}
+          imageOffsetY={project.imageOffsetY}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="learning-section" aria-labelledby="learning-title">
+    <div class="learning-content">
+      <div class="learning-copy">
+        <h2 id="learning-title">{copy.learningContent.title}</h2>
+        <p>{copy.learningContent.text}</p>
+      </div>
+      <div class="learning-images">
+        <img class="learning-certificate" src="/images/home/learning-certificate.png" width="1920" height="1317" alt={copy.learningContent.certificateAlt} loading="lazy" />
+        <img class="learning-portrait" src="/images/home/learning-portrait.png" width="891" height="1280" alt={copy.learningContent.portraitAlt} loading="lazy" />
+        <img class="learning-crest" src="/images/home/learning-image-24.png" width="694" height="724" alt={copy.learningContent.crestAlt} loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="home-section contact-section" aria-labelledby="contact-title">
+    <div class="contact-copy">
+      <h2 id="contact-title">{copy.contactContent.title}</h2>
+      <div>
+        {copy.contactContent.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+    <div class="contact-grid">
+      <ContactCard label="LinkedIn" href="https://www.linkedin.com/in/alina-lytvynenko/" icon="linkedin" variant="card" />
+      <ContactCard label="Telegram" href="https://t.me/lytv_alina" icon="telegram" variant="card" />
+      <ContactCard label="lytvynenko.designer@gmail.com" href="mailto:lytvynenko.designer@gmail.com" icon="email" action="copy" variant="card" target="_self" copyToast={copy.contactContent.copyToast} />
+      <ContactCard label={copy.contactContent.cv} href={cvHref} icon="document" action="external" variant="card" />
+    </div>
+  </section>
+</main>

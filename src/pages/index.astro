@@ -1,0 +1,14 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import PreferredLanguageRedirect from '../components/PreferredLanguageRedirect.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomePage from '../components/HomePage.astro';
+---
+
+<BaseLayout locale="uk" title="lytvynenko.designer — UI/UX дизайнерка">
+  <PreferredLanguageRedirect />
+  <div class="home-page">
+    <SiteHeader locale="uk" currentPath={Astro.url.pathname} />
+    <HomePage locale="uk" />
+  </div>
+</BaseLayout>

@@ -1,0 +1,147 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? { before: 'До', after: 'Після', label: 'Порівняння старого та оновленого інтерфейсу замовлень' }
+  : { before: 'Before', after: 'After', label: 'Comparison of the previous and redesigned order interface' };
+---
+
+<div class="trexim-before-after" data-trexim-comparison style="--trexim-split: 50%;">
+  <div class="trexim-before-after__layer trexim-before-after__layer--after">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/trexim/workflow-after-mobile.png" />
+      <source media="(min-width: 641px) and (max-width: 1024px)" srcset="/images/trexim/workflow-after-tablet.png" />
+      <img src="/images/trexim/workflow-after-desktop.png" width="3160" height="2400" alt={copy.after} loading="lazy" decoding="async" />
+    </picture>
+  </div>
+  <div class="trexim-before-after__layer trexim-before-after__layer--before" data-trexim-before>
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/trexim/workflow-before-mobile.png" />
+      <source media="(min-width: 641px) and (max-width: 1024px)" srcset="/images/trexim/workflow-before-tablet.png" />
+      <img src="/images/trexim/workflow-before-desktop.png" width="3160" height="2400" alt={copy.before} loading="lazy" decoding="async" />
+    </picture>
+  </div>
+  <span class="trexim-before-after__label trexim-before-after__label--before" aria-hidden="true">{copy.before}</span>
+  <span class="trexim-before-after__label trexim-before-after__label--after" aria-hidden="true">{copy.after}</span>
+  <button
+    class="trexim-before-after__handle"
+    type="button"
+    role="separator"
+    aria-label={copy.label}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="50"
+    data-trexim-handle
+  >
+    <span aria-hidden="true"></span>
+  </button>
+</div>
+
+<script>
+  const comparisons = document.querySelectorAll<HTMLElement>('[data-trexim-comparison]');
+
+  comparisons.forEach((comparison) => {
+    const before = comparison.querySelector<HTMLElement>('[data-trexim-before]');
+    const handle = comparison.querySelector<HTMLButtonElement>('[data-trexim-handle]');
+    if (!before || !handle) return;
+
+    let split = 50;
+    let dragging = false;
+
+    const setSplit = (next: number) => {
+      split = Math.min(100, Math.max(0, next));
+      comparison.style.setProperty('--trexim-split', `${split}%`);
+      handle.setAttribute('aria-valuenow', String(Math.round(split)));
+    };
+
+    const updateFromPointer = (clientX: number) => {
+      const bounds = comparison.getBoundingClientRect();
+      if (!bounds.width) return;
+      setSplit(((clientX - bounds.left) / bounds.width) * 100);
+    };
+
+    handle.addEventListener('pointerdown', (event) => {
+      dragging = true;
+      handle.setPointerCapture(event.pointerId);
+      updateFromPointer(event.clientX);
+    });
+
+    handle.addEventListener('pointermove', (event) => {
+      if (dragging) updateFromPointer(event.clientX);
+    });
+
+    const stopDragging = () => { dragging = false; };
+    handle.addEventListener('pointerup', stopDragging);
+    handle.addEventListener('pointercancel', stopDragging);
+
+    comparison.addEventListener('click', (event) => {
+      if (event.target === handle || handle.contains(event.target as Node)) return;
+      updateFromPointer(event.clientX);
+    });
+
+    handle.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        setSplit(split - 5);
+      } else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        setSplit(split + 5);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        setSplit(0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        setSplit(100);
+      }
+    });
+  });
+</script>
+
+<style>
+  .trexim-before-after {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 79 / 60;
+    overflow: visible;
+    border-radius: 16px;
+    background: var(--color-surface-inverse);
+    isolation: isolate;
+    touch-action: pan-y;
+  }
+  .trexim-before-after__layer,
+  .trexim-before-after__layer picture,
+  .trexim-before-after__layer img { display: block; width: 100%; height: 100%; }
+  .trexim-before-after__layer--after { position: relative; z-index: 0; overflow: hidden; border-radius: 16px; background: var(--color-surface-inverse); }
+  .trexim-before-after__layer--before { position: absolute; z-index: 1; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border-radius: 16px; background: var(--color-surface-inverse); clip-path: inset(0 calc(100% - var(--trexim-split)) 0 0); }
+  .trexim-before-after__layer--before picture,
+  .trexim-before-after__layer--before img { width: 100%; max-width: none; height: 100%; }
+  .trexim-before-after__layer--before img,
+  .trexim-before-after__layer--after img { object-fit: cover; object-position: left center; }
+  .trexim-before-after__label { position: absolute; z-index: 4; top: -34px; padding: 6px 12px; border-radius: 999px; color: #fff; font-size: 14px; font-weight: 700; line-height: 1; letter-spacing: .02em; text-transform: uppercase; pointer-events: none; }
+  .trexim-before-after__label--before { left: calc(var(--trexim-split) - 100px); background: #3d4d6c; }
+  .trexim-before-after__label--after { right: auto; left: calc(var(--trexim-split) + 28px); background: #2f64c9; }
+  .trexim-before-after__label--before::after { position: absolute; top: 50%; left: calc(100% + 15px); color: rgb(255 255 255 / 68%); content: '↔'; font-size: 14px; transform: translateY(-50%); }
+  .trexim-before-after__handle { position: absolute; z-index: 3; top: 0; left: var(--trexim-split); width: 32px; height: 100%; padding: 0; border: 0; background: transparent; cursor: ew-resize; transform: translateX(-50%); touch-action: none; }
+  .trexim-before-after__handle::before { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgb(255 255 255 / 88%); content: ''; transform: translateX(-50%); }
+  .trexim-before-after__handle span { position: absolute; top: 50%; left: 50%; display: block; width: 52px; height: 52px; border: 0; border-radius: 9999px; background: #fff; box-shadow: 0 2px 8px rgb(23 38 66 / 20%); transform: translate(-50%, -50%); }
+  .trexim-before-after__handle span::before,
+  .trexim-before-after__handle span::after { position: absolute; top: 50%; width: 10px; height: 10px; border-top: 3px solid #172642; border-right: 3px solid #172642; content: ''; }
+  .trexim-before-after__handle span::before { left: 13px; transform: translateY(-50%) rotate(-135deg); }
+  .trexim-before-after__handle span::after { right: 13px; transform: translateY(-50%) rotate(45deg); }
+  .trexim-before-after__handle:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
+  @media (min-width: 641px) and (max-width: 1024px) { .trexim-before-after { border-radius: 12px; } }
+  @media (max-width: 640px) {
+    .trexim-before-after { border-radius: 10px; }
+    .trexim-before-after__label { top: -24px; padding: 5px 9px; font-size: 11px; }
+    .trexim-before-after__label--before { left: calc(var(--trexim-split) - 78px); }
+    .trexim-before-after__label--after { left: calc(var(--trexim-split) + 22px); }
+    .trexim-before-after__label--before::after { left: calc(100% + 10px); font-size: 11px; }
+    .trexim-before-after__handle { width: 28px; }
+    .trexim-before-after__handle span { width: 44px; height: 44px; }
+    .trexim-before-after__handle span::before { left: 10px; }
+    .trexim-before-after__handle span::after { right: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .trexim-before-after__handle span { transition: none; } }
+</style>

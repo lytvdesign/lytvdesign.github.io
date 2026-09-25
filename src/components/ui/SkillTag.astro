@@ -1,0 +1,85 @@
+---
+type SkillTagPreviewState = 'default' | 'hover' | 'active' | 'disabled';
+type ButtonType = 'button' | 'submit' | 'reset';
+
+interface Props {
+  label: string;
+  /** A controlled selected state for an interactive filter or choice. */
+  active?: boolean;
+  /** Renders a link when supplied. Disabled links are rendered as non-interactive text. */
+  href?: string;
+  target?: '_blank' | '_self';
+  /** Renders a native button when supplied. Use this with the caller's own action handling. */
+  type?: ButtonType;
+  disabled?: boolean;
+  ariaLabel?: string;
+  /** Static state preview for the UI kit; do not use for product interactions. */
+  previewState?: SkillTagPreviewState;
+}
+
+const {
+  label,
+  active = false,
+  href,
+  target = '_self',
+  type,
+  disabled = false,
+  ariaLabel,
+  previewState,
+} = Astro.props;
+
+const resolvedState = previewState ?? (disabled ? 'disabled' : active ? 'active' : 'default');
+const isInteractive = Boolean(href || type);
+const isDisabled = resolvedState === 'disabled';
+const classNames = [
+  'skill-tag',
+  `skill-tag--${resolvedState}`,
+  isInteractive && !isDisabled && 'skill-tag--interactive',
+];
+const isExternal = target === '_blank';
+---
+
+{href && !isDisabled ? (
+  <a class:list={classNames} href={href} target={target} rel={isExternal ? 'noopener noreferrer' : undefined} aria-label={ariaLabel} aria-current={active ? 'true' : undefined}>
+    {label}
+  </a>
+) : type && !isDisabled ? (
+  <button class:list={classNames} type={type} aria-label={ariaLabel} aria-pressed={active ? 'true' : undefined}>
+    {label}
+  </button>
+) : (
+  <span class:list={classNames} aria-label={ariaLabel} aria-disabled={isDisabled ? 'true' : undefined}>
+    {label}
+  </span>
+)}
+
+<style>
+  .skill-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-status-info-bg);
+    color: var(--color-accent-primary);
+    font-family: inherit;
+    font-size: var(--font-label-size);
+    font-weight: var(--font-label-weight);
+    line-height: var(--font-label-line);
+    letter-spacing: var(--font-label-tracking);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .skill-tag--hover,
+  .skill-tag--active { background: var(--color-accent-hover); color: var(--color-text-inverse); }
+  .skill-tag--active { background: var(--color-accent-pressed); }
+  .skill-tag--disabled { background: var(--color-surface-secondary); color: var(--color-text-disabled); opacity: .6; }
+
+  .skill-tag--interactive { cursor: pointer; }
+  .skill-tag--interactive:not(.skill-tag--active):hover,
+  .skill-tag--interactive:not(.skill-tag--active):focus-visible { background: var(--color-accent-hover); color: var(--color-text-inverse); }
+  .skill-tag--interactive:not(.skill-tag--active):active { background: var(--color-accent-pressed); color: var(--color-text-inverse); }
+  .skill-tag--interactive:focus-visible { outline: 2px solid var(--color-status-info); outline-offset: 2px; }
+</style>

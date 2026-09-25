@@ -1,0 +1,151 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const title = locale === 'uk' ? 'Підбір пар за участі ШІ' : 'AI-Mediated Matchmaking';
+const description = locale === 'uk'
+  ? 'Потоком підбору керує ШІ. Користувачі отримують обмежену кількість ретельно підібраних рекомендацій, а агенти ШІ оцінюють сумісність, перш ніж познайомити двох людей. Прямий чат стає доступним лише після підтвердження взаємної зацікавленості — так меншає зайвих запитів і з’являється більше змістовних знайомств.'
+  : 'The matching flow is mediated by AI. Users receive a limited number of curated suggestions, while AI agents evaluate compatibility before introducing two people. A direct chat becomes available only after mutual interest is confirmed, reducing unnecessary requests and encouraging more meaningful connections.';
+const imageAlt = locale === 'uk'
+  ? 'Чотири екрани SoulMatcher: чат із ШІ, меню профілю, преміум-план і заблоковані функції'
+  : 'Four SoulMatcher screens: AI chat, profile menu, premium plan, and locked features';
+---
+
+<section class="soulmatcher-matchmaking" aria-labelledby="soulmatcher-matchmaking-title">
+  <header class="soulmatcher-matchmaking__header">
+    <h2 id="soulmatcher-matchmaking-title" class="soulmatcher-matchmaking__title">
+      <span class="soulmatcher-matchmaking__number" aria-hidden="true">03</span>
+      <span>{title}</span>
+    </h2>
+    <p class="soulmatcher-matchmaking__description">{description}</p>
+  </header>
+
+  <picture class="soulmatcher-matchmaking__artwork">
+    <source
+      media="(max-width: 430px)"
+      srcset="/images/cases/soulmatcher-improvement-matchmaking-mobile.png"
+      width="791"
+      height="1375"
+    />
+    <img
+      src="/images/cases/soulmatcher-improvement-matchmaking-desktop.png"
+      alt={imageAlt}
+      width="2560"
+      height="1276"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+</section>
+
+<style>
+  .soulmatcher-matchmaking {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .soulmatcher-matchmaking__header {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 46.25%);
+    align-items: start;
+    gap: var(--space-8);
+  }
+
+  .soulmatcher-matchmaking__title {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-4);
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+    white-space: nowrap;
+  }
+
+  .soulmatcher-matchmaking__number {
+    color: var(--color-surface-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .soulmatcher-matchmaking__description {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0;
+  }
+
+  .soulmatcher-matchmaking__artwork,
+  .soulmatcher-matchmaking__artwork img {
+    display: block;
+    width: 100%;
+  }
+
+  .soulmatcher-matchmaking__artwork img {
+    height: auto;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-matchmaking {
+      gap: var(--space-12);
+    }
+
+    .soulmatcher-matchmaking__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-matchmaking__title {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-4);
+      white-space: normal;
+    }
+
+    .soulmatcher-matchmaking__title > span:last-child {
+      font-size: var(--font-title-size);
+      line-height: var(--font-title-line);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-matchmaking {
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-matchmaking__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .soulmatcher-matchmaking__title {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-2);
+      white-space: normal;
+      font-size: var(--font-title-size);
+      line-height: var(--font-title-line);
+    }
+
+    .soulmatcher-matchmaking__number {
+      font-size: var(--font-headline-size);
+      line-height: var(--font-headline-line);
+    }
+  }
+</style>

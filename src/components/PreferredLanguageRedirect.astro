@@ -1,0 +1,8 @@
+<script>
+  const savedLocale = localStorage.getItem('lytvynenko-locale');
+  const browserPrefersEnglish = navigator.languages.some((language) => language.toLowerCase().startsWith('en'));
+
+  if (savedLocale === 'en' || (!savedLocale && browserPrefersEnglish)) {
+    window.location.replace(`/en/${window.location.hash}`);
+  }
+</script>

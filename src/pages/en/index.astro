@@ -1,0 +1,12 @@
+---
+import SiteHeader from '../../components/SiteHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomePage from '../../components/HomePage.astro';
+---
+
+<BaseLayout locale="en" title="lytvynenko.designer — UI/UX designer">
+  <div class="home-page">
+    <SiteHeader locale="en" currentPath={Astro.url.pathname} />
+    <HomePage locale="en" />
+  </div>
+</BaseLayout>

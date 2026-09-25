@@ -1,0 +1,146 @@
+---
+import MoreButton from './MoreButton.astro';
+
+interface Props {
+  /** Source image shown at the top of the card. */
+  coverImage: string;
+  coverAlt: string;
+  /** Intrinsic source dimensions reserve the image's layout space. */
+  coverWidth: number;
+  coverHeight: number;
+  metaLabel: string;
+  title: string;
+  description: string;
+  href: string;
+  readLabel?: string;
+  target?: '_self' | '_blank';
+}
+
+const {
+  coverImage,
+  coverAlt,
+  coverWidth,
+  coverHeight,
+  metaLabel,
+  title,
+  description,
+  href,
+  readLabel = 'Read case',
+  target = '_self',
+} = Astro.props;
+
+---
+
+<article class="article-card">
+  <img
+    class="article-card__cover"
+    src={coverImage}
+    alt={coverAlt}
+    width={coverWidth}
+    height={coverHeight}
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="article-card__body">
+    <div class="article-card__content">
+      <p class="article-card__meta">
+        <span class="article-card__bookmark" aria-hidden="true">
+          <img src="/images/icons/article-card-bookmark.svg" alt="" />
+        </span>
+        <span>{metaLabel}</span>
+      </p>
+      <div class="article-card__text">
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+    </div>
+    <MoreButton label={readLabel} href={href} target={target} ariaLabel={`${readLabel}: ${title}`} />
+  </div>
+</article>
+
+<style>
+  .article-card {
+    display: grid;
+    gap: var(--space-4);
+    overflow: hidden;
+    width: 100%;
+    max-width: 17.5rem;
+    border: 2px solid var(--color-border-subtle);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-secondary);
+  }
+
+  .article-card__cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1280 / 672;
+    object-fit: cover;
+  }
+
+  .article-card__body {
+    display: grid;
+    gap: var(--space-6);
+    padding: 0 var(--space-4) var(--space-6);
+  }
+
+  .article-card__content {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .article-card__meta,
+  .article-card__text h3,
+  .article-card__text p {
+    margin: 0;
+  }
+
+  .article-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-text-tertiary);
+    font-size: var(--font-label-size);
+    font-weight: var(--font-label-weight);
+    line-height: var(--font-label-line);
+    letter-spacing: var(--font-label-tracking);
+  }
+
+  .article-card__bookmark {
+    display: grid;
+    width: var(--space-6);
+    height: var(--space-6);
+    flex: 0 0 auto;
+    place-items: center;
+  }
+
+  .article-card__bookmark img {
+    display: block;
+    width: 13.5px;
+    height: auto;
+  }
+
+  .article-card__text {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .article-card__text h3 {
+    color: var(--color-text-primary);
+    font-size: var(--font-subtitle-size);
+    font-weight: var(--font-subtitle-weight);
+    line-height: var(--font-subtitle-line);
+    letter-spacing: var(--font-subtitle-tracking);
+  }
+
+  .article-card__text p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-caption-size);
+    font-weight: var(--font-caption-weight);
+    line-height: var(--font-caption-line);
+    letter-spacing: var(--font-caption-tracking);
+  }
+
+  @media (max-width: 640px) {
+    .article-card { max-width: none; }
+  }
+</style>

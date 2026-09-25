@@ -1,0 +1,62 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      title: 'Контекст проєкту',
+      description: 'Клієнт мав початкову концепцію та невеликий набір екранів інтерфейсу, але не мав чіткої структури продукту й масштабованого користувацького досвіду. У межах обмеженого бюджету моєю метою було переробити наявну основу, визначити ключові користувацькі шляхи та створити MVP, який міг би розвинутися у повноцінну соціальну платформу.',
+      photoAlt: 'Друзі зустрічаються за напоями',
+      interfaceAlt: 'Екрани Complexity з деталями напою та коментарями спільноти',
+    }
+  : {
+      title: 'Project context',
+      description: 'The client had an initial concept and a small set of interface screens but lacked a clear product structure and scalable user experience. Within a limited budget, my goal was to redesign the existing foundation, define core user journeys, and deliver an MVP that could evolve into a complete social platform.',
+      photoAlt: 'Friends gathering over drinks',
+      interfaceAlt: 'Complexity screens showing beverage details and community comments',
+    };
+---
+
+<section class="complexity-context" aria-labelledby="complexity-context-title">
+  <header class="complexity-context__header">
+    <h2 id="complexity-context-title">{copy.title}</h2>
+    <p>{copy.description}</p>
+  </header>
+  <div class="complexity-context__media">
+    <figure><img src="/images/cases/complexity-context-photo.png" width="2513" height="2229" alt={copy.photoAlt} loading="lazy" decoding="async" /></figure>
+    <figure><img src="/images/cases/complexity-context-interface.png" width="1256" height="1114" alt={copy.interfaceAlt} loading="lazy" decoding="async" /></figure>
+  </div>
+</section>
+
+<style>
+  .complexity-context,
+  .complexity-context h2,
+  .complexity-context p,
+  .complexity-context figure { margin: 0; }
+  .complexity-context { display: flex; width: 100%; flex-direction: column; gap: 48px; }
+  .complexity-context__header { display: grid; grid-template-columns: 38.2% 49.1%; justify-content: space-between; gap: 0; }
+  .complexity-context h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .complexity-context__header p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .complexity-context__media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .complexity-context__media figure { min-width: 0; aspect-ratio: 628 / 557; overflow: hidden; border-radius: 16px; background: var(--color-surface-secondary); }
+  .complexity-context__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .complexity-context { gap: 48px; }
+    .complexity-context__header { display: contents; }
+    .complexity-context h2 { order: 1; }
+    .complexity-context__media { order: 2; gap: 13px; }
+    .complexity-context__header p { order: 3; }
+    .complexity-context__media figure { border-radius: 12px; }
+  }
+
+  @media (max-width: 640px) {
+    .complexity-context { gap: 32px; }
+    .complexity-context__header { display: contents; }
+    .complexity-context h2 { order: 1; }
+    .complexity-context__media { order: 2; grid-template-columns: 1fr; gap: 16px; }
+    .complexity-context__header p { order: 3; }
+    .complexity-context__media figure { aspect-ratio: 358 / 317; border-radius: 10px; }
+  }
+</style>

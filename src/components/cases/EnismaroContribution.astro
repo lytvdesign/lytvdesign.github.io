@@ -1,0 +1,44 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const title = locale === 'uk' ? 'Мій внесок' : 'My contribution';
+const skills = [
+  'Information Architecture',
+  'User Flows',
+  'UX Design',
+  'Mobile-First Experience',
+  'UI Design',
+  'Design System',
+  'Interactive Prototypes',
+  'Data Visualization',
+];
+---
+
+<section class="enismaro-contribution" aria-labelledby="enismaro-contribution-title">
+  <h2 id="enismaro-contribution-title">{title}</h2>
+  <ul>
+    {skills.map((skill) => <li>{skill}</li>)}
+  </ul>
+</section>
+
+<style>
+  .enismaro-contribution { display: flex; width: 100%; min-height: 272px; align-items: flex-start; justify-content: space-between; gap: 40px; padding: 80px 0; }
+  .enismaro-contribution h2,
+  .enismaro-contribution ul,
+  .enismaro-contribution li { margin: 0; }
+  .enismaro-contribution h2 { color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); white-space: nowrap; }
+  .enismaro-contribution ul { display: flex; width: 633px; flex: 0 0 633px; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; padding: 0; list-style: none; }
+  .enismaro-contribution li { display: inline-flex; align-items: center; padding: 4px 16px; border-radius: var(--radius-full); background: #e0f6f3; color: #00463c; font-size: var(--font-label-size); font-weight: var(--font-label-weight); line-height: var(--font-label-line); letter-spacing: var(--font-label-tracking); white-space: nowrap; }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .enismaro-contribution { min-height: 164px; flex-direction: column; gap: 48px; padding: 0; }
+    .enismaro-contribution ul { width: 100%; flex: 0 1 auto; align-content: flex-start; justify-content: flex-start; }
+  }
+  @media (max-width: 640px) {
+    .enismaro-contribution { min-height: 208px; flex-direction: column; gap: 24px; padding: 0; }
+    .enismaro-contribution h2 { white-space: normal; }
+    .enismaro-contribution ul { width: 100%; flex: 0 1 auto; align-content: flex-start; justify-content: flex-start; }
+    .enismaro-contribution li { padding: 3px 12px; }
+  }
+</style>

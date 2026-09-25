@@ -1,0 +1,269 @@
+---
+import type { Locale } from '../../content/site';
+import TreximBeforeAfter from './TreximBeforeAfter.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = locale === 'uk'
+  ? {
+      heading: 'Ключові покращення продукту',
+      challenge: 'Виклик',
+      solution: 'Рішення',
+      one: {
+        title: 'Погляд за межі UI',
+        description: 'Під час аналізу продукту я виявила відсутні сценарії взаємодії, невідповідності в бізнес-логіці та прогалини в реалізації. Працюючи разом із Product Owner і Business Analyst, я перетворила ці знахідки на повні user flows, готові для передачі розробникам.',
+        firstAlt: 'Форма створення замовлення Trexim поверх таблиці замовлень',
+        secondAlt: 'Бічні панелі Trexim для перегляду заявки та додавання компанії',
+      },
+      two: {
+        title: 'Підготовка керування акаунтом до реалізації',
+        challenge: 'Початковий сценарій редагування профілю не підтримував безпечне оновлення і не міг бути надійно реалізований.',
+        solution: 'Разом із Product Owner і Business Analyst я переробила сценарій, додавши верифікацію особи, перевірку даних у базі та безпечний процес оновлення інформації користувача.',
+        alt: 'Екрани Trexim для редагування профілю компанії та повторної верифікації',
+      },
+      three: {
+        title: 'Оптимізація щоденних робочих процесів',
+        challenge: 'Робота із замовленнями вимагала частого переходу між сторінками, роботи з насиченими таблицями та використання непослідовних патернів інтерфейсу, що сповільнювало щоденні задачі й збільшувало когнітивне навантаження.',
+        solution: 'Я спростила навігацію за допомогою контекстних фільтрів, переробила операційні таблиці для швидкого доступу до ключової інформації та уніфікувала терміни й назви кнопок, щоб досвід став швидшим і передбачуванішим.',
+      },
+      four: {
+        title: 'Дизайн-система',
+        description: 'Я створила масштабовану дизайн-систему з повторно використовуваними компонентами, дизайн-токенами та послідовними патернами взаємодії для подальшого розвитку продукту.',
+        cards: [
+          ['select', '/images/trexim/IA%20card.png', '/images/trexim/IA%20card01mobile.png'],
+          ['datepicker', '/images/trexim/IA%20card2.png', '/images/trexim/IA%20card02mobile.png'],
+          ['drawer', '/images/trexim/IA%20card3.png', '/images/trexim/IA%20card03mobile.png'],
+          ['modal', '/images/trexim/IA%20card4.png', '/images/trexim/IA%20card04mobile.png'],
+        ],
+      },
+    }
+  : {
+      heading: 'Key Product Improvements',
+      challenge: 'Challenge',
+      solution: 'Solution',
+      one: {
+        title: 'Looking Beyond the UI',
+        description: 'While reviewing the product, I identified missing interaction scenarios, inconsistencies in business logic, and implementation gaps. Working closely with the Product Owner and Business Analyst, I transformed these findings into complete, developer-ready user flows.',
+        firstAlt: 'Trexim order creation form over the orders table',
+        secondAlt: 'Trexim side panels for reviewing a request and adding a company',
+      },
+      two: {
+        title: 'Making Account Management Implementation-Ready',
+        challenge: "The original profile editing flow didn't support secure identity updates and couldn't be reliably implemented.",
+        solution: 'Collaborated with the Product Owner and Business Analyst to redesign the flow, introducing identity verification, database validation, and a secure update process for user information.',
+        alt: 'Trexim screens for editing a company profile and completing reverification',
+      },
+      three: {
+        title: 'Optimizing Daily Workflows',
+        challenge: 'Managing orders required frequent navigation between pages, dense data tables, and inconsistent interface patterns, making everyday tasks slower and increasing cognitive load.',
+        solution: 'Simplified navigation with contextual filters, redesigned operational tables to surface critical information, and standardized interface terminology and button labels to create a faster, more predictable user experience.',
+      },
+      four: {
+        title: 'DESIGN SYSTEM',
+        description: 'Established a scalable design system with reusable components, design tokens, and consistent interaction patterns to support future product expansion.',
+        cards: [
+          ['select', '/images/trexim/IA%20card.png', '/images/trexim/IA%20card01mobile.png'],
+          ['datepicker', '/images/trexim/IA%20card2.png', '/images/trexim/IA%20card02mobile.png'],
+          ['drawer', '/images/trexim/IA%20card3.png', '/images/trexim/IA%20card03mobile.png'],
+          ['modal', '/images/trexim/IA%20card4.png', '/images/trexim/IA%20card04mobile.png'],
+        ],
+      },
+    };
+---
+
+<section class="trexim-improvements" aria-labelledby="trexim-improvements-title">
+  <h2 id="trexim-improvements-title">{copy.heading}</h2>
+
+  <article class="trexim-improvement trexim-improvement--one">
+    <header class="trexim-improvement__header trexim-improvement__header--wide">
+      <div class="trexim-improvement__title-row"><span aria-hidden="true">01</span><h3>{copy.one.title}</h3></div>
+      <p>{copy.one.description}</p>
+    </header>
+    <div class="trexim-improvement__visual-grid">
+      <img src="/images/trexim/Content%20Frame.png" width="2512" height="2832" alt={copy.one.firstAlt} loading="lazy" decoding="async" />
+      <img src="/images/trexim/Sidebar.png" width="2512" height="2832" alt={copy.one.secondAlt} loading="lazy" decoding="async" />
+    </div>
+  </article>
+
+  <article class="trexim-improvement trexim-improvement--two">
+    <header class="trexim-improvement__header">
+      <div class="trexim-improvement__title-row"><span aria-hidden="true">02</span><h3>{copy.two.title}</h3></div>
+      <div class="trexim-improvement__comparison">
+        <div><h4>{copy.challenge}</h4><p>{copy.two.challenge}</p></div>
+        <span aria-hidden="true"></span>
+        <div><h4>{copy.solution}</h4><p>{copy.two.solution}</p></div>
+      </div>
+    </header>
+    <picture class="trexim-improvement__wide-visual">
+      <source media="(max-width: 640px)" srcset="/images/trexim/Container%20mobile.png" />
+      <img src="/images/trexim/Container.png" width="6568" height="2482" alt={copy.two.alt} loading="lazy" decoding="async" />
+    </picture>
+  </article>
+
+  <article class="trexim-improvement trexim-improvement--three">
+    <header class="trexim-improvement__header trexim-improvement__header--split">
+      <div class="trexim-improvement__title-row"><span aria-hidden="true">03</span><h3>{copy.three.title}</h3></div>
+      <div class="trexim-improvement__comparison">
+        <div><h4>{copy.challenge}</h4><p>{copy.three.challenge}</p></div>
+        <span aria-hidden="true"></span>
+        <div><h4>{copy.solution}</h4><p>{copy.three.solution}</p></div>
+      </div>
+    </header>
+    <TreximBeforeAfter locale={locale} />
+  </article>
+
+  <article class="trexim-improvement trexim-improvement--four">
+    <header class="trexim-improvement__header trexim-improvement__header--split">
+      <div class="trexim-improvement__title-row"><span aria-hidden="true">04</span><h3>{copy.four.title}</h3></div>
+      <p>{copy.four.description}</p>
+    </header>
+    <div class="trexim-design-grid">
+      {copy.four.cards.map(([label, desktop, mobile]) => (
+        <figure class="trexim-design-card">
+          <picture>
+            <source media="(max-width: 640px)" srcset={mobile} />
+            <img src={desktop} width="2525" height="2525" alt={label} loading="lazy" decoding="async" />
+          </picture>
+        </figure>
+      ))}
+    </div>
+  </article>
+</section>
+
+<style>
+  .trexim-improvements,
+  .trexim-improvement,
+  .trexim-improvement__header,
+  .trexim-improvement__title-row,
+  .trexim-improvement__comparison,
+  .trexim-improvement__comparison > div,
+  .trexim-improvements h2,
+  .trexim-improvements h3,
+  .trexim-improvements h4,
+  .trexim-improvements p,
+  .trexim-improvements figure { margin: 0; }
+  .trexim-improvements { display: flex; width: 100%; flex-direction: column; color: var(--color-text-primary); }
+  .trexim-improvements > h2 { margin-bottom: 120px; color: var(--color-text-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .trexim-improvement { display: flex; min-width: 0; flex-direction: column; }
+  .trexim-improvement--one { gap: 48px; }
+  .trexim-improvement--two,
+  .trexim-improvement--three,
+  .trexim-improvement--four { margin-top: 160px; gap: 48px; }
+  .trexim-improvement__header { display: flex; flex-direction: column; gap: 16px; }
+  .trexim-improvement__header--wide { display: grid; grid-template-columns: 43.75% 46.25%; justify-content: space-between; gap: 0; align-items: start; }
+  .trexim-improvement__header--split { display: grid; grid-template-columns: 43.75% 46.25%; justify-content: space-between; gap: 0; align-items: start; }
+  .trexim-improvement__title-row { display: flex; align-items: center; gap: 16px; }
+  .trexim-improvement__title-row span { flex: 0 0 auto; color: var(--color-surface-tertiary); font-size: var(--font-headline-size); font-weight: var(--font-headline-weight); line-height: var(--font-headline-line); letter-spacing: var(--font-headline-tracking); }
+  .trexim-improvement__title-row h3 { color: var(--color-text-primary); font-size: var(--font-title-size); font-weight: var(--font-title-weight); line-height: var(--font-title-line); letter-spacing: var(--font-title-tracking); }
+  .trexim-improvement__header > p,
+  .trexim-improvement__header--wide > p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .trexim-improvement__comparison { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: 48px; align-items: stretch; padding: 16px 0 15px; }
+  .trexim-improvement__comparison > div { display: flex; min-width: 0; flex-direction: column; gap: 12px; }
+  .trexim-improvement__comparison h4 { color: var(--color-text-tertiary); font-size: var(--font-caption-semibold-size); font-weight: var(--font-caption-semibold-weight); line-height: var(--font-caption-semibold-line); letter-spacing: var(--font-caption-semibold-tracking); text-transform: uppercase; }
+  .trexim-improvement__comparison > div:last-child h4 { color: #f7b620; }
+  .trexim-improvement__comparison p { color: var(--color-text-primary); font-size: var(--font-body-size); font-weight: var(--font-body-weight); line-height: var(--font-body-line); letter-spacing: var(--font-body-tracking); }
+  .trexim-improvement__comparison > span { width: 1px; background: #f7b620; }
+  .trexim-improvement__visual-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .trexim-improvement__visual-grid img { display: block; width: 100%; height: auto; aspect-ratio: 628 / 708; object-fit: cover; border-radius: 16px; }
+  .trexim-improvement__wide-visual { display: block; width: 100%; line-height: 0; }
+  .trexim-improvement__wide-visual img { display: block; width: 100%; height: auto; }
+  .trexim-improvement--three {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    column-gap: 0;
+    margin-right: -80px;
+    margin-left: -80px;
+    padding: 128px 80px;
+    background: var(--color-surface-inverse);
+    color: var(--color-text-inverse);
+    row-gap: 128px;
+  }
+  .trexim-improvement--three .trexim-improvement__header { display: contents; }
+  .trexim-improvement--three .trexim-improvement__title-row { grid-column: 1 / -1; grid-row: 1; }
+  .trexim-improvement--three .trexim-improvement__title-row span { color: var(--color-foundation-gray-blue-500); }
+  .trexim-improvement--three .trexim-improvement__title-row h3,
+  .trexim-improvement--three .trexim-improvement__comparison p { color: var(--color-text-inverse); }
+  .trexim-improvement--three .trexim-improvement__comparison {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    align-self: start;
+    flex-direction: column;
+    gap: 0;
+    padding: 48px 96px 0 0;
+  }
+  .trexim-improvement--three .trexim-improvement__comparison > div { gap: 16px; }
+  .trexim-improvement--three .trexim-improvement__comparison h4 { color: var(--color-foundation-gray-blue-400); }
+  .trexim-improvement--three .trexim-improvement__comparison > span { width: 100%; height: 1px; margin: 48px 0; background: #f7b620; }
+  .trexim-improvement--three > .trexim-before-after { grid-column: 2; grid-row: 2; align-self: start; }
+  .trexim-design-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .trexim-design-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid #e6eaf2; border-radius: 16px; background: #f1f3f7; }
+  .trexim-design-card picture,
+  .trexim-design-card img { display: block; width: 100%; }
+  .trexim-design-card img { height: auto; object-fit: contain; }
+  @media (min-width: 1025px) and (max-width: 1200px) {
+    .trexim-improvement--three {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .trexim-improvement--three .trexim-improvement__header { display: flex; gap: 32px; }
+    .trexim-improvement--three .trexim-improvement__comparison { display: flex; padding: 0; flex-direction: column; }
+    .trexim-improvement--three > .trexim-before-after { width: 100%; }
+  }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .trexim-improvements > h2 { margin-bottom: 60px; }
+    .trexim-improvement--one { gap: 32px; }
+    .trexim-improvement--two,
+    .trexim-improvement--three,
+    .trexim-improvement--four { margin-top: 80px; gap: 48px; }
+    .trexim-improvement__header,
+    .trexim-improvement__header--wide,
+    .trexim-improvement__header--split { display: flex; flex-direction: column; gap: 32px; }
+    .trexim-improvement__title-row { align-items: flex-start; flex-direction: column; gap: 16px; }
+    .trexim-improvement__comparison { display: flex; flex-direction: column; gap: 24px; }
+    .trexim-improvement__comparison > span { width: 100%; height: 1px; }
+    .trexim-improvement__visual-grid { gap: 13px; }
+    .trexim-improvement__visual-grid img { border-radius: 12px; }
+    .trexim-improvement--three {
+      display: flex;
+      margin-right: -48px;
+      margin-left: -48px;
+      padding: 80px 48px;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .trexim-improvement--three .trexim-improvement__header { display: flex; gap: 32px; }
+    .trexim-improvement--three .trexim-improvement__comparison { display: flex; padding: 0; }
+    .trexim-improvement--three > .trexim-before-after { width: 100%; }
+    .trexim-design-card { border-radius: 12px; }
+  }
+  @media (max-width: 640px) {
+    .trexim-improvements > h2 { margin-bottom: 40px; }
+    .trexim-improvement--one { gap: 32px; }
+    .trexim-improvement--two,
+    .trexim-improvement--three,
+    .trexim-improvement--four { margin-top: 80px; gap: 32px; }
+    .trexim-improvement__header,
+    .trexim-improvement__header--wide,
+    .trexim-improvement__header--split { display: flex; flex-direction: column; gap: 24px; }
+    .trexim-improvement__title-row { align-items: flex-start; flex-direction: column; gap: 16px; }
+    .trexim-improvement__comparison { display: flex; flex-direction: column; gap: 24px; padding: 16px 0 15px; }
+    .trexim-improvement__comparison > span { width: 100%; height: 1px; }
+    .trexim-improvement__visual-grid { grid-template-columns: 1fr; gap: 16px; }
+    .trexim-improvement__visual-grid img { border-radius: 10px; }
+    .trexim-improvement--three {
+      display: flex;
+      margin-right: -16px;
+      margin-left: -16px;
+      padding: 64px 16px;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .trexim-improvement--three .trexim-improvement__header { display: flex; gap: 24px; }
+    .trexim-improvement--three .trexim-improvement__comparison { display: flex; padding: 0; }
+    .trexim-improvement--three > .trexim-before-after { width: 100%; }
+    .trexim-design-grid { grid-template-columns: 1fr; gap: 16px; }
+    .trexim-design-card { border-radius: 10px; }
+  }
+</style>

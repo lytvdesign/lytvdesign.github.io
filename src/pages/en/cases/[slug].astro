@@ -1,0 +1,22 @@
+---
+import type { CaseSlug } from '../../../content/site';
+import { caseSlugs } from '../../../content/site';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import GunLibCase from '../../../components/cases/GunLibCase.astro';
+import SoulMatcherCase from '../../../components/cases/SoulMatcherCase.astro';
+import EnismaroCase from '../../../components/cases/EnismaroCase.astro';
+import ComplexityCase from '../../../components/cases/ComplexityCase.astro';
+import TreximCase from '../../../components/cases/TreximCase.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return caseSlugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params as { slug: CaseSlug };
+---
+
+<BaseLayout locale="en" title={`${slug === 'enismaro' ? 'Enismaro' : slug === 'soulmatcher' ? 'SoulMatcher' : slug === 'gunlib' ? 'GunLib' : slug === 'complexity' ? 'Complexity' : 'Trexim'} — lytvynenko.designer`}>
+  <SiteHeader locale="en" currentPath={Astro.url.pathname} />
+  {slug === 'gunlib' ? <GunLibCase locale="en" /> : slug === 'soulmatcher' ? <SoulMatcherCase locale="en" /> : slug === 'enismaro' ? <EnismaroCase locale="en" /> : slug === 'complexity' ? <ComplexityCase locale="en" /> : <TreximCase locale="en" />}
+</BaseLayout>

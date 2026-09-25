@@ -1,0 +1,95 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    titleFirstLine: 'Поведінкова аналітика:',
+    titleSecondLine: 'Валідація UX-гіпотез у реальному середовищі',
+    description:
+      'Запуск MVP дозволив оцінити взаємодію реальних користувачів із матеріалами за допомогою аналізу якісних даних і теплових карт (Microsoft Clarity).',
+  },
+  en: {
+    titleFirstLine: 'Behavioural analytics:',
+    titleSecondLine: 'Validating UX hypotheses in the real environment',
+    description:
+      'The MVP launch made it possible to evaluate how real users interacted with the materials through qualitative data analysis and heatmaps (Microsoft Clarity).',
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-behavioral" aria-labelledby="gunlib-behavioral-title">
+  <h2 id="gunlib-behavioral-title">
+    <span>{copy.titleFirstLine}</span>
+    <span>{copy.titleSecondLine}</span>
+  </h2>
+  <p>{copy.description}</p>
+</section>
+
+<style>
+  .gunlib-behavioral {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    width: 100%;
+    color: var(--color-text-primary);
+    margin-bottom: calc(-1 * var(--space-8));
+  }
+
+  .gunlib-behavioral h2,
+  .gunlib-behavioral p {
+    margin: 0;
+  }
+
+  .gunlib-behavioral h2 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .gunlib-behavioral h2 span {
+    display: block;
+  }
+
+  .gunlib-behavioral p {
+    width: min(688px, 100%);
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-behavioral {
+      gap: var(--space-8);
+      margin-bottom: calc(-1 * var(--space-16));
+    }
+
+    .gunlib-behavioral p {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-behavioral {
+      gap: var(--space-8);
+      margin-bottom: 0;
+    }
+
+    .gunlib-behavioral p {
+      width: 100%;
+    }
+  }
+</style>

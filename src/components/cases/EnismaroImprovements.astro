@@ -1,0 +1,303 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = locale === 'uk'
+  ? {
+      architectureAlt: 'Інформаційна архітектура Enismaro: структура розділів Продукт, Історія та Компанія після сканування QR-коду',
+      sections: [
+        {
+          number: '01',
+          title: 'Структурування складної інформації про продукт',
+          challenge: 'Продукт мав представляти великий обсяг технічної інформації — від інгредієнтів і харчової цінності до сертифікатів, документів і медіаматеріалів — не перевантажуючи користувачів.',
+          solution: 'Я розробила дворівневу інформаційну архітектуру навколо трьох основних розділів — Продукт, Історія та Компанія — з контекстними вкладками на кожній сторінці. Така структура допомагає користувачам швидко знаходити потрібну інформацію, зберігаючи навігацію передбачуваною та знижуючи когнітивне навантаження.',
+          imageAlt: 'Інтерфейси Enismaro з інформацією про продукт, склад, сертифікати й документи',
+        },
+        {
+          number: '02',
+          title: 'Візуалізація шляху продукту',
+          challenge: 'Події в ланцюгу постачання та дані IoT-сенсорів є надто технічними, тому звичайним користувачам складно їх інтерпретувати.',
+          solution: 'Я перетворила складні логістичні дані на зрозумілу часову шкалу з контекстними фільтрами. Вона дає змогу досліджувати історію транспортування, умови довкілля та показники сенсорів без спеціальних технічних знань.',
+          imageAlt: 'Екрани Enismaro з історією транспортування та даними IoT-сенсорів',
+        },
+        {
+          number: '03',
+          title: 'Побудова довіри через прозорість',
+          body: 'Я спроєктувала окремий розділ «Компанія», що об’єднує інформацію про бізнес і виробництво, юридичні документи, сертифікати та медіаматеріали в одному прозорому й зручному для дослідження просторі, посилюючи довіру протягом усього шляху продукту.',
+          imageAlt: 'Екрани розділу «Компанія» в Enismaro з інформацією про виробника, документами, медіа та фільтрами',
+        },
+      ],
+    }
+  : {
+      architectureAlt: 'Enismaro information architecture: Product, History, and Company sections following QR code scanning',
+      sections: [
+        {
+          number: '01',
+          title: 'Structuring Complex Product Information',
+          challenge: 'The product needed to present a large amount of technical information—from ingredients and nutrition facts to certifications, documents, and media—without overwhelming users.',
+          solution: 'I designed a two-level information architecture built around three primary sections—Product, History, and Company—with contextual tabs inside each page. This structure helps users quickly find relevant information while keeping navigation predictable and reducing cognitive load.',
+          imageAlt: 'Enismaro interfaces showing product information, ingredients, certifications, and documents',
+        },
+        {
+          number: '02',
+          title: 'Visualizing the Product Journey',
+          challenge: 'Supply chain events and IoT sensor data are highly technical, making them difficult for everyday users to interpret.',
+          solution: 'I transformed complex logistics data into an intuitive timeline supported by contextual filters, allowing users to explore transportation history, environmental conditions, and sensor readings without requiring technical knowledge.',
+          imageAlt: 'Enismaro screens showing transportation history and IoT sensor data',
+        },
+        {
+          number: '03',
+          title: 'Building Trust Through Transparency',
+          body: 'I designed a dedicated Company section that combines business information, production details, legal documents, certifications, and supporting media into one transparent and easy-to-explore experience, reinforcing trust throughout the product journey.',
+          imageAlt: 'Enismaro Company screens showing producer information, documents, media, and filters',
+        },
+      ],
+    };
+
+const desktopDimensions = [
+  { width: 2720, height: 1163 },
+  { width: 2560, height: 1306 },
+  { width: 2560, height: 1417 },
+] as const;
+---
+
+<div class="enismaro-improvements">
+  <figure class="enismaro-improvements__architecture">
+    <img
+      src="/images/cases/enismaro-architecture.png"
+      width="2880"
+      height="1482"
+      alt={copy.architectureAlt}
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  {copy.sections.map((section, index) => (
+    <section class:list={['enismaro-improvement', `enismaro-improvement--${section.number}`]} aria-labelledby={`enismaro-improvement-${section.number}-title`}>
+      <header class="enismaro-improvement__header">
+        <div class="enismaro-improvement__title-row">
+          <span class="enismaro-improvement__number" aria-hidden="true">{section.number}</span>
+          <h2 id={`enismaro-improvement-${section.number}-title`}>{section.title}</h2>
+        </div>
+
+        {'challenge' in section && 'solution' in section ? (
+          <div class="enismaro-improvement__comparison">
+            <div class="enismaro-improvement__text-block">
+              <h3>{locale === 'uk' ? 'Виклик' : 'Challenge'}</h3>
+              <p>{section.challenge}</p>
+            </div>
+            <div class="enismaro-improvement__divider" aria-hidden="true"></div>
+            <div class="enismaro-improvement__text-block enismaro-improvement__text-block--solution">
+              <h3>{locale === 'uk' ? 'Рішення' : 'Solution'}</h3>
+              <p>{section.solution}</p>
+            </div>
+          </div>
+        ) : (
+          <p class="enismaro-improvement__body">{section.body}</p>
+        )}
+      </header>
+
+      <picture class="enismaro-improvement__visual">
+        <source
+          media="(max-width: 430px)"
+          srcset={`/images/cases/enismaro-improvement-${section.number}-mobile.png`}
+          width="716"
+          height={index === 0 ? '967' : index === 1 ? '468' : '1314'}
+        />
+        <img
+          src={`/images/cases/enismaro-improvement-${section.number}-desktop.png`}
+          width={desktopDimensions[index].width}
+          height={desktopDimensions[index].height}
+          alt={section.imageAlt}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+    </section>
+  ))}
+</div>
+
+<style>
+  .enismaro-improvements,
+  .enismaro-improvement,
+  .enismaro-improvement__header,
+  .enismaro-improvement__title-row,
+  .enismaro-improvement__comparison,
+  .enismaro-improvement__text-block,
+  .enismaro-improvements figure,
+  .enismaro-improvements h2,
+  .enismaro-improvements h3,
+  .enismaro-improvements p {
+    margin: 0;
+  }
+
+  .enismaro-improvements {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    color: var(--color-text-primary);
+  }
+
+  .enismaro-improvements__architecture { margin-bottom: var(--space-40) !important; }
+  .enismaro-improvements .enismaro-improvements__architecture { width: calc(100% + 160px); margin-left: -80px; }
+  .enismaro-improvement:not(:last-child) { margin-bottom: var(--space-40); }
+
+  .enismaro-improvements__architecture,
+  .enismaro-improvement__visual,
+  .enismaro-improvement__visual img {
+    display: block;
+    width: 100%;
+  }
+
+  .enismaro-improvements__architecture img,
+  .enismaro-improvement__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .enismaro-improvement {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .enismaro-improvement__header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .enismaro-improvement--01 .enismaro-improvement__header { gap: var(--space-4); }
+  .enismaro-improvement--02 .enismaro-improvement__header { gap: var(--space-12); }
+
+  .enismaro-improvement__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .enismaro-improvement__title-row h2 { order: 2; }
+
+  .enismaro-improvement__number {
+    flex: 0 0 auto;
+    color: var(--color-surface-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .enismaro-improvement h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .enismaro-improvement__comparison {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: var(--space-12);
+    align-items: stretch;
+    padding-block: var(--space-4);
+  }
+
+  .enismaro-improvement__text-block {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .enismaro-improvement h3 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-caption-semibold-size);
+    font-weight: var(--font-caption-semibold-weight);
+    line-height: var(--font-caption-semibold-line);
+    letter-spacing: var(--font-caption-semibold-tracking);
+    text-transform: uppercase;
+  }
+
+  .enismaro-improvement__text-block--solution h3 {
+    color: var(--color-accent-primary);
+  }
+
+  .enismaro-improvement__text-block p,
+  .enismaro-improvement__body {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .enismaro-improvement__divider {
+    width: 1px;
+    background: var(--color-border-default);
+  }
+
+  .enismaro-improvement__comparison { padding-top: var(--space-4); padding-bottom: 15px; }
+
+  .enismaro-improvement--03 .enismaro-improvement__header {
+    display: grid;
+    grid-template-columns: 43.36% 46.25%;
+    justify-content: space-between;
+    gap: 0;
+    align-items: start;
+  }
+
+  .enismaro-improvement--03 .enismaro-improvement__title-row { grid-column: 1; grid-row: 1; }
+  .enismaro-improvement--03 .enismaro-improvement__body { grid-column: 2; grid-row: 1; }
+
+  .enismaro-improvement__visual {
+    line-height: 0;
+  }
+
+  .enismaro-improvement--01 .enismaro-improvement__visual {
+    width: calc(100% + var(--enismaro-gutter));
+    margin-right: calc(-1 * var(--enismaro-gutter));
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .enismaro-improvements .enismaro-improvements__architecture { width: calc(100% + 96px); margin-left: -48px; margin-bottom: var(--space-32) !important; }
+    .enismaro-improvement:not(:last-child) { margin-bottom: var(--space-20); }
+    .enismaro-improvement { gap: var(--space-12); }
+    .enismaro-improvement__header { gap: var(--space-8); }
+    .enismaro-improvement__title-row { align-items: flex-start; flex-direction: column; gap: var(--space-4); }
+    .enismaro-improvement--03 .enismaro-improvement__header { display: flex; flex-direction: column; gap: var(--space-8); }
+    .enismaro-improvement__comparison {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      padding: 16px 0 15px;
+    }
+    .enismaro-improvement__divider { width: 100%; height: 1px; }
+    .enismaro-improvement__visual { margin-top: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .enismaro-improvements .enismaro-improvements__architecture { width: calc(100% + 32px); margin-left: -16px; margin-bottom: var(--space-20) !important; }
+    .enismaro-improvement:not(:last-child) { margin-bottom: var(--space-20); }
+    .enismaro-improvement { gap: var(--space-8); }
+    .enismaro-improvement__header { gap: var(--space-6); }
+    .enismaro-improvement__title-row { align-items: flex-start; flex-direction: column; gap: var(--space-4); }
+    .enismaro-improvement h2 { font-size: var(--font-title-size); line-height: var(--font-title-line); }
+    .enismaro-improvement--03 .enismaro-improvement__header { display: flex; flex-direction: column; gap: var(--space-4); }
+    .enismaro-improvement__comparison {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      padding: 16px 0 15px;
+    }
+    .enismaro-improvement__divider { width: 100%; height: 1px; }
+    .enismaro-improvement__visual { margin-top: 0; }
+  }
+</style>

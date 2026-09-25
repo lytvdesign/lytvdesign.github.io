@@ -1,0 +1,52 @@
+---
+interface Props {
+  label: string;
+  value: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<div class="info-card">
+  <span class="info-card__label">{label}</span>
+  <span class="info-card__value">{value}</span>
+</div>
+
+<style>
+  .info-card {
+    display: flex;
+    width: 100%;
+    max-width: 19.5625rem;
+    min-height: 7.625rem;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-5);
+    border-radius: var(--radius-l);
+    background: var(--color-surface-secondary);
+    border: 1px solid var(--color-status-info);
+    color: var(--color-text-primary);
+  }
+
+  .info-card__label {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-caption-semibold-size);
+    font-weight: var(--font-caption-semibold-weight);
+    line-height: var(--font-caption-semibold-line);
+    letter-spacing: var(--font-caption-semibold-tracking);
+  }
+
+  .info-card__value {
+    font-size: var(--font-body-semibold-size);
+    font-weight: var(--font-body-semibold-weight);
+    line-height: var(--font-body-semibold-line);
+    letter-spacing: var(--font-body-semibold-tracking);
+  }
+
+  .info-card:hover {
+    background: var(--color-status-info);
+    border-color: var(--color-status-info);
+    color: var(--color-text-inverse);
+  }
+
+  .info-card:hover .info-card__label { color: inherit; }
+</style>

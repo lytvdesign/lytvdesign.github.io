@@ -1,0 +1,228 @@
+---
+import type { Locale } from '../../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'Діалоговий зворотний зв’язок для кращих збігів',
+    challengeLabel: 'ВИКЛИК',
+    challenge:
+      'Прості дії «подобається» або «пропустити» дають мало інформації для покращення майбутніх рекомендацій.',
+    solutionLabel: 'РІШЕННЯ',
+    solution:
+      'Користувачі можуть пояснити ШІ в розмові, чому запропонована пара їм не підійшла. Такий зворотний зв’язок постійно покращує майбутні рекомендації та з часом робить збіги персоналізованішими.',
+    imageAlt: 'Екрани SoulMatcher з налаштуваннями вподобань і розмовою з ШІ',
+  },
+  en: {
+    title: 'Conversational Feedback for Better Matches',
+    challengeLabel: 'CHALLENGE',
+    challenge:
+      'Simple like or skip actions provide limited context for improving future recommendations.',
+    solutionLabel: 'SOLUTION',
+    solution:
+      "Users can explain why a suggested match wasn't relevant through conversation with the AI. This feedback continuously refines future recommendations, making matches more personalized over time.",
+    imageAlt: 'SoulMatcher screens showing preferences and AI conversation feedback',
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="soulmatcher-feedback" aria-labelledby="soulmatcher-feedback-title">
+  <div class="soulmatcher-feedback__copy">
+    <header class="soulmatcher-feedback__header">
+      <p class="soulmatcher-feedback__number" aria-hidden="true">02</p>
+      <h2 id="soulmatcher-feedback-title">{copy.title}</h2>
+    </header>
+
+    <div class="soulmatcher-feedback__details">
+      <div class="soulmatcher-feedback__item">
+        <h3>{copy.challengeLabel}</h3>
+        <p>{copy.challenge}</p>
+      </div>
+
+      <div class="soulmatcher-feedback__divider" aria-hidden="true"></div>
+
+      <div class="soulmatcher-feedback__item soulmatcher-feedback__item--solution">
+        <h3>{copy.solutionLabel}</h3>
+        <p>{copy.solution}</p>
+      </div>
+    </div>
+  </div>
+
+  <picture class="soulmatcher-feedback__visual">
+    <source
+      media="(max-width: 430px)"
+      srcset="/images/cases/soulmatcher-improvement-feedback-mobile.png"
+      width="716"
+      height="916"
+    />
+    <img
+      src="/images/cases/soulmatcher-improvement-feedback-desktop.png"
+      alt={copy.imageAlt}
+      width="1220"
+      height="1144"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+</section>
+
+<style>
+  .soulmatcher-feedback {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 610px);
+    align-items: center;
+    gap: 60px;
+  }
+
+  .soulmatcher-feedback__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .soulmatcher-feedback__header,
+  .soulmatcher-feedback__details,
+  .soulmatcher-feedback__item {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .soulmatcher-feedback__header {
+    gap: 16px;
+  }
+
+  .soulmatcher-feedback__details {
+    gap: 48px;
+    padding-block: var(--space-4);
+  }
+
+  .soulmatcher-feedback__item {
+    gap: var(--space-3);
+  }
+
+  .soulmatcher-feedback p,
+  .soulmatcher-feedback h2,
+  .soulmatcher-feedback h3 {
+    margin: 0;
+  }
+
+  .soulmatcher-feedback__number {
+    color: var(--color-surface-tertiary);
+    font-size: var(--font-headline-size);
+    font-weight: var(--font-headline-weight);
+    line-height: var(--font-headline-line);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .soulmatcher-feedback h2 {
+    color: var(--color-text-primary);
+    font-size: var(--font-title-size);
+    font-weight: var(--font-title-weight);
+    line-height: var(--font-title-line);
+    letter-spacing: var(--font-title-tracking);
+  }
+
+  .soulmatcher-feedback h3 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-caption-semibold-size);
+    font-weight: var(--font-caption-semibold-weight);
+    line-height: var(--font-caption-semibold-line);
+    letter-spacing: var(--font-caption-semibold-tracking);
+  }
+
+  .soulmatcher-feedback__item p {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line);
+    letter-spacing: var(--font-body-tracking);
+  }
+
+  .soulmatcher-feedback__item--solution h3 {
+    color: var(--color-accent-primary);
+  }
+
+  .soulmatcher-feedback__item--solution p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0;
+  }
+
+  .soulmatcher-feedback__divider {
+    width: 100%;
+    height: 2px;
+    flex: 0 0 2px;
+    background: var(--color-foundation-status-warning);
+  }
+
+  .soulmatcher-feedback__visual {
+    display: block;
+    width: 100%;
+    max-width: 610px;
+    justify-self: center;
+  }
+
+  .soulmatcher-feedback__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .soulmatcher-feedback {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-12);
+    }
+
+    .soulmatcher-feedback__copy {
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-feedback__details {
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-feedback__visual {
+      align-self: center;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .soulmatcher-feedback {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-8);
+    }
+
+    .soulmatcher-feedback__copy {
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-feedback__header {
+      gap: var(--space-4);
+    }
+
+    .soulmatcher-feedback__details {
+      gap: var(--space-6);
+    }
+
+    .soulmatcher-feedback__item:not(.soulmatcher-feedback__item--solution) p {
+      font-size: var(--font-body-size);
+      line-height: var(--font-body-line);
+    }
+  }
+</style>

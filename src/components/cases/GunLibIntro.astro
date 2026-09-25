@@ -1,0 +1,234 @@
+---
+import InfoCard from '../ui/InfoCard.astro';
+
+interface Props {
+  locale: 'uk' | 'en';
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  uk: {
+    title: 'GunLib',
+    heroAlt: 'Превʼю цифрової бібліотеки GunLib',
+    overviewTitle: 'Огляд проєкту',
+    overview:
+      'GunLib — це інтерактивна база знань про стрілецьку зброю, що поєднує структуровану технічну енциклопедію з екосистемою для спільноти військових, інструкторів та ентузіастів. Стартувавши з базової ідеї засновника-інструктора, ми пройшли шлях від експрес-валідації концепту до створення масштабованого MVP.',
+    details: [
+      { label: 'Сфера', value: 'Defense Tech / EdTech / Digital Library' },
+      { label: 'Роль у проєкті', value: 'Продуктовий дизайнер та бізнес-аналітик' },
+      { label: 'Рік', value: '2026' },
+      { label: 'Платформа', value: 'Адаптивний веб (Фокус на Mobile-First)' },
+    ],
+  },
+  en: {
+    title: 'GunLib',
+    heroAlt: 'GunLib digital library preview',
+    overviewTitle: 'Project overview',
+    overview:
+      "GunLib is an interactive knowledge base about small arms that combines a structured technical encyclopedia with an ecosystem for military personnel, instructors, and enthusiasts. Starting from a founder-instructor's basic idea, we went from express concept validation to creating a scalable MVP.",
+    details: [
+      { label: 'Industry', value: 'Defense Tech / EdTech / Digital Library' },
+      { label: 'Role in project', value: 'Product designer and business analyst' },
+      { label: 'Year', value: '2026' },
+      { label: 'Platform', value: 'Responsive web (Mobile-First focus)' },
+    ],
+  },
+} as const;
+
+const copy = content[locale];
+---
+
+<section class="gunlib-intro" aria-labelledby="gunlib-intro-title">
+  <div class="gunlib-intro__hero">
+    <h1 id="gunlib-intro-title" data-case-title>{copy.title}</h1>
+    <img src="/images/cases/gunlib-hero.png" alt={copy.heroAlt} />
+  </div>
+
+  <div class="gunlib-intro__details">
+    <div class="gunlib-intro__overview">
+      <h2>{copy.overviewTitle}</h2>
+      <p>{copy.overview}</p>
+    </div>
+
+    <div class="gunlib-intro__info-grid" aria-label={copy.overviewTitle}>
+      {copy.details.map((detail) => (
+        <InfoCard
+          label={detail.label}
+          value={detail.value}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gunlib-intro {
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  .gunlib-intro__hero {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    color: var(--color-text-primary);
+    font-size: var(--font-display-size);
+    line-height: var(--font-display-line);
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--font-display-tracking);
+    text-align: center;
+  }
+
+  .gunlib-intro__hero img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1280 / 924;
+    border-radius: var(--radius-2xl);
+    object-fit: cover;
+  }
+
+  .gunlib-intro__details {
+    display: grid;
+    grid-template-columns: minmax(489px, 489px) minmax(626px, 1fr);
+    gap: 165px;
+    margin-top: 120px;
+    align-items: center;
+  }
+
+  .gunlib-intro__overview {
+    display: grid;
+    align-content: start;
+    gap: var(--space-10);
+  }
+
+  h2 {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-headline-size);
+    line-height: var(--font-headline-line);
+    font-weight: var(--font-headline-weight);
+    letter-spacing: var(--font-headline-tracking);
+  }
+
+  .gunlib-intro__overview p {
+    color: var(--color-text-primary);
+    font-size: var(--font-body-size);
+    line-height: var(--font-body-line);
+  }
+
+  .gunlib-intro__info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(312px, 1fr));
+    gap: 2px;
+    align-content: start;
+  }
+
+  .gunlib-intro__info-grid :global(.info-card) {
+    max-width: none;
+    min-height: 122px;
+    border-color: var(--color-border-strong);
+  }
+
+  @media (min-width: 1025px) and (max-width: 1439px) {
+    .gunlib-intro__details {
+      display: block;
+    }
+
+    .gunlib-intro__overview {
+      min-width: 489px;
+    }
+
+    .gunlib-intro__info-grid {
+      min-width: 626px;
+      margin-top: var(--space-12);
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .gunlib-intro__hero {
+      gap: var(--space-12);
+    }
+
+    h1 {
+      font-size: 74px;
+      line-height: 82px;
+    }
+
+    .gunlib-intro__hero img {
+      aspect-ratio: 673 / 486;
+      border-radius: 16.84px;
+    }
+
+    .gunlib-intro__details {
+      display: block;
+      margin-top: 80px;
+    }
+
+    .gunlib-intro__overview {
+      gap: var(--space-10);
+    }
+
+    .gunlib-intro__info-grid {
+      min-width: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: var(--space-12);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gunlib-intro__hero {
+      gap: var(--space-8);
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .gunlib-intro__hero img {
+      aspect-ratio: 358 / 258.43;
+      border-radius: 9px;
+    }
+
+    .gunlib-intro__details {
+      display: block;
+      margin-top: 64px;
+    }
+
+    .gunlib-intro__overview {
+      gap: var(--space-8);
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -0.02em;
+    }
+
+    .gunlib-intro__overview p {
+      font-size: 16px;
+      line-height: 26px;
+    }
+
+    .gunlib-intro__info-grid {
+      min-width: 0;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+      margin-top: var(--space-8);
+    }
+
+    .gunlib-intro__info-grid :global(.info-card) {
+      min-height: 94px;
+      border-color: #6f7bbb;
+    }
+  }
+</style>

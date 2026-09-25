@@ -1,0 +1,192 @@
+/* Design tokens exported from Figma on 2026-08-19. */
+:root {
+  /* Foundation: Neutral */
+  --color-foundation-neutral-50: #f4f6fa;
+  --color-foundation-neutral-100: #fff;
+  --color-foundation-neutral-200: #eceef4;
+  --color-foundation-neutral-300: #e0e3ec;
+  --color-foundation-neutral-400: #d2d6e1;
+  --color-foundation-neutral-500: #c0c5d3;
+  --color-foundation-neutral-600: #9ba1b3;
+  --color-foundation-neutral-700: #737a8e;
+  --color-foundation-neutral-800: #4e5468;
+  --color-foundation-neutral-900: #1e2132;
+
+  /* Foundation: Navy */
+  --color-foundation-navy-50: #edeeee;
+  --color-foundation-navy-100: #d5dff3;
+  --color-foundation-navy-200: #b8c9ea;
+  --color-foundation-navy-300: #94acde;
+  --color-foundation-navy-400: #708ed0;
+  --color-foundation-navy-500: #4e71be;
+  --color-foundation-navy-600: #151619;
+  --color-foundation-navy-700: #2a2d33;
+  --color-foundation-navy-800: #0d0e10;
+  --color-foundation-navy-900: #20263b;
+
+  /* Foundation: Gray blue and status */
+  --color-foundation-gray-blue-100: #f4f6f9;
+  --color-foundation-gray-blue-200: #e7ebf2;
+  --color-foundation-gray-blue-300: #d8dde7;
+  --color-foundation-gray-blue-400: #b8c0cf;
+  --color-foundation-gray-blue-500: #98a1b2;
+  --color-foundation-gray-blue-600: #5e667a;
+  --color-foundation-status-success: #48c69f;
+  --color-foundation-status-warning: #fcb433;
+  --color-foundation-status-error: #f26363;
+  --color-foundation-status-info: #3b82f6;
+  --color-foundation-status-success-bg: #f2fff5;
+  --color-foundation-status-warning-bg: #fffbef;
+  --color-foundation-status-error-bg: #ffefef;
+  --color-foundation-status-info-bg: #e8f2ff;
+
+  /* Semantic color aliases */
+  --color-surface-primary: var(--color-foundation-neutral-50);
+  --color-surface-secondary: var(--color-foundation-neutral-100);
+  --color-surface-tertiary: var(--color-foundation-neutral-200);
+  --color-surface-elevated: var(--color-foundation-neutral-100);
+  --color-surface-inverse: var(--color-foundation-navy-900);
+  --color-text-primary: var(--color-foundation-navy-900);
+  --color-text-secondary: var(--color-foundation-gray-blue-600);
+  --color-text-tertiary: var(--color-foundation-gray-blue-500);
+  --color-text-inverse: var(--color-foundation-neutral-100);
+  --color-text-disabled: var(--color-foundation-neutral-500);
+  --color-border-subtle: var(--color-foundation-neutral-200);
+  --color-border-default: var(--color-foundation-gray-blue-300);
+  --color-border-strong: var(--color-foundation-gray-blue-400);
+  --color-accent-primary: var(--color-foundation-navy-600);
+  --color-accent-hover: var(--color-foundation-navy-700);
+  --color-accent-pressed: var(--color-foundation-navy-800);
+  --color-accent-subtle: var(--color-foundation-navy-50);
+  --color-status-success: var(--color-foundation-status-success);
+  --color-status-warning: var(--color-foundation-status-warning);
+  --color-status-error: var(--color-foundation-status-error);
+  --color-status-info: var(--color-foundation-status-info);
+  --color-status-success-bg: var(--color-foundation-status-success-bg);
+  --color-status-warning-bg: var(--color-foundation-status-warning-bg);
+  --color-status-error-bg: var(--color-foundation-status-error-bg);
+  --color-status-info-bg: var(--color-foundation-status-info-bg);
+
+  /* Spacing and radius */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+  --radius-none: 0;
+  --radius-xs: 4px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Typography: desktop */
+  --font-display-size: 96px;
+  --font-display-line: 104px;
+  --font-display-weight: 700;
+  --font-display-tracking: -3px;
+  --font-headline-size: 40px;
+  --font-headline-line: 48px;
+  --font-headline-weight: 700;
+  --font-headline-tracking: -1px;
+  --font-title-size: 30px;
+  --font-title-line: 38px;
+  --font-title-weight: 600;
+  --font-title-tracking: -.5px;
+  --font-subtitle-size: 22px;
+  --font-subtitle-line: 32px;
+  --font-subtitle-weight: 600;
+  --font-subtitle-tracking: 0;
+  --font-body-size: 18px;
+  --font-body-line: 30px;
+  --font-body-weight: 400;
+  --font-body-tracking: 0;
+  --font-body-semibold-size: 18px;
+  --font-body-semibold-line: 30px;
+  --font-body-semibold-weight: 600;
+  --font-body-semibold-tracking: 0;
+  --font-label-size: 16px;
+  --font-label-line: 24px;
+  --font-label-weight: 500;
+  --font-label-tracking: 0;
+  --font-caption-size: 14px;
+  --font-caption-line: 22px;
+  --font-caption-weight: 400;
+  --font-caption-tracking: .1px;
+  --font-caption-semibold-size: 14px;
+  --font-caption-semibold-line: 22px;
+  --font-caption-semibold-weight: 600;
+  --font-caption-semibold-tracking: .1px;
+  --font-overline-size: 12px;
+  --font-overline-line: 18px;
+  --font-overline-weight: 500;
+  --font-overline-tracking: 1px;
+
+  /* Transitional aliases used by the current implementation. */
+  --color-ink: var(--color-text-primary);
+  --color-ink-strong: var(--color-accent-primary);
+  --color-border: var(--color-border-subtle);
+  --color-surface: var(--color-surface-secondary);
+  --color-focus: var(--color-status-info);
+  --surface-primary: var(--color-surface-primary);
+  --border-default: var(--color-border-default);
+  --border-strong: var(--color-border-strong);
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --font-display-size: 74px;
+    --font-display-line: 82px;
+    --font-display-tracking: -2.2px;
+    --font-headline-size: 36px;
+    --font-headline-line: 44px;
+    --font-headline-tracking: -.7px;
+    --font-title-size: 28px;
+    --font-title-line: 36px;
+    --font-title-tracking: -.4px;
+    --font-subtitle-size: 21px;
+    --font-subtitle-line: 30px;
+    --font-body-size: 16px;
+    --font-body-line: 26px;
+    --font-body-semibold-size: 16px;
+    --font-body-semibold-line: 26px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --font-display-size: 52px;
+    --font-display-line: 58px;
+    --font-display-tracking: -1.5px;
+    --font-headline-size: 32px;
+    --font-headline-line: 40px;
+    --font-headline-tracking: -.5px;
+    --font-title-size: 26px;
+    --font-title-line: 34px;
+    --font-title-tracking: -.3px;
+    --font-subtitle-size: 20px;
+    --font-subtitle-line: 28px;
+    --font-body-size: 16px;
+    --font-body-line: 26px;
+    --font-label-size: 16px;
+    --font-label-line: 24px;
+    --font-caption-size: 13px;
+    --font-caption-line: 20px;
+    --font-caption-semibold-size: 13px;
+    --font-caption-semibold-line: 20px;
+    --font-overline-size: 11px;
+    --font-overline-line: 16px;
+  }
+}
