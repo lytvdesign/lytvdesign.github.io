@@ -23,7 +23,7 @@ const { locale } = Astro.props;
 </main>
 
 <style>
-  .trexim-case { --trexim-gutter: 80px; padding: 228px var(--trexim-gutter) 0; background: var(--color-surface-secondary); }
+  .trexim-case { --trexim-gutter: 80px; padding: var(--case-page-top) var(--trexim-gutter) 0; background: var(--color-surface-secondary); }
   .trexim-case__content { width: min(1280px, 100%); margin: 0 auto; }
   .trexim-case__context { margin-top: 220px; }
   .trexim-case__contribution { margin-top: 80px; }
@@ -31,7 +31,7 @@ const { locale } = Astro.props;
   .trexim-case__reflection,
   .trexim-case__other-projects { margin-top: 220px; }
   @media (min-width: 641px) and (max-width: 1024px) {
-    .trexim-case { --trexim-gutter: 48px; padding-top: 164px; }
+    .trexim-case { --trexim-gutter: 48px; }
     .trexim-case__context { margin-top: 128px; }
     .trexim-case__contribution,
     .trexim-case__improvements,
@@ -40,7 +40,7 @@ const { locale } = Astro.props;
     .trexim-case__improvements { width: 100%; margin-left: 0; padding-inline: 0; }
   }
   @media (max-width: 640px) {
-    .trexim-case { --trexim-gutter: 16px; padding-top: 104px; }
+    .trexim-case { --trexim-gutter: 16px; }
     .trexim-case__context,
     .trexim-case__contribution,
     .trexim-case__improvements,

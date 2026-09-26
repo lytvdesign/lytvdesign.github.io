@@ -97,14 +97,15 @@ const backHref = homePath(locale);
   .enismaro-intro__image { display: block; width: 100%; height: auto; }
   .enismaro-intro__back {
     --case-back-inline-offset: 0px;
-    position: absolute; top: 32px; left: 0; display: grid; width: 64px; height: 40px;
+    position: absolute; top: var(--case-title-center-y); left: 0; display: grid; width: 64px; height: 40px;
+    transform: translateY(-50%);
     place-items: center; border: .5px solid var(--color-foundation-navy-300);
     border-radius: var(--radius-full); color: var(--color-text-primary);
   }
   .enismaro-intro__back svg { width: 16px; height: 16px; }
   .enismaro-intro__back path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.25; }
   .enismaro-intro__hero.case-title-container--stack-back { display: flex; flex-direction: column; align-items: stretch; }
-  .enismaro-intro__hero.case-title-container--stack-back .enismaro-intro__back { position: static; align-self: flex-start; margin-bottom: 4px; }
+  .enismaro-intro__hero.case-title-container--stack-back .enismaro-intro__back { position: static; align-self: flex-start; margin-bottom: 4px; transform: none; }
   .enismaro-intro__overview { display: grid; grid-template-columns: 38.2% 49.1%; justify-content: space-between; gap: 0; }
   .enismaro-intro__overview-copy { display: flex; flex-direction: column; gap: 40px; }
   .enismaro-intro h2 {
@@ -130,7 +131,6 @@ const backHref = homePath(locale);
     .enismaro-intro { gap: 80px; }
     .enismaro-intro h1 { font-size: 64px; line-height: 82px; letter-spacing: -1.92px; }
     .enismaro-intro__picture { margin-top: 48px; aspect-ratio: 1280 / 924; overflow: hidden; border-radius: 16px; }
-    .enismaro-intro__back { top: 21px; }
     .enismaro-intro__image { height: 100%; object-fit: cover; }
     .enismaro-intro__overview { display: flex; flex-direction: column; gap: 48px; }
     .enismaro-intro__overview-copy { gap: 40px; }
@@ -141,7 +141,7 @@ const backHref = homePath(locale);
   @media (max-width: 640px) {
     .enismaro-intro { gap: 80px; }
     .enismaro-intro h1 { font-size: 40px; line-height: 40px; letter-spacing: -1.2px; }
-    .enismaro-intro__back { top: 0; width: 40px; height: 40px; }
+    .enismaro-intro__back { width: 40px; height: 40px; }
     .enismaro-intro__picture { margin-top: 32px; aspect-ratio: 358 / 233.26; overflow: hidden; border-radius: 8px; }
     .enismaro-intro__image { height: 100%; object-fit: cover; }
     .enismaro-intro__overview { display: flex; flex-direction: column; gap: 32px; }

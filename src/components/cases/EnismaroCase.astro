@@ -40,7 +40,7 @@ const { locale } = Astro.props;
 <style>
   .enismaro-case {
     --enismaro-gutter: 80px;
-    padding: 228px var(--enismaro-gutter) 0;
+    padding: var(--case-page-top) var(--enismaro-gutter) 0;
     background: var(--color-surface-secondary);
   }
 
@@ -53,7 +53,7 @@ const { locale } = Astro.props;
   .enismaro-case__other-projects { margin-top: 220px; }
 
   @media (min-width: 641px) and (max-width: 1024px) {
-    .enismaro-case { --enismaro-gutter: 48px; padding-top: 164px; }
+    .enismaro-case { --enismaro-gutter: 48px; }
     .enismaro-case__context { margin-top: 128px; }
     .enismaro-case__contribution,
     .enismaro-case__improvements,
@@ -62,7 +62,7 @@ const { locale } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .enismaro-case { --enismaro-gutter: 16px; padding-top: 104px; }
+    .enismaro-case { --enismaro-gutter: 16px; }
     .enismaro-case__context,
     .enismaro-case__contribution,
     .enismaro-case__improvements,

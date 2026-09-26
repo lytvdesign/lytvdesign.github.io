@@ -86,7 +86,7 @@ const sectionIds = [
     --soulmatcher-section-gap: 160px;
     --soulmatcher-improvement-gap-01-02: 164px;
     --soulmatcher-improvement-gap-02-03: 128px;
-    padding: 228px var(--soulmatcher-gutter) 0;
+    padding: var(--case-page-top) var(--soulmatcher-gutter) 0;
     background: var(--color-surface-secondary);
   }
 
@@ -152,12 +152,13 @@ const sectionIds = [
   .soulmatcher-case__back {
     --case-back-inline-offset: 0px;
     position: absolute;
-    top: 0;
+    top: var(--case-title-center-y);
     left: 0;
     display: grid;
     width: 64px;
     height: 40px;
     place-items: center;
+    transform: translateY(-50%);
     border: .5px solid var(--color-foundation-navy-300);
     border-radius: var(--radius-full);
     color: var(--color-text-primary);
@@ -167,6 +168,7 @@ const sectionIds = [
     position: static;
     align-self: flex-start;
     margin-bottom: 4px;
+    transform: none;
   }
 
   .soulmatcher-case__back svg { width: 16px; height: 16px; }
@@ -178,7 +180,6 @@ const sectionIds = [
       --soulmatcher-section-gap: 120px;
       --soulmatcher-improvement-gap-01-02: 48px;
       --soulmatcher-improvement-gap-02-03: 40px;
-      padding-top: 164px;
     }
     .soulmatcher-case__intro { min-height: 0; }
     .soulmatcher-case__hero-image {
@@ -202,7 +203,6 @@ const sectionIds = [
       --soulmatcher-section-gap: 80px;
       --soulmatcher-improvement-gap-01-02: var(--soulmatcher-section-gap);
       --soulmatcher-improvement-gap-02-03: var(--soulmatcher-section-gap);
-      padding-top: 104px;
     }
     .soulmatcher-case__intro { min-height: 0; }
     .soulmatcher-case__stage--1 { min-height: 0; }

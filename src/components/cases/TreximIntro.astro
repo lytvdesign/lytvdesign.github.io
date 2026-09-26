@@ -94,7 +94,8 @@ const backHref = homePath(locale);
   .trexim-intro__back {
     --case-back-inline-offset: 0px;
     position: absolute;
-    top: 32px;
+    top: var(--case-title-center-y);
+    transform: translateY(-50%);
     left: 0;
     display: grid;
     width: 64px;
@@ -120,7 +121,6 @@ const backHref = homePath(locale);
     .trexim-intro h1 { font-size: 64px; line-height: 82px; letter-spacing: -1.92px; }
     .trexim-intro__picture { margin-top: 48px; aspect-ratio: 1280 / 924; }
     .trexim-intro__picture img { height: 100%; object-fit: cover; object-position: center; }
-    .trexim-intro__back { top: 21px; }
     .trexim-intro__overview { display: flex; flex-direction: column; gap: 48px; }
     .trexim-intro__details { padding-top: 0; }
     .trexim-intro__detail { min-height: 122px; padding: 20px 24px; border-radius: 12px; }
@@ -129,7 +129,7 @@ const backHref = homePath(locale);
   @media (max-width: 640px) {
     .trexim-intro { gap: 80px; }
     .trexim-intro h1 { font-size: 40px; line-height: 40px; letter-spacing: -1.2px; }
-    .trexim-intro__back { top: 0; width: 40px; height: 40px; }
+    .trexim-intro__back { width: 40px; height: 40px; }
     .trexim-intro__picture { margin-top: 32px; aspect-ratio: 358 / 258.43; border-radius: 8px; }
     .trexim-intro__picture img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
     .trexim-intro__overview { display: flex; flex-direction: column; gap: 32px; }
