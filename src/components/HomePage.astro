@@ -48,6 +48,7 @@ const portfolioCases: Array<{
   imageScaleY?: number;
   imageOffsetX?: number;
   imageOffsetY?: number;
+  imagePosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top center' | 'bottom center';
 }> = [
   {
     slug: 'gunlib',
@@ -55,6 +56,7 @@ const portfolioCases: Array<{
     image: '/images/cases/gunlib-hero.png',
     imageWidth: 2560,
     imageHeight: 1848,
+    imagePosition: 'top',
     size: 'featured',
     format: 'landscape',
   },
@@ -199,6 +201,7 @@ const portfolioCases: Array<{
           imageScaleY={project.imageScaleY}
           imageOffsetX={project.imageOffsetX}
           imageOffsetY={project.imageOffsetY}
+          imagePosition={project.imagePosition}
         />
       ))}
     </div>
