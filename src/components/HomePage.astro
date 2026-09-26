@@ -116,7 +116,7 @@ const portfolioCases: Array<{
 ---
 
 <main class="home-main" data-locale={locale}>
-  <section class="home-intro" aria-labelledby="home-hero-title">
+  <section class="home-intro" data-scroll-animation="desktop" aria-labelledby="home-hero-title">
     <div class="home-hero">
       <h1 id="home-hero-title" aria-label={copy.hero}>
         <span>{heroLead}</span><strong>{heroAccent}</strong><span>{heroEnd}</span>
@@ -124,47 +124,64 @@ const portfolioCases: Array<{
     </div>
 
     <div class="photo-collage">
-      <figure class="collage-item collage-item--location" aria-hidden="true">
+      <div class="collage-placeholders" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <figure class="collage-item collage-item--location" data-scroll-motion="location" aria-hidden="true">
         <img src="/images/home/location.png" alt="" width="512" height="342" loading="eager" decoding="async" />
         <figcaption class="collage-location__tag">Kharkiv, Ukraine</figcaption>
       </figure>
-      <figure class="collage-item collage-item--family" aria-hidden="true">
+      <figure class="collage-item collage-item--family" data-scroll-motion="family" aria-hidden="true">
         <span class="collage-photo-stack collage-photo-stack--family">
           <img src="/images/home/family-1.png" alt="" width="1600" height="900" loading="eager" decoding="async" />
           <img src="/images/home/family-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
           <img src="/images/home/family-3.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
         </span>
       </figure>
-      <figure class="collage-item collage-item--cat" aria-hidden="true">
+      <figure class="collage-item collage-item--cat" data-scroll-motion="cat" aria-hidden="true">
         <img src="/images/home/cat.png" alt="" width="512" height="342" loading="eager" decoding="async" />
       </figure>
-      <figure class="collage-item collage-item--dog" aria-hidden="true">
+      <figure class="collage-item collage-item--dog" data-scroll-motion="dog" aria-hidden="true">
         <span class="collage-photo-stack collage-photo-stack--dog">
           <img src="/images/home/dog-1.png" alt="" width="512" height="342" loading="eager" decoding="async" />
           <img src="/images/home/dog-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
         </span>
       </figure>
-      <article class="collage-item collage-item--projector collage-card">
-        <img class="collage-card__cover" src="/images/home/projector-card-4.jpg" alt="" width="1280" height="720" loading="eager" decoding="async" />
-        <div class="collage-card__content">
-          <p class="collage-card__eyebrow">{copy.collage.projector.eyebrow}</p>
-          <div class="collage-card__author">
-            <img src="/images/home/projector-card-5.png" alt="" width="218" height="231" loading="eager" decoding="async" />
-            <h3>{copy.collage.projector.title}</h3>
+      <a class="collage-item collage-item--projector" data-scroll-motion="projector" href="#learning" aria-label={copy.collage.projector.title}>
+        <div class="collage-card collage-card--projector">
+          <img class="collage-card__cover" src="/images/home/projector-card-4.jpg" alt="" width="1280" height="720" loading="eager" decoding="async" />
+          <div class="collage-card__content">
+            <p class="collage-card__eyebrow">{copy.collage.projector.eyebrow}</p>
+            <div class="collage-card__author">
+              <h3>{copy.collage.projector.title}</h3>
+            </div>
+            <p class="collage-card__description">{copy.collage.projector.description}</p>
+            <span class="collage-card__more" aria-hidden="true">
+              <img src="/images/icons/more-button-arrow.svg" alt="" width="16" height="6" />
+            </span>
           </div>
-          <p class="collage-card__description">{copy.collage.projector.description}</p>
         </div>
-      </article>
-      <a class="collage-item collage-item--project collage-card collage-card--gunlib" href={casePath(locale, 'gunlib')} aria-label={copy.collage.gunlib.title}>
-        <img class="collage-card__cover" src="/images/home/gunlib-card-2.png" alt="" width="1786" height="1242" loading="eager" decoding="async" />
-        <span class="collage-card__content">
-          <span class="collage-card__eyebrow">{copy.collage.gunlib.eyebrow}</span>
-          <span class="collage-card__author">
-            <img src="/images/home/gunlib-card-3.png" alt="" width="512" height="512" loading="eager" decoding="async" />
-            <span class="collage-card__title">{copy.collage.gunlib.title}</span>
+      </a>
+      <a class="collage-item collage-item--project" data-scroll-motion="gunlib" href={casePath(locale, 'gunlib')} aria-label={copy.collage.gunlib.title}>
+        <div class="collage-card collage-card--gunlib">
+          <img class="collage-card__cover" src="/images/home/gunlib-card-2.png" alt="" width="1786" height="1242" loading="eager" decoding="async" />
+          <span class="collage-card__content">
+            <span class="collage-card__eyebrow">{copy.collage.gunlib.eyebrow}</span>
+            <span class="collage-card__author">
+              <span class="collage-card__title">{copy.collage.gunlib.title}</span>
+            </span>
+            <span class="collage-card__description">{copy.collage.gunlib.description}</span>
+            <span class="collage-card__more" aria-hidden="true">
+              <img src="/images/icons/more-button-arrow.svg" alt="" width="16" height="6" />
+            </span>
           </span>
-          <span class="collage-card__description">{copy.collage.gunlib.description}</span>
-        </span>
+        </div>
       </a>
     </div>
   </section>
@@ -207,7 +224,7 @@ const portfolioCases: Array<{
     </div>
   </section>
 
-  <section class="learning-section" aria-labelledby="learning-title">
+  <section id="learning" class="learning-section" aria-labelledby="learning-title">
     <div class="learning-content">
       <div class="learning-copy">
         <h2 id="learning-title">{copy.learningContent.title}</h2>
@@ -236,3 +253,136 @@ const portfolioCases: Array<{
     </div>
   </section>
 </main>
+
+<script is:inline>
+  (() => {
+    const intro = document.querySelector('.home-intro[data-scroll-animation="desktop"]');
+    if (!intro) return;
+
+    const desktopQuery = window.matchMedia('(min-width: 1025px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const collage = intro.querySelector('.photo-collage');
+    const items = [...intro.querySelectorAll('[data-scroll-motion]')];
+    const linkItems = items.filter((item) => item instanceof HTMLAnchorElement);
+    const scrollDelay = 140;
+    const scrollRange = 700;
+    const clickableProgress = 0.75;
+    const baseCollageWidth = 1228;
+    const motions = {
+      location: {
+        from: { x: -80, y: -492, width: 187.458, height: 147.288, rotation: 0 },
+        to: { x: 0, y: 0, width: 280, height: 220, rotation: 0 },
+      },
+      family: {
+        from: { x: 48, y: 19.922, width: 393.751, height: 341.301, rotation: 0, innerWidth: 379.324, innerHeight: 147.201, innerRotation: -35.81 },
+        to: { x: 288, y: 0, width: 568, height: 220, rotation: 0, innerWidth: 568, innerHeight: 220, innerRotation: 0 },
+      },
+      cat: {
+        from: { x: 1063, y: -490, width: 243.695, height: 413.076, rotation: 0 },
+        to: { x: 864, y: 0, width: 364, height: 617, rotation: 0 },
+      },
+      dog: {
+        from: { x: 518, y: -136, width: 187.458, height: 260.432, rotation: 0 },
+        to: { x: 288, y: 228, width: 280, height: 389, rotation: 0 },
+      },
+      projector: {
+        from: { x: -174, y: -225, width: 187.458, height: 260.432, rotation: 0, innerWidth: 187.458, innerHeight: 260.432, innerRotation: 0 },
+        to: { x: 0, y: 228, width: 280, height: 389, rotation: 0, innerWidth: 280, innerHeight: 389, innerRotation: 0 },
+      },
+      gunlib: {
+        from: { x: 819.535, y: -225, width: 230.157, height: 291.265, rotation: 0, innerWidth: 187.458, innerHeight: 262.5, innerRotation: 9.98 },
+        to: { x: 576, y: 228, width: 280, height: 389, rotation: 0, innerWidth: 280, innerHeight: 389, innerRotation: 0 },
+      },
+    };
+
+    let frame = 0;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const lerp = (from, to, progress) => from + (to - from) * progress;
+    const easeOutCubic = (progress) => 1 - ((1 - progress) ** 3);
+
+    const setLinkState = (isActive) => {
+      linkItems.forEach((link) => {
+        if (!link.dataset.scrollHref) {
+          link.dataset.scrollHref = link.getAttribute('href') || '';
+        }
+
+        if (isActive) {
+          if (link.dataset.scrollHref) link.setAttribute('href', link.dataset.scrollHref);
+          link.removeAttribute('aria-disabled');
+          link.removeAttribute('tabindex');
+          link.classList.add('is-scroll-motion-link-active');
+        } else {
+          link.removeAttribute('href');
+          link.setAttribute('aria-disabled', 'true');
+          link.setAttribute('tabindex', '-1');
+          link.classList.remove('is-scroll-motion-link-active');
+        }
+      });
+    };
+
+    const setMotionMode = () => {
+      if (!desktopQuery.matches) {
+        intro.classList.remove('is-scroll-motion-ready');
+        items.forEach((item) => {
+          item.removeAttribute('style');
+        });
+        setLinkState(true);
+        return;
+      }
+
+      intro.classList.add('is-scroll-motion-ready');
+      render();
+    };
+
+    const render = () => {
+      frame = 0;
+      if (!desktopQuery.matches || !collage) return;
+
+      const scale = collage.clientWidth / baseCollageWidth;
+      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / scrollRange, 0, 1);
+      const progress = easeOutCubic(rawProgress);
+      setLinkState(reducedMotionQuery.matches || rawProgress >= clickableProgress);
+
+      items.forEach((item) => {
+        const motion = motions[item.dataset.scrollMotion];
+        if (!motion) return;
+
+        const x = lerp(motion.from.x, motion.to.x, progress) * scale;
+        const y = lerp(motion.from.y, motion.to.y, progress) * scale;
+        const width = lerp(motion.from.width, motion.to.width, progress) * scale;
+        const height = lerp(motion.from.height, motion.to.height, progress) * scale;
+        const rotation = lerp(motion.from.rotation, motion.to.rotation, progress);
+
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        item.style.width = `${width}px`;
+        item.style.height = `${height}px`;
+        item.style.transform = `rotate(${rotation}deg)`;
+
+        if (motion.from.innerWidth) {
+          const innerWidth = lerp(motion.from.innerWidth, motion.to.innerWidth, progress);
+          const innerHeight = lerp(motion.from.innerHeight, motion.to.innerHeight, progress);
+          const innerScale = lerp(motion.from.innerWidth / motion.to.innerWidth, 1, progress);
+
+          item.style.setProperty('--motion-inner-width', `${innerWidth * scale}px`);
+          item.style.setProperty('--motion-inner-height', `${innerHeight * scale}px`);
+          item.style.setProperty('--motion-inner-final-width', `${motion.to.innerWidth * scale}px`);
+          item.style.setProperty('--motion-inner-final-height', `${motion.to.innerHeight * scale}px`);
+          item.style.setProperty('--motion-inner-scale', `${innerScale}`);
+          item.style.setProperty('--motion-inner-rotation', `${lerp(motion.from.innerRotation, motion.to.innerRotation, progress)}deg`);
+        }
+      });
+    };
+
+    const requestRender = () => {
+      if (!frame) frame = requestAnimationFrame(render);
+    };
+
+    window.addEventListener('scroll', requestRender, { passive: true });
+    window.addEventListener('resize', requestRender);
+    desktopQuery.addEventListener('change', setMotionMode);
+    reducedMotionQuery.addEventListener('change', requestRender);
+    setMotionMode();
+  })();
+</script>
