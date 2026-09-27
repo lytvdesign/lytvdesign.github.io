@@ -28,6 +28,62 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
     <script is:inline>
       (() => {
         const progressiveImages = [...document.querySelectorAll('img[data-progressive-src]')];
+        const toVariantPath = (value, variant) => value
+          .replace(/\.(?:preview|medium|optimized)(?=\.[a-z0-9]+(?:[?#]|$))/gi, `.${variant}`);
+
+        const getVariantSource = (image, variant) => {
+          const picture = image.closest('picture');
+          const baseSrc = variant === 'optimized'
+            ? image.dataset.progressiveSrc
+            : image.getAttribute('src');
+          const sources = picture ? [...picture.querySelectorAll('source[data-progressive-srcset]')] : [];
+          const matchingSource = sources.find((source) => !source.media || window.matchMedia(source.media).matches);
+          const baseSrcset = matchingSource?.dataset.progressiveSrcset;
+
+          return {
+            src: baseSrc ? toVariantPath(baseSrc, variant) : null,
+            srcset: baseSrcset ? toVariantPath(baseSrcset, variant) : null,
+          };
+        };
+
+        const preloadVariant = (image, variant) => {
+          const { src, srcset } = getVariantSource(image, variant);
+          if (!src) return Promise.reject(new Error('Missing progressive image source'));
+
+          const preloader = new Image();
+          preloader.decoding = 'async';
+          if (srcset) {
+            preloader.srcset = srcset;
+            const sizes = image.getAttribute('sizes');
+            if (sizes) preloader.sizes = sizes;
+          }
+
+          const loaded = new Promise((resolve, reject) => {
+            preloader.onload = resolve;
+            preloader.onerror = reject;
+          });
+
+          preloader.src = src;
+
+          return loaded.then(async () => {
+            if (typeof preloader.decode === 'function') {
+              try { await preloader.decode(); } catch {}
+            }
+          });
+        };
+
+        const applyVariant = (image, variant) => {
+          const picture = image.closest('picture');
+          const sources = picture ? [...picture.querySelectorAll('source[data-progressive-srcset]')] : [];
+
+          sources.forEach((source) => {
+            source.setAttribute('srcset', toVariantPath(source.dataset.progressiveSrcset, variant));
+          });
+
+          const { src } = getVariantSource(image, variant);
+          if (src) image.src = src;
+        };
+
         const markPreviewLoaded = (image) => {
           if (image.dataset.progressiveState === 'preview-loading') {
             image.dataset.progressiveState = 'preview-loaded';
@@ -47,26 +103,23 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
           }, { once: true });
         });
 
-        const activate = (image) => {
+        const activate = async (image) => {
           if (image.dataset.progressiveQualityState || !image.dataset.progressiveSrc) return;
 
           image.dataset.progressiveQualityState = 'loading';
-          image.closest('picture')?.querySelectorAll('source[data-progressive-srcset]').forEach((source) => {
-            source.setAttribute('srcset', source.dataset.progressiveSrcset);
-          });
+          try {
+            await preloadVariant(image, 'medium');
+            applyVariant(image, 'medium');
+            image.dataset.progressiveState = 'medium-loaded';
 
-          const highQualityImage = new Image();
-          highQualityImage.decoding = 'async';
-          highQualityImage.onload = () => {
-            image.src = image.dataset.progressiveSrc;
+            await preloadVariant(image, 'optimized');
+            applyVariant(image, 'optimized');
             image.dataset.progressiveState = 'loaded';
             image.dataset.progressiveQualityState = 'loaded';
             image.removeAttribute('data-progressive-src');
-          };
-          highQualityImage.onerror = () => {
+          } catch {
             image.dataset.progressiveQualityState = 'error';
-          };
-          highQualityImage.src = image.dataset.progressiveSrc;
+          }
         };
 
         const eagerImages = progressiveImages.filter((image) => image.loading !== 'lazy');
