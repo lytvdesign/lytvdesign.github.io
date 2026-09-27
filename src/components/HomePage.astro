@@ -267,6 +267,7 @@ const portfolioCases: Array<{
     const mobileMotionQuery = window.matchMedia('(max-width: 640px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const collage = intro.querySelector('.photo-collage');
+    const homePage = intro.closest('.home-page');
     const heroContent = intro.querySelector('.home-hero__content');
     const heroTitle = intro.querySelector('#home-hero-title');
     const heroScrollCue = intro.querySelector('.scroll-cue');
@@ -342,6 +343,7 @@ const portfolioCases: Array<{
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
     const lerp = (from, to, progress) => from + (to - from) * progress;
     const easeOutCubic = (progress) => 1 - ((1 - progress) ** 3);
+    const getMobileScale = () => Math.max(1, Math.min((window.innerWidth - 32) / 358, 1.7));
     const getMotionRadius = (motion) => {
       const isTabletMotion = window.innerWidth >= 641 && window.innerWidth <= 1024;
       if (!isTabletMotion) return motion.borderRadius ?? 24;
@@ -437,7 +439,9 @@ const portfolioCases: Array<{
     const render = () => {
       frame = 0;
       if (mobileMotionQuery.matches) {
-        intro.style.setProperty('--mobile-hero-scale', `${Math.min(window.innerWidth / 390, 1)}`);
+        const mobileScale = getMobileScale();
+        intro.style.setProperty('--mobile-hero-scale', `${mobileScale}`);
+        homePage?.style.setProperty('--mobile-hero-scale', `${mobileScale}`);
         renderMobile();
         return;
       }
@@ -511,7 +515,7 @@ const portfolioCases: Array<{
       if (!mobileMotionQuery.matches || !collage) return;
 
       if (animationEndScroll === null) measureScrollRange();
-      const scale = Math.min(window.innerWidth / 390, 1);
+      const scale = getMobileScale();
       const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - mobileScrollDelay) / Math.max(scrollRange, 1), 0, 1);
       targetProgress = rawProgress;
       if (firstMotionRender || reducedMotionQuery.matches) {

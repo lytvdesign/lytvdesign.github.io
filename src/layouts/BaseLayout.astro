@@ -28,10 +28,29 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
     <script is:inline>
       (() => {
         const progressiveImages = [...document.querySelectorAll('img[data-progressive-src]')];
-        const activate = (image) => {
-          if (image.dataset.progressiveState || !image.dataset.progressiveSrc) return;
+        const markPreviewLoaded = (image) => {
+          if (image.dataset.progressiveState === 'preview-loading') {
+            image.dataset.progressiveState = 'preview-loaded';
+          }
+        };
 
-          image.dataset.progressiveState = 'loading';
+        progressiveImages.forEach((image) => {
+          if (image.complete) {
+            image.dataset.progressiveState = image.naturalWidth > 0 ? 'preview-loaded' : 'error';
+            return;
+          }
+
+          image.dataset.progressiveState = 'preview-loading';
+          image.addEventListener('load', () => markPreviewLoaded(image), { once: true });
+          image.addEventListener('error', () => {
+            image.dataset.progressiveState = 'error';
+          }, { once: true });
+        });
+
+        const activate = (image) => {
+          if (image.dataset.progressiveQualityState || !image.dataset.progressiveSrc) return;
+
+          image.dataset.progressiveQualityState = 'loading';
           image.closest('picture')?.querySelectorAll('source[data-progressive-srcset]').forEach((source) => {
             source.setAttribute('srcset', source.dataset.progressiveSrcset);
           });
@@ -41,10 +60,11 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
           highQualityImage.onload = () => {
             image.src = image.dataset.progressiveSrc;
             image.dataset.progressiveState = 'loaded';
+            image.dataset.progressiveQualityState = 'loaded';
             image.removeAttribute('data-progressive-src');
           };
           highQualityImage.onerror = () => {
-            image.dataset.progressiveState = 'error';
+            image.dataset.progressiveQualityState = 'error';
           };
           highQualityImage.src = image.dataset.progressiveSrc;
         };
@@ -53,7 +73,7 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
         const lazyImages = progressiveImages.filter((image) => image.loading === 'lazy');
 
         eagerImages.forEach((image) => {
-          if (image.complete) {
+          if (image.dataset.progressiveState === 'preview-loaded') {
             window.setTimeout(() => activate(image), 0);
           } else {
             image.addEventListener('load', () => activate(image), { once: true });
