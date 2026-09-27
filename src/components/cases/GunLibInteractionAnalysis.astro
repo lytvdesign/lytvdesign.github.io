@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../../content/site';
+import { getProgressiveImagePath } from '../../lib/images';
 
 interface Props {
   locale: Locale;
@@ -80,7 +81,7 @@ const copy = content[locale];
     <div class="gunlib-interaction__images" aria-label={locale === 'uk' ? 'Зображення аналізу взаємодій' : 'Interaction analysis images'}>
       {copy.images.map((image) => (
         <figure class:list={['gunlib-interaction__image', image.className]}>
-          <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+          <img src={getProgressiveImagePath(image.src, 'preview')} data-progressive-src={getProgressiveImagePath(image.src, 'optimized')} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
         </figure>
       ))}
     </div>

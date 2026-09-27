@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../../content/site';
+import { getProgressiveImagePath } from '../../lib/images';
 
 interface Props {
   locale: Locale;
@@ -340,11 +341,12 @@ const copy = content[locale];
                 aria-label={`${copy.openImage}: ${slide.title}`}
                 aria-haspopup="dialog"
                 data-gunlib-research-image-trigger
-                data-image-src={slide.image}
+                data-image-src={getProgressiveImagePath(slide.image, 'optimized')}
                 data-image-alt={slide.imageAlt}
               >
                 <img
-                  src={slide.image}
+                  src={getProgressiveImagePath(slide.image, 'preview')}
+                  data-progressive-src={getProgressiveImagePath(slide.image, 'optimized')}
                   alt={slide.imageAlt}
                   width={index === 1 ? 761 : 767}
                   height={index === 0 ? 650 : index === 1 ? 540 : index === 2 ? 771 : index === 3 ? 834 : 554}

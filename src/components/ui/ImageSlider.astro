@@ -1,4 +1,6 @@
 ---
+import { getProgressiveImagePath } from '../../lib/images';
+
 export interface ImageSliderCrop {
   /** CSS values controlling the supplied image within the visible slide area. */
   width?: string;
@@ -69,7 +71,8 @@ const label = ariaLabel ?? `Image ${safeIndex + 1} of ${slides.length}`;
     {(autoplay ? slides : [slides[safeIndex]]).map((slide, index) => (
       <img
         class:list={['image-slider__image', { 'is-active': autoplay ? index === safeIndex : true }]}
-        src={slide.src}
+        src={getProgressiveImagePath(slide.src, 'preview')}
+        data-progressive-src={getProgressiveImagePath(slide.src, 'optimized')}
         alt={slide.alt}
         loading="lazy"
         decoding="async"

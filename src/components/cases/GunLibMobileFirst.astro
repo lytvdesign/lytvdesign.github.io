@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../../content/site';
+import { getProgressiveImagePath } from '../../lib/images';
 
 interface Props {
   locale: Locale;
@@ -92,7 +93,8 @@ const copy = content[locale];
 
     <figure class="gunlib-mobile-first__image">
       <img
-        src={copy.image}
+        src={getProgressiveImagePath(copy.image, 'preview')}
+        data-progressive-src={getProgressiveImagePath(copy.image, 'optimized')}
         alt={copy.imageAlt}
         width={copy.imageWidth}
         height={copy.imageHeight}

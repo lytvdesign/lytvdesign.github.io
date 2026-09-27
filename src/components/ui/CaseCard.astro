@@ -1,4 +1,6 @@
 ---
+import { getProgressiveImagePath } from '../../lib/images';
+
 import Tag from './Tag.astro';
 
 type CaseCardSize = 'compact' | 'default' | 'featured';
@@ -63,7 +65,7 @@ const fallbackImageDimensions = format === 'landscape' ? { width: 1600, height: 
   aria-label={title}
 >
   <span class="case-card__media" aria-hidden={image ? undefined : 'true'}>
-    {image && <img src={image} width={imageWidth ?? fallbackImageDimensions.width} height={imageHeight ?? fallbackImageDimensions.height} alt={imageAlt} loading={imageLoading} decoding="async" style={`object-position: ${imagePosition}; --case-card-media-scale-x: ${imageScaleX}; --case-card-media-scale-y: ${imageScaleY}; --case-card-media-offset-x: ${imageOffsetX}%; --case-card-media-offset-y: ${imageOffsetY}%`} />}
+    {image && <img src={getProgressiveImagePath(image, 'preview')} data-progressive-src={getProgressiveImagePath(image, 'optimized')} width={imageWidth ?? fallbackImageDimensions.width} height={imageHeight ?? fallbackImageDimensions.height} alt={imageAlt} loading={imageLoading} decoding="async" style={`object-position: ${imagePosition}; --case-card-media-scale-x: ${imageScaleX}; --case-card-media-scale-y: ${imageScaleY}; --case-card-media-offset-x: ${imageOffsetX}%; --case-card-media-offset-y: ${imageOffsetY}%`} />}
   </span>
   <span class="case-card__scrim" aria-hidden="true"></span>
   <span class="case-card__content">

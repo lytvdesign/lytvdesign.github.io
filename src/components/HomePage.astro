@@ -139,28 +139,27 @@ const portfolioCases: Array<{
       </div>
 
       <figure class="collage-item collage-item--location" data-scroll-motion="location" aria-hidden="true">
-        <img src="/images/home/location.png" alt="" width="512" height="342" loading="eager" decoding="async" />
-        <figcaption class="collage-location__tag">Kharkiv, Ukraine</figcaption>
+        <span class="collage-location__frame">
+          <img class="collage-location__photo" src="/images/home/location.preview.webp" data-progressive-src="/images/home/location.optimized.webp" alt="" width="512" height="342" loading="eager" decoding="async" />
+          <figcaption class="collage-location__tag">Kharkiv, Ukraine</figcaption>
+        </span>
       </figure>
       <figure class="collage-item collage-item--family" data-scroll-motion="family" aria-hidden="true">
         <span class="collage-photo-stack collage-photo-stack--family">
-          <img src="/images/home/family-1.png" alt="" width="1600" height="900" loading="eager" decoding="async" />
-          <img src="/images/home/family-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
-          <img src="/images/home/family-3.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
+          <img src="/images/home/family-3.preview.webp" data-progressive-src="/images/home/family-3.optimized.webp" alt="" width="4096" height="2731" loading="eager" decoding="async" />
         </span>
       </figure>
       <figure class="collage-item collage-item--cat" data-scroll-motion="cat" aria-hidden="true">
-        <img src="/images/home/cat.png" alt="" width="512" height="342" loading="eager" decoding="async" />
+        <img src="/images/home/cat.preview.webp" data-progressive-src="/images/home/cat.optimized.webp" alt="" width="512" height="342" loading="eager" decoding="async" />
       </figure>
       <figure class="collage-item collage-item--dog" data-scroll-motion="dog" aria-hidden="true">
         <span class="collage-photo-stack collage-photo-stack--dog">
-          <img src="/images/home/dog-1.png" alt="" width="512" height="342" loading="eager" decoding="async" />
-          <img src="/images/home/dog-2.png" alt="" width="4096" height="2731" loading="eager" decoding="async" />
+          <img src="/images/home/dog-2.preview.webp" data-progressive-src="/images/home/dog-2.optimized.webp" alt="" width="4096" height="2731" loading="eager" decoding="async" />
         </span>
       </figure>
       <a class="collage-item collage-item--projector" data-scroll-motion="projector" href="#learning" aria-label={copy.collage.projector.title}>
         <div class="collage-card collage-card--projector">
-          <img class="collage-card__cover" src="/images/home/projector-card-4.jpg" alt="" width="1280" height="720" loading="eager" decoding="async" />
+          <img class="collage-card__cover" src="/images/home/projector-card-4.preview.webp" data-progressive-src="/images/home/projector-card-4.optimized.webp" alt="" width="1280" height="720" loading="eager" decoding="async" />
           <div class="collage-card__content">
             <p class="collage-card__eyebrow">{copy.collage.projector.eyebrow}</p>
             <div class="collage-card__author">
@@ -175,7 +174,7 @@ const portfolioCases: Array<{
       </a>
       <a class="collage-item collage-item--project" data-scroll-motion="gunlib" href={casePath(locale, 'gunlib')} aria-label={copy.collage.gunlib.title}>
         <div class="collage-card collage-card--gunlib">
-          <img class="collage-card__cover" src="/images/home/gunlib-card-2.png" alt="" width="1786" height="1242" loading="eager" decoding="async" />
+          <img class="collage-card__cover" src="/images/home/gunlib-card-2.preview.webp" data-progressive-src="/images/home/gunlib-card-2.optimized.webp" alt="" width="1786" height="1242" loading="eager" decoding="async" />
           <span class="collage-card__content">
             <span class="collage-card__eyebrow">{copy.collage.gunlib.eyebrow}</span>
             <span class="collage-card__author">
@@ -236,9 +235,9 @@ const portfolioCases: Array<{
         <p>{copy.learningContent.text}</p>
       </div>
       <div class="learning-images">
-        <img class="learning-certificate" src="/images/home/learning-certificate.png" width="1920" height="1317" alt={copy.learningContent.certificateAlt} loading="lazy" />
-        <img class="learning-portrait" src="/images/home/learning-portrait.png" width="891" height="1280" alt={copy.learningContent.portraitAlt} loading="lazy" />
-        <img class="learning-crest" src="/images/home/learning-image-24.png" width="694" height="724" alt={copy.learningContent.crestAlt} loading="lazy" />
+        <img class="learning-certificate" src="/images/home/learning-certificate.preview.webp" data-progressive-src="/images/home/learning-certificate.optimized.webp" width="1920" height="1317" alt={copy.learningContent.certificateAlt} loading="lazy" />
+        <img class="learning-portrait" src="/images/home/learning-portrait.preview.webp" data-progressive-src="/images/home/learning-portrait.optimized.webp" width="891" height="1280" alt={copy.learningContent.portraitAlt} loading="lazy" />
+        <img class="learning-crest" src="/images/home/learning-image-24.preview.webp" data-progressive-src="/images/home/learning-image-24.optimized.webp" width="694" height="724" alt={copy.learningContent.crestAlt} loading="lazy" />
       </div>
     </div>
   </section>
@@ -277,10 +276,12 @@ const portfolioCases: Array<{
     const mobileItems = items.filter((item) => ['location', 'family', 'cat', 'dog'].includes(item.dataset.scrollMotion));
     const linkItems = items.filter((item) => item instanceof HTMLAnchorElement);
     const scrollDelay = 140;
+    const mobileScrollDelay = 80;
     let scrollRange = 780;
     let animationEndScroll = null;
     const titleStopGap = 40;
     const clickableProgress = 0.75;
+    const scrollCueHideProgress = 0.6;
     const baseCollageWidth = 1228;
     const motions = {
       location: {
@@ -356,10 +357,11 @@ const portfolioCases: Array<{
       const gridRect = placeholderGrid.getBoundingClientRect();
       if (!gridRect.height) return;
 
+      const activeScrollDelay = mobileMotionQuery.matches ? mobileScrollDelay : scrollDelay;
       const slotsCenterDocument = gridRect.top + window.scrollY + (gridRect.height / 2);
       const targetScrollY = slotsCenterDocument - (window.innerHeight / 2);
-      animationEndScroll = Math.max(scrollDelay + 1, targetScrollY);
-      scrollRange = animationEndScroll - scrollDelay;
+      animationEndScroll = Math.max(activeScrollDelay + 1, targetScrollY);
+      scrollRange = animationEndScroll - activeScrollDelay;
     };
 
     const setLinkState = (isActive) => {
@@ -380,6 +382,13 @@ const portfolioCases: Array<{
           link.classList.remove('is-scroll-motion-link-active');
         }
       });
+    };
+
+    const setScrollCueState = (progress) => {
+      heroScrollCue?.classList.toggle(
+        'is-scroll-cue-hidden',
+        !reducedMotionQuery.matches && progress >= scrollCueHideProgress,
+      );
     };
 
     const setMotionMode = () => {
@@ -448,7 +457,10 @@ const portfolioCases: Array<{
 
       const progress = easeOutCubic(visualProgress);
       setLinkState(reducedMotionQuery.matches || rawProgress >= clickableProgress);
-      const titleIsSettling = renderTitleParallax(firstMotionRender || reducedMotionQuery.matches);
+      setScrollCueState(rawProgress);
+      const titleIsSettling = mobileMotionQuery.matches
+        ? false
+        : renderTitleParallax(firstMotionRender || reducedMotionQuery.matches);
       firstMotionRender = false;
 
       items.forEach((item) => {
@@ -500,7 +512,7 @@ const portfolioCases: Array<{
 
       if (animationEndScroll === null) measureScrollRange();
       const scale = Math.min(window.innerWidth / 390, 1);
-      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / Math.max(scrollRange, 1), 0, 1);
+      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - mobileScrollDelay) / Math.max(scrollRange, 1), 0, 1);
       targetProgress = rawProgress;
       if (firstMotionRender || reducedMotionQuery.matches) {
         visualProgress = targetProgress;
@@ -510,6 +522,7 @@ const portfolioCases: Array<{
       }
 
       const progress = easeOutCubic(visualProgress);
+      setScrollCueState(rawProgress);
       mobileItems.forEach((item) => {
         const motion = mobileMotions[item.dataset.scrollMotion];
         if (!motion) return;
@@ -541,14 +554,15 @@ const portfolioCases: Array<{
         item.style.setProperty('--motion-inner-radius', `${6 * responsiveItemScale}px`);
       });
 
+      const titleIsSettling = renderTitleParallax(firstMotionRender || reducedMotionQuery.matches);
       firstMotionRender = false;
-      if (!reducedMotionQuery.matches && Math.abs(targetProgress - visualProgress) > 0.0005) requestRender();
+      if (!reducedMotionQuery.matches && (Math.abs(targetProgress - visualProgress) > 0.0005 || titleIsSettling)) requestRender();
     };
 
     const renderTitleParallax = (snapToTarget = false) => {
       if (!heroContent || !heroTitle || !firstPlaceholder) return false;
 
-      if (!motionQuery.matches || reducedMotionQuery.matches) {
+      if ((!motionQuery.matches && !mobileMotionQuery.matches) || reducedMotionQuery.matches) {
         heroContent.style.removeProperty('transform');
         heroScrollCue?.classList.remove('is-scroll-cue-hidden');
         targetTitleOffset = 0;
@@ -565,7 +579,14 @@ const portfolioCases: Array<{
 
       const scrollY = window.scrollY;
       const releaseScroll = Math.max(0, placeholderDocumentTop - titleDocumentBottom - titleStopGap);
-      targetTitleOffset = Math.min(Math.max(scrollY, 0), releaseScroll);
+      const mobileGridDocumentTop = mobileMotionQuery.matches
+        ? placeholderGrid.getBoundingClientRect().top + scrollY
+        : 0;
+      const maxTitleOffset = mobileMotionQuery.matches
+        ? Math.max(0, mobileGridDocumentTop - titleDocumentBottom - titleStopGap)
+        : releaseScroll;
+      const titleOffset = Math.max(scrollY, 0);
+      targetTitleOffset = Math.min(titleOffset, maxTitleOffset);
       if (snapToTarget) {
         visualTitleOffset = targetTitleOffset;
       } else {
@@ -577,12 +598,6 @@ const portfolioCases: Array<{
         heroContent.style.transform = `translate3d(0, ${visualTitleOffset}px, 0)`;
       } else {
         heroContent.style.removeProperty('transform');
-      }
-
-      if (heroScrollCue) {
-        const cueBottom = heroScrollCue.getBoundingClientRect().bottom;
-        const placeholderTop = firstPlaceholder.getBoundingClientRect().top;
-        heroScrollCue.classList.toggle('is-scroll-cue-hidden', cueBottom >= placeholderTop);
       }
 
       return Math.abs(targetTitleOffset - visualTitleOffset) >= 0.5;

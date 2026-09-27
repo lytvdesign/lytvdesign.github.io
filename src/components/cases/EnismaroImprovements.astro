@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../../content/site';
+import { getProgressiveImagePath } from '../../lib/images';
 
 interface Props {
   locale: Locale;
@@ -69,7 +70,7 @@ const desktopDimensions = [
 <div class="enismaro-improvements">
   <figure class="enismaro-improvements__architecture">
     <img
-      src="/images/cases/enismaro-architecture.png"
+      src="/images/cases/enismaro-architecture.preview.webp" data-progressive-src="/images/cases/enismaro-architecture.optimized.webp"
       width="2880"
       height="1482"
       alt={copy.architectureAlt}
@@ -106,12 +107,14 @@ const desktopDimensions = [
       <picture class="enismaro-improvement__visual">
         <source
           media="(max-width: 430px)"
-          srcset={`/images/cases/enismaro-improvement-${section.number}-mobile.png`}
+          srcset={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-mobile.png`, 'preview')}
+          data-progressive-srcset={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-mobile.png`, 'optimized')}
           width="716"
           height={index === 0 ? '967' : index === 1 ? '468' : '1314'}
         />
         <img
-          src={`/images/cases/enismaro-improvement-${section.number}-desktop.png`}
+          src={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-desktop.png`, 'preview')}
+          data-progressive-src={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-desktop.png`, 'optimized')}
           width={desktopDimensions[index].width}
           height={desktopDimensions[index].height}
           alt={section.imageAlt}

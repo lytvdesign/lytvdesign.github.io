@@ -1,5 +1,6 @@
 ---
 import type { CaseSlug, Locale } from '../../content/site';
+import { getProgressiveImagePath } from '../../lib/images';
 import { casePath } from '../../lib/routes';
 
 interface Props {
@@ -72,7 +73,8 @@ const projects = allProjects.filter((project) => project.slug !== currentProject
         <a class="gunlib-other-projects__card" href={casePath(locale, project.slug)} aria-label={project.title}>
           <span class="gunlib-other-projects__media" aria-hidden="true">
             <img
-              src={project.image}
+              src={getProgressiveImagePath(project.image, 'preview')}
+              data-progressive-src={getProgressiveImagePath(project.image, 'optimized')}
               width={project.imageWidth}
               height={project.imageHeight}
               alt=""

@@ -1,4 +1,6 @@
 ---
+import { getProgressiveImagePath } from '../../lib/images';
+
 import MoreButton from './MoreButton.astro';
 
 interface Props {
@@ -34,7 +36,8 @@ const {
 <article class="article-card">
   <img
     class="article-card__cover"
-    src={coverImage}
+    src={getProgressiveImagePath(coverImage, 'preview')}
+    data-progressive-src={getProgressiveImagePath(coverImage, 'optimized')}
     alt={coverAlt}
     width={coverWidth}
     height={coverHeight}
