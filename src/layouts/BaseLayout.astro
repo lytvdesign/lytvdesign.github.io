@@ -29,11 +29,11 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
       (() => {
         const progressiveImages = [...document.querySelectorAll('img[data-progressive-src]')];
         const toVariantPath = (value, variant) => value
-          .replace(/\.(?:preview|medium|optimized)(?=\.[a-z0-9]+(?:[?#]|$))/gi, `.${variant}`);
+          .replace(/\.(?:preview|optimized|full)(?=\.[a-z0-9]+(?:[?#]|$))/gi, `.${variant}`);
 
         const getVariantSource = (image, variant) => {
           const picture = image.closest('picture');
-          const baseSrc = variant === 'optimized'
+          const baseSrc = variant === 'optimized' || variant === 'full'
             ? image.dataset.progressiveSrc
             : image.getAttribute('src');
           const sources = picture ? [...picture.querySelectorAll('source[data-progressive-srcset]')] : [];
@@ -52,6 +52,7 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
 
           const preloader = new Image();
           preloader.decoding = 'async';
+          if (variant === 'full') preloader.fetchPriority = 'low';
           if (srcset) {
             preloader.srcset = srcset;
             const sizes = image.getAttribute('sizes');
@@ -103,20 +104,41 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
           }, { once: true });
         });
 
+        const scheduleFullQuality = (image) => {
+          if (image.dataset.progressiveFullState) return;
+          image.dataset.progressiveFullState = 'scheduled';
+
+          const loadFullQuality = async () => {
+            try {
+              await preloadVariant(image, 'full');
+              applyVariant(image, 'full');
+              image.dataset.progressiveState = 'loaded';
+              image.dataset.progressiveQualityState = 'loaded';
+              image.dataset.progressiveFullState = 'loaded';
+              image.removeAttribute('data-progressive-src');
+            } catch {
+              image.dataset.progressiveFullState = 'error';
+              image.dataset.progressiveQualityState = 'optimized';
+            }
+          };
+
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadFullQuality, { timeout: 2500 });
+          } else {
+            window.setTimeout(loadFullQuality, 1500);
+          }
+        };
+
         const activate = async (image) => {
           if (image.dataset.progressiveQualityState || !image.dataset.progressiveSrc) return;
 
           image.dataset.progressiveQualityState = 'loading';
           try {
-            await preloadVariant(image, 'medium');
-            applyVariant(image, 'medium');
-            image.dataset.progressiveState = 'medium-loaded';
-
             await preloadVariant(image, 'optimized');
             applyVariant(image, 'optimized');
-            image.dataset.progressiveState = 'loaded';
-            image.dataset.progressiveQualityState = 'loaded';
-            image.removeAttribute('data-progressive-src');
+            image.dataset.progressiveState = 'optimized-loaded';
+            image.dataset.progressiveQualityState = 'optimized';
+            scheduleFullQuality(image);
           } catch {
             image.dataset.progressiveQualityState = 'error';
           }

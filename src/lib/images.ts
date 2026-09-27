@@ -1,6 +1,6 @@
 const rasterImagePattern = /\.(?:png|jpe?g|webp|avif)$/i;
 
-export type ProgressiveImageVariant = 'preview' | 'medium' | 'optimized';
+export type ProgressiveImageVariant = 'preview' | 'optimized' | 'full';
 
 export const getProgressiveImagePath = (src: string, variant: ProgressiveImageVariant) => {
   if (!rasterImagePattern.test(src)) return src;
