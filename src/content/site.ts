@@ -26,7 +26,7 @@ export const ui = {
     portfolio: 'Портфоліо',
     contact: 'Контакти',
     language: 'English',
-    hero: 'Усе поєднується в єдине ціле',
+    hero: 'Деталі створюють цілісність',
     collage: {
       projector: {
         eyebrow: 'UI/UX Курси',

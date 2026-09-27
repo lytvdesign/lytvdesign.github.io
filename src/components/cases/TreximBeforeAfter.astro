@@ -104,7 +104,8 @@ const copy = locale === 'uk'
     position: relative;
     width: 100%;
     aspect-ratio: 79 / 60;
-    overflow: visible;
+    overflow-x: clip;
+    overflow-y: visible;
     border-radius: 16px;
     background: var(--color-surface-inverse);
     isolation: isolate;

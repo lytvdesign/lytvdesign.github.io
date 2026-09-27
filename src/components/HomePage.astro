@@ -15,7 +15,7 @@ const cvHref = locale === 'en'
   ? '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-EN.pdf'
   : '/documents/CV-Alina-Lytvynenko-UX-UI-Designer-UK.pdf';
 const [heroLead, heroAccent, heroEnd] = locale === 'uk'
-  ? ['Усе ', 'поєднується', ' в єдине ціле']
+  ? ['Деталі створюють ', 'цілісність', '']
   : ['', 'Everything ', 'has its place'];
 const aboutSlides = [
   { src: '/images/home/about-slide-1.png', alt: copy.aboutContent.imageAlt },
@@ -118,9 +118,14 @@ const portfolioCases: Array<{
 <main class="home-main" data-locale={locale}>
   <section class="home-intro" data-scroll-animation="desktop" aria-labelledby="home-hero-title">
     <div class="home-hero">
-      <h1 id="home-hero-title" aria-label={copy.hero}>
-        <span>{heroLead}</span><strong>{heroAccent}</strong><span>{heroEnd}</span>
-      </h1>
+      <div class="home-hero__content">
+        <h1 id="home-hero-title" aria-label={copy.hero}>
+          <span>{heroLead}</span><strong>{heroAccent}</strong><span>{heroEnd}</span>
+        </h1>
+        <div class="scroll-cue" aria-hidden="true">
+          <img src="/images/icons/hero-more-arrow.svg" alt="" width="16" height="6" />
+        </div>
+      </div>
     </div>
 
     <div class="photo-collage">
@@ -259,13 +264,22 @@ const portfolioCases: Array<{
     const intro = document.querySelector('.home-intro[data-scroll-animation="desktop"]');
     if (!intro) return;
 
-    const desktopQuery = window.matchMedia('(min-width: 1025px)');
+    const motionQuery = window.matchMedia('(min-width: 641px)');
+    const mobileMotionQuery = window.matchMedia('(max-width: 640px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const collage = intro.querySelector('.photo-collage');
+    const heroContent = intro.querySelector('.home-hero__content');
+    const heroTitle = intro.querySelector('#home-hero-title');
+    const heroScrollCue = intro.querySelector('.scroll-cue');
+    const placeholderGrid = intro.querySelector('.collage-placeholders');
+    const firstPlaceholder = intro.querySelector('.collage-placeholders span');
     const items = [...intro.querySelectorAll('[data-scroll-motion]')];
+    const mobileItems = items.filter((item) => ['location', 'family', 'cat', 'dog'].includes(item.dataset.scrollMotion));
     const linkItems = items.filter((item) => item instanceof HTMLAnchorElement);
     const scrollDelay = 140;
-    const scrollRange = 700;
+    let scrollRange = 780;
+    let animationEndScroll = null;
+    const titleStopGap = 40;
     const clickableProgress = 0.75;
     const baseCollageWidth = 1228;
     const motions = {
@@ -275,6 +289,7 @@ const portfolioCases: Array<{
       },
       family: {
         from: { x: 48, y: 19.922, width: 393.751, height: 341.301, rotation: 0, innerWidth: 379.324, innerHeight: 147.201, innerRotation: -35.81 },
+        borderRadius: 13,
         to: { x: 288, y: 0, width: 568, height: 220, rotation: 0, innerWidth: 568, innerHeight: 220, innerRotation: 0 },
       },
       cat: {
@@ -294,12 +309,58 @@ const portfolioCases: Array<{
         to: { x: 576, y: 228, width: 280, height: 389, rotation: 0, innerWidth: 280, innerHeight: 389, innerRotation: 0 },
       },
     };
+    const mobileMotions = {
+      location: {
+        from: { x: 0, y: 334.681, width: 100.558, height: 129.77, rotation: 0, innerWidth: 86.382, innerHeight: 120.01, innerRotation: -7.1 },
+        to: { x: 16, y: 700.834, width: 106.638, height: 148.151, rotation: 0, innerWidth: 106.638, innerHeight: 148.151, innerRotation: 0 },
+      },
+      family: {
+        from: { x: -119, y: 185.864, width: 184.448, height: 97.675, rotation: 0, innerWidth: 175.233, innerHeight: 67.872, innerRotation: -10.14 },
+        to: { x: 16, y: 614, width: 216.323, height: 83.787, rotation: 0, innerWidth: 216.323, innerHeight: 83.787, innerRotation: 0 },
+      },
+      cat: {
+        from: { x: 317.977, y: 312, width: 141.806, height: 207.787, rotation: 0, innerWidth: 112.297, innerHeight: 192.201, innerRotation: 9.27 },
+        to: { x: 235.371, y: 614, width: 138.629, height: 234.984, rotation: 0, innerWidth: 138.629, innerHeight: 234.984, innerRotation: 0 },
+      },
+      dog: {
+        from: { x: 156.973, y: 454, width: 98.865, height: 130.365, rotation: 0, innerWidth: 86.382, innerHeight: 121.861, innerRotation: 6.11 },
+        to: { x: 125.684, y: 700.834, width: 106.638, height: 148.151, rotation: 0, innerWidth: 106.638, innerHeight: 148.151, innerRotation: 0 },
+      },
+    };
 
     let frame = 0;
+    let titleDocumentBottom = 0;
+    let placeholderDocumentTop = 0;
+    let titleParallaxMeasured = false;
+    let targetProgress = 0;
+    let visualProgress = 0;
+    let targetTitleOffset = 0;
+    let visualTitleOffset = 0;
+    let firstMotionRender = true;
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
     const lerp = (from, to, progress) => from + (to - from) * progress;
     const easeOutCubic = (progress) => 1 - ((1 - progress) ** 3);
+    const getMotionRadius = (motion) => {
+      const isTabletMotion = window.innerWidth >= 641 && window.innerWidth <= 1024;
+      if (!isTabletMotion) return motion.borderRadius ?? 24;
+
+      const slot = intro.querySelector('.collage-placeholders span');
+      const slotRadius = slot ? Number.parseFloat(getComputedStyle(slot).borderTopLeftRadius) : Number.NaN;
+      return Number.isFinite(slotRadius) ? slotRadius : (motion.borderRadius ?? 13);
+    };
+
+    const measureScrollRange = () => {
+      if ((!motionQuery.matches && !mobileMotionQuery.matches) || !placeholderGrid) return;
+
+      const gridRect = placeholderGrid.getBoundingClientRect();
+      if (!gridRect.height) return;
+
+      const slotsCenterDocument = gridRect.top + window.scrollY + (gridRect.height / 2);
+      const targetScrollY = slotsCenterDocument - (window.innerHeight / 2);
+      animationEndScroll = Math.max(scrollDelay + 1, targetScrollY);
+      scrollRange = animationEndScroll - scrollDelay;
+    };
 
     const setLinkState = (isActive) => {
       linkItems.forEach((link) => {
@@ -322,8 +383,35 @@ const portfolioCases: Array<{
     };
 
     const setMotionMode = () => {
-      if (!desktopQuery.matches) {
+      if (mobileMotionQuery.matches) {
         intro.classList.remove('is-scroll-motion-ready');
+        intro.classList.add('is-mobile-scroll-motion-ready');
+        heroContent?.style.removeProperty('transform');
+        heroScrollCue?.classList.remove('is-scroll-cue-hidden');
+        titleParallaxMeasured = false;
+        targetProgress = 0;
+        visualProgress = 0;
+        firstMotionRender = true;
+        animationEndScroll = null;
+        items.forEach((item) => item.removeAttribute('style'));
+        setLinkState(true);
+        render();
+        return;
+      }
+
+      intro.classList.remove('is-mobile-scroll-motion-ready');
+
+      if (!motionQuery.matches) {
+        intro.classList.remove('is-scroll-motion-ready');
+        heroContent?.style.removeProperty('transform');
+        heroScrollCue?.classList.remove('is-scroll-cue-hidden');
+        titleParallaxMeasured = false;
+        targetProgress = 0;
+        visualProgress = 0;
+        targetTitleOffset = 0;
+        visualTitleOffset = 0;
+        firstMotionRender = true;
+        animationEndScroll = null;
         items.forEach((item) => {
           item.removeAttribute('style');
         });
@@ -332,17 +420,36 @@ const portfolioCases: Array<{
       }
 
       intro.classList.add('is-scroll-motion-ready');
+      animationEndScroll = null;
+      firstMotionRender = true;
       render();
     };
 
     const render = () => {
       frame = 0;
-      if (!desktopQuery.matches || !collage) return;
+      if (mobileMotionQuery.matches) {
+        intro.style.setProperty('--mobile-hero-scale', `${Math.min(window.innerWidth / 390, 1)}`);
+        renderMobile();
+        return;
+      }
+      intro.style.removeProperty('--mobile-hero-scale');
+      if (!motionQuery.matches || !collage) return;
 
+      if (animationEndScroll === null) measureScrollRange();
       const scale = collage.clientWidth / baseCollageWidth;
-      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / scrollRange, 0, 1);
-      const progress = easeOutCubic(rawProgress);
+      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / Math.max(scrollRange, 1), 0, 1);
+      targetProgress = rawProgress;
+      if (firstMotionRender || reducedMotionQuery.matches) {
+        visualProgress = targetProgress;
+      } else {
+        visualProgress += (targetProgress - visualProgress) * 0.18;
+        if (Math.abs(targetProgress - visualProgress) < 0.0005) visualProgress = targetProgress;
+      }
+
+      const progress = easeOutCubic(visualProgress);
       setLinkState(reducedMotionQuery.matches || rawProgress >= clickableProgress);
+      const titleIsSettling = renderTitleParallax(firstMotionRender || reducedMotionQuery.matches);
+      firstMotionRender = false;
 
       items.forEach((item) => {
         const motion = motions[item.dataset.scrollMotion];
@@ -360,6 +467,15 @@ const portfolioCases: Array<{
         item.style.height = `${height}px`;
         item.style.transform = `rotate(${rotation}deg)`;
 
+        const itemScale = motion.from.innerWidth
+          ? lerp(motion.from.innerWidth / motion.to.innerWidth, 1, progress)
+          : lerp(motion.from.width / motion.to.width, 1, progress);
+        const motionRadius = getMotionRadius(motion);
+        item.style.setProperty('--motion-item-scale', `${itemScale}`);
+        item.style.setProperty('--motion-border-radius', `${motionRadius * itemScale}px`);
+        item.style.borderRadius = `${motionRadius * itemScale}px`;
+        item.style.borderWidth = `${(motion.borderWidth ?? 1) * itemScale}px`;
+
         if (motion.from.innerWidth) {
           const innerWidth = lerp(motion.from.innerWidth, motion.to.innerWidth, progress);
           const innerHeight = lerp(motion.from.innerHeight, motion.to.innerHeight, progress);
@@ -373,6 +489,103 @@ const portfolioCases: Array<{
           item.style.setProperty('--motion-inner-rotation', `${lerp(motion.from.innerRotation, motion.to.innerRotation, progress)}deg`);
         }
       });
+
+      if (!reducedMotionQuery.matches && (Math.abs(targetProgress - visualProgress) > 0.0005 || titleIsSettling)) {
+        requestRender();
+      }
+    };
+
+    const renderMobile = () => {
+      if (!mobileMotionQuery.matches || !collage) return;
+
+      if (animationEndScroll === null) measureScrollRange();
+      const scale = Math.min(window.innerWidth / 390, 1);
+      const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / Math.max(scrollRange, 1), 0, 1);
+      targetProgress = rawProgress;
+      if (firstMotionRender || reducedMotionQuery.matches) {
+        visualProgress = targetProgress;
+      } else {
+        visualProgress += (targetProgress - visualProgress) * 0.18;
+        if (Math.abs(targetProgress - visualProgress) < 0.0005) visualProgress = targetProgress;
+      }
+
+      const progress = easeOutCubic(visualProgress);
+      mobileItems.forEach((item) => {
+        const motion = mobileMotions[item.dataset.scrollMotion];
+        if (!motion) return;
+
+        const x = lerp(motion.from.x, motion.to.x, progress) * scale;
+        const y = lerp(motion.from.y, motion.to.y, progress) * scale;
+        const width = lerp(motion.from.width, motion.to.width, progress) * scale;
+        const height = lerp(motion.from.height, motion.to.height, progress) * scale;
+        const rotation = lerp(motion.from.rotation, motion.to.rotation, progress);
+        const itemScale = lerp(motion.from.innerWidth / motion.to.innerWidth, 1, progress);
+        const responsiveItemScale = scale * itemScale;
+
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        item.style.width = `${width}px`;
+        item.style.height = `${height}px`;
+        item.style.transform = `rotate(${rotation}deg)`;
+        item.style.setProperty('--motion-item-scale', `${itemScale}`);
+        item.style.setProperty('--mobile-item-scale', `${responsiveItemScale}`);
+        item.style.setProperty('--motion-border-radius', `${6 * responsiveItemScale}px`);
+        item.style.borderRadius = `${6 * responsiveItemScale}px`;
+        item.style.borderWidth = `${0.5 * responsiveItemScale}px`;
+
+        const innerWidth = lerp(motion.from.innerWidth, motion.to.innerWidth, progress);
+        const innerHeight = lerp(motion.from.innerHeight, motion.to.innerHeight, progress);
+        item.style.setProperty('--motion-inner-width', `${innerWidth * scale}px`);
+        item.style.setProperty('--motion-inner-height', `${innerHeight * scale}px`);
+        item.style.setProperty('--motion-inner-rotation', `${lerp(motion.from.innerRotation, motion.to.innerRotation, progress)}deg`);
+        item.style.setProperty('--motion-inner-radius', `${6 * responsiveItemScale}px`);
+      });
+
+      firstMotionRender = false;
+      if (!reducedMotionQuery.matches && Math.abs(targetProgress - visualProgress) > 0.0005) requestRender();
+    };
+
+    const renderTitleParallax = (snapToTarget = false) => {
+      if (!heroContent || !heroTitle || !firstPlaceholder) return false;
+
+      if (!motionQuery.matches || reducedMotionQuery.matches) {
+        heroContent.style.removeProperty('transform');
+        heroScrollCue?.classList.remove('is-scroll-cue-hidden');
+        targetTitleOffset = 0;
+        visualTitleOffset = 0;
+        return false;
+      }
+
+      if (!titleParallaxMeasured) {
+        heroContent.style.removeProperty('transform');
+        titleDocumentBottom = heroTitle.getBoundingClientRect().bottom + window.scrollY;
+        placeholderDocumentTop = firstPlaceholder.getBoundingClientRect().top + window.scrollY;
+        titleParallaxMeasured = true;
+      }
+
+      const scrollY = window.scrollY;
+      const releaseScroll = Math.max(0, placeholderDocumentTop - titleDocumentBottom - titleStopGap);
+      targetTitleOffset = Math.min(Math.max(scrollY, 0), releaseScroll);
+      if (snapToTarget) {
+        visualTitleOffset = targetTitleOffset;
+      } else {
+        visualTitleOffset += (targetTitleOffset - visualTitleOffset) * 0.18;
+        if (Math.abs(targetTitleOffset - visualTitleOffset) < 0.5) visualTitleOffset = targetTitleOffset;
+      }
+
+      if (visualTitleOffset > 0) {
+        heroContent.style.transform = `translate3d(0, ${visualTitleOffset}px, 0)`;
+      } else {
+        heroContent.style.removeProperty('transform');
+      }
+
+      if (heroScrollCue) {
+        const cueBottom = heroScrollCue.getBoundingClientRect().bottom;
+        const placeholderTop = firstPlaceholder.getBoundingClientRect().top;
+        heroScrollCue.classList.toggle('is-scroll-cue-hidden', cueBottom >= placeholderTop);
+      }
+
+      return Math.abs(targetTitleOffset - visualTitleOffset) >= 0.5;
     };
 
     const requestRender = () => {
@@ -380,8 +593,13 @@ const portfolioCases: Array<{
     };
 
     window.addEventListener('scroll', requestRender, { passive: true });
-    window.addEventListener('resize', requestRender);
-    desktopQuery.addEventListener('change', setMotionMode);
+    window.addEventListener('resize', () => {
+      titleParallaxMeasured = false;
+      animationEndScroll = null;
+      requestRender();
+    });
+    motionQuery.addEventListener('change', setMotionMode);
+    mobileMotionQuery.addEventListener('change', setMotionMode);
     reducedMotionQuery.addEventListener('change', requestRender);
     setMotionMode();
   })();

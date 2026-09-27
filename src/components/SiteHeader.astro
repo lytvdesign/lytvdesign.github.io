@@ -166,12 +166,42 @@ const sectionNavigation = [
   }
 
   const HEADER_REVEAL_DISTANCE_PX = 160;
+  const HEADER_INITIAL_HIDE_DELAY_MS = 1500;
+  const HEADER_INITIAL_HIDE_DISTANCE_PX = 600;
   let previousScrollY = window.scrollY;
   let scrollFrame = 0;
   let upwardScrollStartY: number | undefined;
+  let downwardScrollStartTime: number | undefined;
+  let headerHideTimer: number | undefined;
+  let lastScrollDirection: 'up' | 'down' | undefined;
+  let shouldDelayInitialHide = true;
 
   const resetUpwardScroll = () => {
     upwardScrollStartY = undefined;
+  };
+
+  const resetDelayedHeaderHide = () => {
+    if (headerHideTimer !== undefined) {
+      window.clearTimeout(headerHideTimer);
+      headerHideTimer = undefined;
+    }
+    downwardScrollStartTime = undefined;
+  };
+
+  const hideHeader = () => {
+    shouldDelayInitialHide = false;
+    resetDelayedHeaderHide();
+    header?.classList.add('site-header--scroll-down');
+  };
+
+  const scheduleDelayedHeaderHide = () => {
+    if (!shouldDelayInitialHide || downwardScrollStartTime !== undefined || header?.classList.contains('site-header--scroll-down')) return;
+
+    downwardScrollStartTime = window.performance.now();
+    headerHideTimer = window.setTimeout(() => {
+      headerHideTimer = undefined;
+      if (lastScrollDirection === 'down' && window.scrollY > 8) hideHeader();
+    }, HEADER_INITIAL_HIDE_DELAY_MS);
   };
 
   const revealHeaderIfReady = () => {
@@ -191,11 +221,22 @@ const sectionNavigation = [
     const currentScrollY = window.scrollY;
     if (currentScrollY <= 8) {
       resetUpwardScroll();
+      resetDelayedHeaderHide();
+      lastScrollDirection = undefined;
+      shouldDelayInitialHide = true;
       header.classList.remove('site-header--scroll-down');
     } else if (currentScrollY > previousScrollY) {
       resetUpwardScroll();
-      header.classList.add('site-header--scroll-down');
+      lastScrollDirection = 'down';
+      if (shouldDelayInitialHide) {
+        scheduleDelayedHeaderHide();
+        if (currentScrollY >= HEADER_INITIAL_HIDE_DISTANCE_PX) hideHeader();
+      } else {
+        hideHeader();
+      }
     } else if (currentScrollY < previousScrollY) {
+      lastScrollDirection = 'up';
+      if (shouldDelayInitialHide) resetDelayedHeaderHide();
       if (upwardScrollStartY === undefined) {
         upwardScrollStartY = previousScrollY;
       }
@@ -210,6 +251,9 @@ const sectionNavigation = [
 
   const handleViewportChange = () => {
     resetUpwardScroll();
+    resetDelayedHeaderHide();
+    lastScrollDirection = undefined;
+    shouldDelayInitialHide = true;
     previousScrollY = window.scrollY;
     header?.classList.remove('site-header--scroll-down');
     updateHeaderVisibility();

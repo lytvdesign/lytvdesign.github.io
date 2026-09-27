@@ -77,6 +77,14 @@ const {
     text-decoration: none;
   }
 
+  .language-switcher__link:not(.language-switcher__link--active) {
+    background: rgba(255, 255, 255, .42);
+    border: .5px solid rgba(255, 255, 255, .5);
+    color: var(--color-text-primary);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
   .language-switcher__link--active {
     background: var(--color-accent-primary);
     color: var(--color-text-inverse);
