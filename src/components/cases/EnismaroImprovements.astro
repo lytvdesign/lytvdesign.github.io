@@ -70,7 +70,7 @@ const desktopDimensions = [
 <div class="enismaro-improvements">
   <figure class="enismaro-improvements__architecture">
     <img
-      src="/images/cases/enismaro-architecture.preview.webp" data-progressive-src="/images/cases/enismaro-architecture.optimized.webp"
+      src="/images/cases/enismaro-architecture.optimized.webp" data-progressive-src="/images/cases/enismaro-architecture.optimized.webp"
       width="2880"
       height="1482"
       alt={copy.architectureAlt}
@@ -107,13 +107,13 @@ const desktopDimensions = [
       <picture class="enismaro-improvement__visual">
         <source
           media="(max-width: 430px)"
-          srcset={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-mobile.png`, 'preview')}
+          srcset={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-mobile.png`, 'optimized')}
           data-progressive-srcset={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-mobile.png`, 'optimized')}
           width="716"
           height={index === 0 ? '967' : index === 1 ? '468' : '1314'}
         />
         <img
-          src={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-desktop.png`, 'preview')}
+          src={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-desktop.png`, 'optimized')}
           data-progressive-src={getProgressiveImagePath(`/images/cases/enismaro-improvement-${section.number}-desktop.png`, 'optimized')}
           width={desktopDimensions[index].width}
           height={desktopDimensions[index].height}

@@ -81,8 +81,8 @@ const copy = locale === 'uk'
       <p>{copy.one.description}</p>
     </header>
     <div class="trexim-improvement__visual-grid">
-      <img src="/images/trexim/Content%20Frame.preview.webp" data-progressive-src="/images/trexim/Content%20Frame.optimized.webp" width="2512" height="2832" alt={copy.one.firstAlt} loading="lazy" decoding="async" />
-      <img src="/images/trexim/Sidebar.preview.webp" data-progressive-src="/images/trexim/Sidebar.optimized.webp" width="2512" height="2832" alt={copy.one.secondAlt} loading="lazy" decoding="async" />
+      <img src="/images/trexim/Content%20Frame.optimized.webp" data-progressive-src="/images/trexim/Content%20Frame.optimized.webp" width="2512" height="2832" alt={copy.one.firstAlt} loading="lazy" decoding="async" />
+      <img src="/images/trexim/Sidebar.optimized.webp" data-progressive-src="/images/trexim/Sidebar.optimized.webp" width="2512" height="2832" alt={copy.one.secondAlt} loading="lazy" decoding="async" />
     </div>
   </article>
 
@@ -96,8 +96,8 @@ const copy = locale === 'uk'
       </div>
     </header>
     <picture class="trexim-improvement__wide-visual">
-      <source media="(max-width: 640px)" srcset="/images/trexim/Container%20mobile.preview.webp" data-progressive-srcset="/images/trexim/Container%20mobile.optimized.webp" />
-      <img src="/images/trexim/Container.preview.webp" data-progressive-src="/images/trexim/Container.optimized.webp" width="6568" height="2482" alt={copy.two.alt} loading="lazy" decoding="async" />
+      <source media="(max-width: 640px)" srcset="/images/trexim/Container%20mobile.optimized.webp" data-progressive-srcset="/images/trexim/Container%20mobile.optimized.webp" />
+      <img src="/images/trexim/Container.optimized.webp" data-progressive-src="/images/trexim/Container.optimized.webp" width="6568" height="2482" alt={copy.two.alt} loading="lazy" decoding="async" />
     </picture>
   </article>
 
@@ -122,8 +122,8 @@ const copy = locale === 'uk'
       {copy.four.cards.map(([label, desktop, mobile]) => (
         <figure class="trexim-design-card">
           <picture>
-            <source media="(max-width: 640px)" srcset={getProgressiveImagePath(mobile, 'preview')} data-progressive-srcset={getProgressiveImagePath(mobile, 'optimized')} />
-            <img src={getProgressiveImagePath(desktop, 'preview')} data-progressive-src={getProgressiveImagePath(desktop, 'optimized')} width="2525" height="2525" alt={label} loading="lazy" decoding="async" />
+            <source media="(max-width: 640px)" srcset={getProgressiveImagePath(mobile, 'optimized')} data-progressive-srcset={getProgressiveImagePath(mobile, 'optimized')} />
+            <img src={getProgressiveImagePath(desktop, 'optimized')} data-progressive-src={getProgressiveImagePath(desktop, 'optimized')} width="2525" height="2525" alt={label} loading="lazy" decoding="async" />
           </picture>
         </figure>
       ))}

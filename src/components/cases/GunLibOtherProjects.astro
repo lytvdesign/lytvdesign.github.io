@@ -73,7 +73,7 @@ const projects = allProjects.filter((project) => project.slug !== currentProject
         <a class="gunlib-other-projects__card" href={casePath(locale, project.slug)} aria-label={project.title}>
           <span class="gunlib-other-projects__media" aria-hidden="true">
             <img
-              src={getProgressiveImagePath(project.image, 'preview')}
+              src={getProgressiveImagePath(project.image, 'optimized')}
               data-progressive-src={getProgressiveImagePath(project.image, 'optimized')}
               width={project.imageWidth}
               height={project.imageHeight}

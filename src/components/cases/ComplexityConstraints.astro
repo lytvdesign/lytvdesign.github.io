@@ -19,7 +19,7 @@ const cards = [
     {cards.map((card) => (
       <article class="complexity-constraints__card">
         <p>{card.title[locale]}</p>
-        <img src={getProgressiveImagePath(card.icon, 'preview')} data-progressive-src={getProgressiveImagePath(card.icon, 'optimized')} alt="" aria-hidden="true" width="96" height="96" />
+        <img src={getProgressiveImagePath(card.icon, 'optimized')} data-progressive-src={getProgressiveImagePath(card.icon, 'optimized')} alt="" aria-hidden="true" width="96" height="96" />
       </article>
     ))}
   </div>
