@@ -13,7 +13,7 @@ interface Props {
 
 const { icon, ariaLabel, href, target, disabled = false, previewState = 'default' } = Astro.props;
 const isLink = Boolean(href) && !disabled;
-const iconSrc = icon === 'linkedin' ? '/images/icons/linkedin-header.svg' : '/images/icons/cv-header.svg';
+const iconSrc = icon === 'linkedin' ? '/images/icons/linkedin-header.svg' : '/images/icons/PDF.svg';
 const className = ['header-action', { 'header-action--linkedin': icon === 'linkedin', 'header-action--cv': icon === 'cv', 'header-action--disabled': disabled, 'header-action--preview-hover': previewState === 'hover' }];
 ---
 
