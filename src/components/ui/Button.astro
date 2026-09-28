@@ -14,6 +14,7 @@ interface Props {
   iconOnly?: boolean;
   ariaLabel?: string;
   disabled?: boolean;
+  dataAction?: string;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   iconOnly = false,
   ariaLabel = label,
   disabled = false,
+  dataAction,
 } = Astro.props;
 
 const isLink = Boolean(href) && !disabled;
@@ -36,12 +38,12 @@ const classNames = ['button', `button--${variant}`, `button--${size}`, { 'button
 ---
 
 {isLink ? (
-  <a class:list={classNames} href={href} target={target} rel={isExternal ? 'noopener noreferrer' : undefined} aria-label={iconOnly ? ariaLabel : undefined}>
+  <a class:list={classNames} href={href} target={target} rel={isExternal ? 'noopener noreferrer' : undefined} aria-label={iconOnly ? ariaLabel : undefined} data-404-action={dataAction}>
     {!iconOnly && <span class="button__label">{label}</span>}
     {resolvedIcon !== 'none' && <span class="button__icon" aria-hidden="true">{resolvedIcon === 'arrow-up-right' ? <img src="/images/icons/social-arrow.svg" alt="" /> : '→'}</span>}
   </a>
 ) : (
-  <button class:list={classNames} type={type} disabled={disabled} aria-label={iconOnly ? ariaLabel : undefined}>
+  <button class:list={classNames} type={type} disabled={disabled} aria-label={iconOnly ? ariaLabel : undefined} data-404-action={dataAction}>
     {!iconOnly && <span class="button__label">{label}</span>}
     {resolvedIcon !== 'none' && <span class="button__icon" aria-hidden="true">{resolvedIcon === 'arrow-up-right' ? <img src="/images/icons/social-arrow.svg" alt="" /> : '→'}</span>}
   </button>
