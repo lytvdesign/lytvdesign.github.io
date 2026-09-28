@@ -61,6 +61,7 @@ const initialCopy = localizedCopy.uk;
           <button type="button" data-control="shoot" aria-label={initialCopy.touchShoot}>●</button>
           <button type="button" data-control="right" aria-label={initialCopy.touchRight}>→</button>
         </div>
+        <div class="not-found-orientation-toast" data-orientation-toast role="status" aria-live="polite" hidden>{initialCopy.orientationHint}</div>
       </section>
     </main>
   </div>
@@ -103,6 +104,9 @@ const initialCopy = localizedCopy.uk;
   .not-found-touch-controls button { display: grid; width: 3.5rem; height: 3rem; place-items: center; border: 1px solid var(--color-border-default); border-radius: var(--radius-m); background: var(--color-surface-elevated); color: var(--color-text-primary); cursor: pointer; font-size: 1.25rem; touch-action: none; user-select: none; }
   .not-found-touch-controls button[data-control="shoot"] { color: var(--color-status-error); }
   .not-found-touch-controls button:active { background: var(--color-surface-tertiary); transform: scale(.96); }
+  .not-found-orientation-toast { position: fixed; z-index: 5; bottom: var(--space-6); left: 50%; max-width: calc(100vw - 2 * var(--page-gutter)); padding: var(--space-3) var(--space-4); transform: translateX(-50%); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: rgba(32, 38, 59, .92); color: var(--color-text-inverse); font-size: var(--font-caption-size); line-height: var(--font-caption-line); text-align: center; }
+  .not-found-orientation-toast[hidden] { display: none; }
+  .not-found-page.is-game-started .not-found-game__canvas { touch-action: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
   @media (max-width: 640px) {
@@ -115,6 +119,11 @@ const initialCopy = localizedCopy.uk;
     .not-found-actions .button { width: auto; }
     .not-found-rules { width: 100%; }
     .not-found-rules__items { flex-direction: column; gap: var(--space-2); }
+  }
+
+  @media (max-width: 640px) and (orientation: portrait) {
+    .not-found-page.is-game-sideways .not-found-game { aspect-ratio: 1 / 2; }
+    .not-found-page.is-game-sideways .not-found-game__canvas { position: absolute; top: 50%; left: 50%; width: 200%; max-width: none; transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -138,9 +147,10 @@ const initialCopy = localizedCopy.uk;
   const scoreElement = document.querySelector('[data-game-score]');
   const stateElement = document.querySelector('[data-game-state]');
   const touchControls = document.querySelector('[data-touch-controls]');
+  const orientationToast = document.querySelector('[data-orientation-toast]');
   const context = canvas?.getContext('2d');
 
-  if (page && canvas && context && startButton && homeButton && homeLink && gameShell && gameOverlay && gameTitle && gameResult && gameMessage && gameRules && gameHud && scoreElement && stateElement && touchControls) {
+  if (page && canvas && context && startButton && homeButton && homeLink && gameShell && gameOverlay && gameTitle && gameResult && gameMessage && gameRules && gameHud && scoreElement && stateElement && touchControls && orientationToast) {
     const copy = localizedCopy;
     const localeButtons = [...document.querySelectorAll('[data-locale-button]')];
     const copyElements = [...document.querySelectorAll('[data-copy-key]')];
@@ -190,7 +200,9 @@ const initialCopy = localizedCopy.uk;
       playerX: 0,
       playerY: 0,
       controls: new Set(),
+      touchGesture: { active: false, startX: 0, lastX: 0, moved: false },
     };
+    let orientationToastTimer;
 
     const setGameSize = () => {
       if (window.innerWidth > 1200) {
@@ -289,6 +301,29 @@ const initialCopy = localizedCopy.uk;
       stateElement.textContent = game.lost ? activeCopy.lost : game.won ? activeCopy.won : '';
     };
 
+    const isMobilePortrait = () => window.matchMedia('(max-width: 640px) and (orientation: portrait)').matches;
+
+    const updateGameOrientation = () => {
+      page.classList.toggle('is-game-started', game.started);
+      page.classList.toggle('is-game-sideways', game.started && isMobilePortrait());
+    };
+
+    const hideOrientationHint = () => {
+      window.clearTimeout(orientationToastTimer);
+      orientationToast.hidden = true;
+    };
+
+    const showOrientationHint = () => {
+      window.clearTimeout(orientationToastTimer);
+      if (!isMobilePortrait()) {
+        hideOrientationHint();
+        return;
+      }
+      orientationToast.textContent = copy[locale].orientationHint;
+      orientationToast.hidden = false;
+      orientationToastTimer = window.setTimeout(hideOrientationHint, 3200);
+    };
+
     const showFinishedOverlay = () => {
       const activeCopy = copy[locale];
       gameTitle.textContent = game.lost ? activeCopy.lost : activeCopy.won;
@@ -362,6 +397,8 @@ const initialCopy = localizedCopy.uk;
       game.invaders = createInvaders();
       game.bullets = [];
       game.controls.clear();
+      game.touchGesture.active = false;
+      game.touchGesture.moved = false;
       gameTitle.textContent = copy[locale].title;
       gameResult.hidden = true;
       gameMessage.hidden = false;
@@ -370,6 +407,7 @@ const initialCopy = localizedCopy.uk;
       gameHud.hidden = false;
       touchControls.hidden = false;
       startButton.querySelector('.button__label').textContent = copy[locale].restart;
+      updateGameOrientation();
       updateScore();
     };
 
@@ -385,6 +423,12 @@ const initialCopy = localizedCopy.uk;
 
     const createBullet = (x, y, velocity, fromPlayer) => ({ x, y, velocity, fromPlayer, width: 3, height: 3, active: true });
 
+    const tryPlayerShot = (now) => {
+      if (!game.running || now - game.lastShot <= 210) return;
+      game.bullets.push(createBullet(game.playerX + 6, game.playerY - 5, -420, true));
+      game.lastShot = now;
+    };
+
     const updateGame = (delta, now) => {
       const speed = 120;
       if (game.controls.has('left')) game.playerX -= speed * delta;
@@ -392,8 +436,7 @@ const initialCopy = localizedCopy.uk;
       game.playerX = Math.max(0, Math.min(game.gameSize.width - 16, game.playerX));
 
       if (game.controls.has('shoot') && now - game.lastShot > 210) {
-        game.bullets.push(createBullet(game.playerX + 6, game.playerY - 5, -420, true));
-        game.lastShot = now;
+        tryPlayerShot(now);
       }
 
       game.bullets.forEach((bullet) => {
@@ -473,6 +516,42 @@ const initialCopy = localizedCopy.uk;
       else game.controls.delete(control);
     };
 
+    const movePlayerByTouch = (event) => {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      const deltaX = (event.clientX - game.touchGesture.lastX) * (game.gameSize.width / rect.width);
+      if (Math.abs(event.clientX - game.touchGesture.startX) > 8) game.touchGesture.moved = true;
+      game.playerX = Math.max(0, Math.min(game.gameSize.width - 16, game.playerX + deltaX));
+      game.touchGesture.lastX = event.clientX;
+    };
+
+    canvas.addEventListener('pointerdown', (event) => {
+      if (!game.running || event.pointerType !== 'touch') return;
+      event.preventDefault();
+      game.touchGesture.active = true;
+      game.touchGesture.startX = event.clientX;
+      game.touchGesture.lastX = event.clientX;
+      game.touchGesture.moved = false;
+      canvas.setPointerCapture?.(event.pointerId);
+    });
+
+    canvas.addEventListener('pointermove', (event) => {
+      if (!game.touchGesture.active || event.pointerType !== 'touch') return;
+      event.preventDefault();
+      movePlayerByTouch(event);
+    });
+
+    const finishTouchGesture = (event) => {
+      if (!game.touchGesture.active || event.pointerType !== 'touch') return;
+      event.preventDefault();
+      if (!game.touchGesture.moved) tryPlayerShot(performance.now());
+      game.touchGesture.active = false;
+      canvas.releasePointerCapture?.(event.pointerId);
+    };
+
+    canvas.addEventListener('pointerup', finishTouchGesture);
+    canvas.addEventListener('pointercancel', finishTouchGesture);
+
     const keyMap = { ArrowLeft: 'left', ArrowRight: 'right', ' ': 'shoot', Spacebar: 'shoot' };
     window.addEventListener('keydown', (event) => {
       const control = keyMap[event.key];
@@ -500,6 +579,7 @@ const initialCopy = localizedCopy.uk;
 
     startButton.addEventListener('click', () => {
       resetGame();
+      showOrientationHint();
       drawGame();
       game.frame = window.requestAnimationFrame(loop);
     });
@@ -507,6 +587,7 @@ const initialCopy = localizedCopy.uk;
     window.addEventListener('resize', () => {
       if (game.started) {
         resetGame();
+        if (!isMobilePortrait()) hideOrientationHint();
         drawGame();
         game.frame = window.requestAnimationFrame(loop);
       } else {
@@ -514,6 +595,7 @@ const initialCopy = localizedCopy.uk;
         game.invaders = createInvaders();
         drawStatic404();
       }
+      if (game.started) updateGameOrientation();
     });
 
     setGameSize();
