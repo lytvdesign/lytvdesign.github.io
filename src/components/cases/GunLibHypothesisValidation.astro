@@ -10,45 +10,45 @@ const { locale } = Astro.props;
 const content = {
   uk: {
     title: 'Але були й спростування гіпотез',
-    intro: 'Запуск продукту — це завжди перевірка припущень реальністю. Аналітика показала не лише успішні рішення, а й точки, де наші первинні гіпотези не справдилися.',
+    intro: 'Аналітика допомогла знайти не лише успішні рішення, а й місця, де первинні гіпотези потребують перегляду. Для кожного сигналу ми визначили наступне рішення або напрям перевірки.',
     imageAlt: 'Ілюстрація альтернативних гіпотез',
     points: [
       {
         title: 'Низька залученість до текстового пошуку:',
-        body: 'Лише 12% мобільних відвідувачів скористалися полем пошуку, віддаючи перевагу переходам за прямими посиланнями з месенджерів або через каталог.',
-        resolution: 'Було вирішено перенести пошуковий інпут в компактну іконку в хедері, звільнивши простір першого екрана для карток зброї.',
+        body: 'Лише 12% мобільних відвідувачів скористалися полем пошуку, віддаючи перевагу переходам за прямими посиланнями з месенджерів або через каталог. Серед можливих причин — низька потреба через невеликий перелік зброї, низька помітність або перевага прямих посилань і каталогу.',
+        resolution: 'Пошук плануємо перенести в компактну іконку в хедері. Наступним кроком стане перевірка відкриттів пошуку, успішних запитів і переходів до результатів.',
       },
       {
         title: 'Мінімальна взаємодія з мобільними вкладками:',
-        body: 'Користувачі рідко перемикали фіксовані у футері вкладки розділів, надаючи перевагу суцільному вертикальному прокручуванню сторінки.',
-        resolution: 'Елемент залишили для A/B-тестування нових форматів адаптації у наступних ітераціях.',
+        body: 'Користувачі рідко перемикали фіксовані у футері вкладки розділів. Результат може бути пов’язаний із низькою помітністю елемента або перевагою суцільного вертикального прокручування.',
+        resolution: 'Наступний крок — перевірити альтернативні формати адаптації в A/B-тесті та порівняти навігацію й завершення цільових дій.',
       },
       {
-        title: 'Неефективність тупикових сторінок (Dead-End UX):',
-        body: 'Після перегляду характеристик користувачі вимушені були повертатися на Головну сторінку для вибору наступного зразка.',
-        resolution: 'Для усунення зайвих дій вирішили додати блоки «Інші зразки зброї» внизу сторінки та перемикання між картками в один клік за допомогою тегів споріднених зразків зброї або інших модифікацій сімейства.',
+        title: 'Тупиковий сценарій після перегляду характеристик:',
+        body: 'Після перегляду характеристик користувачеві доводилося повертатися на Головну сторінку, щоб обрати наступний зразок. Це створювало зайві дії в сценарії послідовного дослідження.',
+        resolution: 'Запланували додати блоки «Інші зразки зброї» внизу сторінки та перемикання між картками в один клік.',
       },
     ],
   },
   en: {
     title: 'Yet some hypotheses were disproved',
-    intro: 'Launching a product is always a reality check for assumptions. The analytics revealed not only successful decisions, but also areas where our initial hypotheses did not hold up.',
+    intro: 'Analytics helped us identify successful decisions alongside areas where our initial hypotheses need to be revisited. For each signal, we defined a next decision or direction for further validation.',
     imageAlt: 'Illustration of alternative hypotheses',
     points: [
       {
         title: 'Low engagement with text search:',
-        body: 'Only 12% of mobile visitors used the search field, preferring direct links from messengers or navigating through the catalogue.',
-        resolution: 'We decided to move the search input into a compact header icon, freeing the first screen for weapon cards.',
+        body: 'Only 12% of mobile visitors used the search field, preferring direct links from messengers or navigating through the catalogue. Possible causes include low need due to the small weapon catalogue, low visibility, or a preference for direct links and the catalogue.',
+        resolution: 'We plan to move search into a compact header icon. The next step is to track search opens, successful queries, and result clicks.',
       },
       {
         title: 'Minimal interaction with mobile tabs:',
-        body: 'Users rarely switched between the section tabs fixed in the footer, preferring to scroll continuously down the page.',
-        resolution: 'The element was kept for A/B testing new adaptation formats in future iterations.',
+        body: 'Users rarely switched between the section tabs fixed in the footer. This may be related to low element visibility or a preference for continuous vertical scrolling.',
+        resolution: 'The next step is to test alternative adaptation formats and compare navigation and completion of target actions through an A/B test.',
       },
       {
-        title: 'Ineffective dead-end pages (Dead-End UX):',
-        body: 'After reviewing specifications, users had to return to the Home page to choose the next weapon model.',
-        resolution: 'To remove unnecessary steps, we decided to add “Other weapon models” blocks at the bottom of the page and one-click switching between cards through tags for related weapon models or other family modifications.',
+        title: 'A dead-end scenario after reviewing specifications:',
+        body: 'After reviewing specifications, users had to return to the Home page to choose the next model. This added unnecessary steps to the scenario of exploring several models in sequence.',
+        resolution: 'We planned to add “Other weapon models” blocks at the bottom of the page and one-click switching between cards.',
       },
     ],
   },

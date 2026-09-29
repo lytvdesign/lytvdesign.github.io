@@ -57,14 +57,14 @@ export const ui = {
     },
     learningContent: {
       title: 'Навчання',
-      text: 'Вважаю розвиток невід’ємною частиною професії. Навчання в Projector Institute допомогло систематизувати досвід, поглибити продуктове мислення та структурувати підхід до роботи, а зараз я продовжую навчання в магістратурі Каразінського університету за спеціальністю «Цифровий соціум».',
+      text: 'Вважаю розвиток невід’ємною частиною професії. Навчання в Projector Institute допомогло систематизувати досвід, поглибити продуктове мислення та структурувати підхід до роботи. Наразі я продовжую навчання в магістратурі Каразінського університету за спеціальністю «Цифровий соціум».',
       certificateAlt: 'Сертифікат Projector Institute',
       portraitAlt: 'Аліна Литвиненко',
       crestAlt: 'Герб Каразінського університету',
     },
     contactContent: {
       title: 'Контакти',
-      paragraphs: ['Дякую, що знайшли час переглянути мої роботи.', 'Якщо мій підхід до продуктового дизайну вам близький — буду рада поспілкуватися.'],
+      paragraphs: ['Дякую, що знайшли час переглянути мої роботи.', 'Якщо мій підхід до продуктового дизайну вам близький — буду рада співпраці.'],
       cv: 'Переглянути CV',
       copyToast: 'Посилання скопійоване',
     },
@@ -134,7 +134,7 @@ export const ui = {
     },
     contactContent: {
       title: 'Contact',
-      paragraphs: ['Thank you for taking the time to look through my work.', 'If my approach to product design resonates with you, I would be happy to connect.'],
+      paragraphs: ['Thank you for taking the time to look through my work.', 'If my approach to product design resonates with you, I would be happy to collaborate.'],
       cv: 'View CV',
       copyToast: 'Link copied',
     },

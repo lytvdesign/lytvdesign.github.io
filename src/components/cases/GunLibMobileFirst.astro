@@ -10,54 +10,54 @@ const { locale } = Astro.props;
 
 const content = {
   uk: {
-    title: 'Підтвердження Mobile-First стратегії реальними даними:',
+    title: 'Мобільний трафік домінує — це підтримує Mobile-First пріоритет:',
     description:
       'На етапі дослідження ми висунули гіпотезу, що ключовий контекст використання GunLib — це швидкий пошук ТТХ, інструкцій та схем пристрілки безпосередньо у польових умовах або на навчальних локаціях.',
-    introBefore: 'Глибокий аналіз сесій у Google Analytics 4 підтвердив не лише кількісне домінування мобільного трафіку ',
+    introBefore: 'У звіті Google Analytics 4 за орієнтовний період 13 липня — 11 серпня мобільний трафік становив ',
     introMetric: '(78.05%)',
-    introAfter: ', а й вищу якість взаємодії користувачів зі смартфонів:',
+    introAfter: ', що підтримує mobile-first пріоритет. Водночас дані показують відмінності в глибині взаємодії:',
     image: '/images/cases/gunlib-mobile-traffic.png',
     imageAlt: 'Звіт Google Analytics 4 про мобільний і десктопний трафік GunLib',
     imageWidth: 1608,
     imageHeight: 844,
     points: [
       {
-        title: 'Вища залученість (51.0% Engagement Rate):',
-        body: 'Частка якісних сесій на мобільних пристроях перевищує десктопні показники (44.24%). Це підтверджує, що спрощена двошарова навігація, адаптивні деталізовані схеми та швидкі завантаження дозволяють користувачам комфортно вивчати матеріали навіть на малих екранах.',
+        title: 'Вища частка залучених сесій (51.0% проти 44.24%):',
+        body: 'Engagement rate на мобільних трохи вищий за desktop. Середній час взаємодії становить 1:27 проти 2:04. Цей сигнал допомагає визначити mobile-first напрям: далі варто перевірити, як різні мобільні сценарії впливають на глибину взаємодії.',
       },
       {
-        title: 'Основний канал залучення (79.03% New Mobile Users):',
-        body: "Близько 80% нових користувачів відкривають GunLib уперше зі смартфона. Це підтвердило правильність відмови від обов'язкової реєстрації на користь миттєвого доступу.",
+        title: 'Мобільний — основний пристрій нових користувачів (79.03%):',
+        body: "Близько 80% нових користувачів уперше відкривали GunLib зі смартфона. Це підсилює рішення про миттєвий доступ без обов'язкової реєстрації. Наступним кроком стане перевірка ефективності цього підходу у воронці.",
       },
       {
-        title: 'Розмежування сценаріїв (JTBD Validation):',
-        body: 'Мобільна версія слугує інструментом для швидких точкових задач у полях (Time-to-Value), тоді як десктоп використовується для тривалого дослідження та підготовки навчальних матеріалів.',
+        title: 'Робоча гіпотеза про різні сценарії пристроїв:',
+        body: 'Мобільна версія може підтримувати швидкі точкові задачі в полі, тоді як desktop — тривале дослідження й підготовку матеріалів. Для наступної ітерації плануємо зіставити ці сценарії з даними про шляхи, контент і завершення задач.',
       },
     ],
   },
   en: {
-    title: 'Validating the Mobile-First strategy with real data:',
+    title: 'Mobile traffic dominates — supporting the Mobile-First priority:',
     description:
       'During the research stage, we hypothesized that GunLib’s key usage context was the quick search for technical specifications, instructions, and sighting-in diagrams directly in the field or at training locations.',
-    introBefore: 'An in-depth analysis of Google Analytics 4 sessions confirmed not only the quantitative dominance of mobile traffic ',
+    introBefore: 'In the Google Analytics 4 report, covering approximately 13 July — 11 August, mobile traffic accounted for ',
     introMetric: '(78.05%)',
-    introAfter: ', but also a higher quality of interaction from smartphone users:',
+    introAfter: ', supporting the Mobile-First priority. At the same time, the data shows differences in interaction depth:',
     image: '/images/cases/gunlib-mobile-traffic.png',
     imageAlt: 'Google Analytics 4 report comparing GunLib mobile and desktop traffic',
     imageWidth: 1608,
     imageHeight: 844,
     points: [
       {
-        title: 'Higher engagement (51.0% Engagement Rate):',
-        body: 'The share of quality sessions on mobile devices exceeds the desktop result (44.24%). This confirms that simplified two-layer navigation, responsive detailed diagrams, and fast loading let users comfortably explore the materials even on small screens.',
+        title: 'Higher share of engaged sessions (51.0% vs 44.24%):',
+        body: 'The mobile engagement rate is slightly higher than desktop. Average engagement time is 1:27 versus 2:04. This signal helps define the Mobile-First direction; the next step is to explore how different mobile scenarios affect interaction depth.',
       },
       {
-        title: 'Primary acquisition channel (79.03% New Mobile Users):',
-        body: 'Around 80% of new users open GunLib for the first time from a smartphone. This validated removing mandatory registration in favor of instant access.',
+        title: 'Mobile is the primary device for new users (79.03%):',
+        body: 'Around 80% of new users first opened GunLib on a smartphone. This supports providing instant access without mandatory registration. The next step is to check the effectiveness of this approach through a separate funnel.',
       },
       {
-        title: 'Scenario separation (JTBD Validation):',
-        body: 'The mobile version serves quick, focused tasks in the field (Time-to-Value), while desktop is used for extended research and preparation of training materials.',
+        title: 'A working hypothesis about different device scenarios:',
+        body: 'The mobile version may support quick, focused tasks in the field, while desktop may serve extended research and preparation of materials. In the next iteration, we plan to compare these scenarios with path, content, and task-completion data.',
       },
     ],
   },
