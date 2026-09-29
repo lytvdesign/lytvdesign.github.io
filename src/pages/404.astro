@@ -19,23 +19,25 @@ const initialCopy = localizedCopy.uk;
 
     <main class="not-found-main">
       <section class="not-found-content" aria-labelledby="not-found-title">
-        <div class="not-found-game" data-game-shell>
-          <canvas class="not-found-game__canvas" data-game-canvas width="1200" height="500" role="img" aria-label="404"></canvas>
-          <div class="not-found-game__overlay" data-game-overlay>
-            <h1 id="not-found-title" class="not-found-game__title" data-game-title data-copy-key="title">{initialCopy.title}</h1>
-            <p class="not-found-game__result" data-game-result hidden></p>
-            <p class="not-found-content__message" data-game-message>
-              <span data-copy-key="messageFirst">{initialCopy.messageFirst}</span>
-              <span data-copy-key="messageSecond">{initialCopy.messageSecond}</span>
-            </p>
-            <div class="not-found-actions">
-              <Button label={initialCopy.start} type="button" variant="primary" size="large" dataAction="start" />
-              <Button label={initialCopy.home} href="/" variant="outline" size="large" dataAction="home" />
+        <div class="not-found-primary">
+          <div class="not-found-game" data-game-shell>
+            <canvas class="not-found-game__canvas" data-game-canvas width="1200" height="500" role="img" aria-label="404"></canvas>
+            <div class="not-found-game__overlay" data-game-overlay>
+              <h1 id="not-found-title" class="not-found-game__title" data-game-title data-copy-key="title">{initialCopy.title}</h1>
+              <p class="not-found-game__result" data-game-result hidden></p>
+              <p class="not-found-content__message" data-game-message>
+                <span data-copy-key="messageFirst">{initialCopy.messageFirst}</span>
+                <span data-copy-key="messageSecond">{initialCopy.messageSecond}</span>
+              </p>
+              <div class="not-found-actions">
+                <Button label={initialCopy.start} type="button" variant="primary" size="large" dataAction="start" />
+                <Button label={initialCopy.home} href="/" variant="outline" size="large" dataAction="home" />
+              </div>
             </div>
-          </div>
-          <div class="not-found-game__hud" data-game-hud hidden>
-            <span data-game-score></span>
-            <span data-game-state aria-live="polite"></span>
+            <div class="not-found-game__hud" data-game-hud hidden>
+              <span data-game-score></span>
+              <span data-game-state aria-live="polite"></span>
+            </div>
           </div>
         </div>
 
@@ -61,7 +63,10 @@ const initialCopy = localizedCopy.uk;
           <button type="button" data-control="shoot" aria-label={initialCopy.touchShoot}>●</button>
           <button type="button" data-control="right" aria-label={initialCopy.touchRight}>→</button>
         </div>
-        <div class="not-found-orientation-toast" data-orientation-toast role="status" aria-live="polite" hidden>{initialCopy.orientationHint}</div>
+        <div class="not-found-orientation-prompt" data-orientation-prompt role="status" aria-live="polite" hidden>
+          <div class="not-found-orientation-prompt__arrows" aria-hidden="true"><span>↺</span><span>↻</span></div>
+          <span data-copy-key="orientationHint">{initialCopy.orientationHint}</span>
+        </div>
       </section>
     </main>
   </div>
@@ -79,6 +84,7 @@ const initialCopy = localizedCopy.uk;
   .not-found-main { display: flex; min-height: 100vh; padding: calc(7.875rem + var(--space-16)) var(--page-gutter) var(--space-16); justify-content: center; }
   .not-found-content { display: flex; width: min(100%, 75rem); flex-direction: column; align-items: center; gap: var(--space-10); text-align: center; }
   .not-found-content { margin-block: auto; }
+  .not-found-primary { width: 100%; }
   .not-found-game { position: relative; width: 100%; }
   .not-found-game__canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
   .not-found-game__overlay { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: var(--space-5); padding: var(--space-8); background: rgba(255, 255, 255, .95); text-align: center; }
@@ -104,14 +110,19 @@ const initialCopy = localizedCopy.uk;
   .not-found-touch-controls button { display: grid; width: 3.5rem; height: 3rem; place-items: center; border: 1px solid var(--color-border-default); border-radius: var(--radius-m); background: var(--color-surface-elevated); color: var(--color-text-primary); cursor: pointer; font-size: 1.25rem; touch-action: none; user-select: none; }
   .not-found-touch-controls button[data-control="shoot"] { color: var(--color-status-error); }
   .not-found-touch-controls button:active { background: var(--color-surface-tertiary); transform: scale(.96); }
-  .not-found-orientation-toast { position: fixed; z-index: 5; bottom: var(--space-6); left: 50%; max-width: calc(100vw - 2 * var(--page-gutter)); padding: var(--space-3) var(--space-4); transform: translateX(-50%); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); background: rgba(32, 38, 59, .92); color: var(--color-text-inverse); font-size: var(--font-caption-size); line-height: var(--font-caption-line); text-align: center; }
-  .not-found-orientation-toast[hidden] { display: none; }
+  .not-found-orientation-prompt { position: fixed; z-index: 40; inset: 0; display: grid; align-content: center; justify-items: center; gap: var(--space-5); padding: var(--page-gutter); background: rgba(255, 255, 255, .94); color: var(--color-text-primary); font-size: var(--font-body-size); line-height: var(--font-body-line); text-align: center; }
+  .not-found-orientation-prompt[hidden] { display: none; }
+  .not-found-orientation-prompt__arrows { display: flex; align-items: center; justify-content: center; gap: var(--space-2); color: var(--color-accent-primary); font-size: clamp(3rem, 12vw, 5rem); line-height: 1; }
+  .not-found-orientation-prompt__arrows span { display: block; animation: not-found-orientation-arrow 1s ease-in-out infinite alternate; }
+  .not-found-orientation-prompt__arrows span + span { animation-delay: -.5s; }
   .not-found-page.is-game-started .not-found-game__canvas { touch-action: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
   @media (max-width: 640px) {
-    .not-found-main { padding-top: calc(7.875rem + var(--space-10)); padding-bottom: var(--space-10); }
+    .not-found-main { flex-direction: column; align-items: center; padding-top: calc(4.5rem + var(--space-8)); padding-bottom: var(--space-10); }
     .not-found-content { gap: var(--space-8); }
+    .not-found-content { width: 100%; min-height: 0; margin: 0; flex: 1; }
+    .not-found-primary { display: flex; min-height: 0; flex: 1; align-items: center; justify-content: center; }
     .not-found-game__overlay { padding: var(--space-4); }
     .not-found-content__message { max-width: 22rem; }
     .not-found-game__canvas { aspect-ratio: 2 / 1; }
@@ -126,6 +137,7 @@ const initialCopy = localizedCopy.uk;
     .not-found-page.is-game-started .not-found-header { display: none; }
     .not-found-page.is-game-started .not-found-main { height: 100vh; height: 100dvh; min-height: 100vh; min-height: 100dvh; padding: 0 var(--page-gutter); overflow: hidden; }
     .not-found-page.is-game-started .not-found-content { width: 100%; height: 100%; margin: 0; gap: 0; justify-content: center; }
+    .not-found-page.is-game-started .not-found-primary { width: 100%; height: 100%; flex: 1; align-items: center; justify-content: center; }
     .not-found-page.is-game-started .not-found-game { width: 100%; max-width: none; }
     .not-found-page.is-game-started .not-found-rules,
     .not-found-page.is-game-started .not-found-touch-controls { display: none; }
@@ -142,6 +154,12 @@ const initialCopy = localizedCopy.uk;
 
   @media (prefers-reduced-motion: reduce) {
     .not-found-touch-controls button { transition: none; }
+    .not-found-orientation-prompt__arrows span { animation: none; }
+  }
+
+  @keyframes not-found-orientation-arrow {
+    from { transform: translateX(-.35rem) rotate(-8deg); opacity: .65; }
+    to { transform: translateX(.35rem) rotate(8deg); opacity: 1; }
   }
 </style>
 
@@ -161,10 +179,10 @@ const initialCopy = localizedCopy.uk;
   const scoreElement = document.querySelector('[data-game-score]');
   const stateElement = document.querySelector('[data-game-state]');
   const touchControls = document.querySelector('[data-touch-controls]');
-  const orientationToast = document.querySelector('[data-orientation-toast]');
+  const orientationPrompt = document.querySelector('[data-orientation-prompt]');
   const context = canvas?.getContext('2d');
 
-  if (page && canvas && context && startButton && homeButton && homeLink && gameShell && gameOverlay && gameTitle && gameResult && gameMessage && gameRules && gameHud && scoreElement && stateElement && touchControls && orientationToast) {
+  if (page && canvas && context && startButton && homeButton && homeLink && gameShell && gameOverlay && gameTitle && gameResult && gameMessage && gameRules && gameHud && scoreElement && stateElement && touchControls && orientationPrompt) {
     const copy = localizedCopy;
     const localeButtons = [...document.querySelectorAll('[data-locale-button]')];
     const copyElements = [...document.querySelectorAll('[data-copy-key]')];
@@ -215,8 +233,9 @@ const initialCopy = localizedCopy.uk;
       playerY: 0,
       controls: new Set(),
       touchGesture: { active: false, pointerId: null, startX: 0, lastX: 0, moved: false },
+      startPending: false,
     };
-    let orientationToastTimer;
+    let startDelayTimer;
 
     const setGameSize = () => {
       if (window.innerWidth > 1200) {
@@ -316,27 +335,31 @@ const initialCopy = localizedCopy.uk;
     };
 
     const isTouchDevice = () => window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-    const isMobilePortrait = () => isTouchDevice() && window.matchMedia('(orientation: portrait)').matches;
+    const isTouchPortrait = () => isTouchDevice() && window.matchMedia('(orientation: portrait)').matches;
 
     const updateGameOrientation = () => {
       page.classList.toggle('is-game-started', game.started);
       page.classList.toggle('is-game-sideways', game.started && isTouchDevice() && window.matchMedia('(orientation: portrait)').matches);
     };
 
-    const hideOrientationHint = () => {
-      window.clearTimeout(orientationToastTimer);
-      orientationToast.hidden = true;
+    const hideOrientationPrompt = () => {
+      window.clearTimeout(startDelayTimer);
+      game.startPending = false;
+      orientationPrompt.hidden = true;
     };
 
-    const showOrientationHint = () => {
-      window.clearTimeout(orientationToastTimer);
-      if (!isMobilePortrait()) {
-        hideOrientationHint();
-        return;
-      }
-      orientationToast.textContent = copy[locale].orientationHint;
-      orientationToast.hidden = false;
-      orientationToastTimer = window.setTimeout(hideOrientationHint, 3200);
+    const startGame = () => {
+      hideOrientationPrompt();
+      resetGame();
+      drawGame();
+      game.frame = window.requestAnimationFrame(loop);
+    };
+
+    const showOrientationPrompt = () => {
+      if (game.startPending) return;
+      game.startPending = true;
+      orientationPrompt.hidden = false;
+      startDelayTimer = window.setTimeout(startGame, 2000);
     };
 
     const showFinishedOverlay = () => {
@@ -596,16 +619,14 @@ const initialCopy = localizedCopy.uk;
     }));
 
     startButton.addEventListener('click', () => {
-      resetGame();
-      showOrientationHint();
-      drawGame();
-      game.frame = window.requestAnimationFrame(loop);
+      if (game.startPending) return;
+      if (isTouchPortrait() && !game.started) showOrientationPrompt();
+      else startGame();
     });
 
     window.addEventListener('resize', () => {
       if (game.started) {
         resetGame();
-        if (!isMobilePortrait()) hideOrientationHint();
         drawGame();
         game.frame = window.requestAnimationFrame(loop);
       } else {
