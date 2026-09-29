@@ -88,6 +88,8 @@ const initialCopy = localizedCopy.uk;
   .not-found-game__canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
   .not-found-game__overlay { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: var(--space-5); padding: var(--space-8); background: rgba(255, 255, 255, .95); text-align: center; }
   .not-found-game__overlay[hidden] { display: none; }
+  .not-found-game__overlay.is-sideways { inset: auto; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); height: calc((100dvh - 2 * var(--page-gutter)) / 2); transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
+  .not-found-page.is-touch-device.is-game-sideways .not-found-game__overlay:not([hidden]) { inset: auto; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); height: calc((100dvh - 2 * var(--page-gutter)) / 2); transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
   .not-found-game__title { max-width: 43rem; margin: 0; color: var(--color-text-primary); font-size: clamp(1.5rem, 3vw, 2.75rem); line-height: 1.1; }
   .not-found-game__result { margin: calc(var(--space-2) * -1) 0 0; color: var(--color-text-secondary); font-size: var(--font-caption-size); line-height: var(--font-caption-line); }
   .not-found-game__hud { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -146,7 +148,6 @@ const initialCopy = localizedCopy.uk;
   @media (orientation: portrait) {
     .not-found-page.is-touch-device.is-game-sideways .not-found-game { height: 100%; aspect-ratio: auto; }
     .not-found-page.is-touch-device.is-game-sideways .not-found-game__canvas { position: absolute; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); max-width: none; transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
-    .not-found-page.is-touch-device.is-game-sideways .not-found-game__overlay { inset: auto; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); height: calc((100dvh - 2 * var(--page-gutter)) / 2); transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -362,6 +363,11 @@ const initialCopy = localizedCopy.uk;
       startDelayTimer = window.setTimeout(startGame, 2000);
     };
 
+    const syncFinishedOverlayOrientation = () => {
+      const isSideways = isTouchDevice() && window.matchMedia('(orientation: portrait)').matches && !gameOverlay.hidden;
+      gameOverlay.classList.toggle('is-sideways', isSideways);
+    };
+
     const showFinishedOverlay = () => {
       const activeCopy = copy[locale];
       gameTitle.textContent = game.lost ? activeCopy.lost : activeCopy.won;
@@ -373,6 +379,7 @@ const initialCopy = localizedCopy.uk;
       gameOverlay.hidden = false;
       startButton.querySelector('.button__label').textContent = activeCopy.restart;
       updateGameOrientation();
+      syncFinishedOverlayOrientation();
     };
 
     const setLocale = (nextLocale) => {
@@ -444,6 +451,7 @@ const initialCopy = localizedCopy.uk;
       gameMessage.hidden = false;
       gameRules.hidden = isTouchDevice();
       gameOverlay.hidden = true;
+      gameOverlay.classList.remove('is-sideways');
       gameHud.hidden = false;
       touchControls.hidden = false;
       startButton.querySelector('.button__label').textContent = copy[locale].restart;
