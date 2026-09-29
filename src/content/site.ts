@@ -36,7 +36,7 @@ export const ui = {
       gunlib: {
         eyebrow: 'Власний проєкт',
         title: 'GunLib',
-        description: 'Фокус на структуруванні складної технічної інформації у зрозумілий, доступний та інтуїтивний досвід.',
+        description: 'Отримала досвід у комплексному підході до продукту — від дизайну до бізнесу й маркетингу.',
       },
     },
     aboutContent: {
@@ -106,7 +106,7 @@ export const ui = {
       gunlib: {
         eyebrow: 'Personal project',
         title: 'GunLib',
-        description: 'A focus on structuring complex technical information into a clear, accessible, and intuitive experience.',
+        description: 'Gained experience taking a holistic approach to products — from design to business and marketing.',
       },
     },
     aboutContent: {
