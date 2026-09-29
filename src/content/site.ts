@@ -16,7 +16,7 @@ const portfolioBadges = {
   trexim: ['B2B', 'Enterprise SaaS', 'Logistics', 'Responsive Web'],
   complexity: ['B2C', 'Social', 'Lifestyle', 'Mobile App'],
   enismaro: ['B2B', 'B2C', 'Food Traceability', 'IoT', 'PWA'],
-  soulmatcher: ['B2C', 'AI', 'Dating', 'Mobile App'],
+  soulmatcher: ['B2C', 'AI', 'Social', 'Dating', 'Mobile App'],
 } as const;
 
 export const ui = {
