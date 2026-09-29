@@ -1,14 +1,16 @@
 ---
 import type { Locale } from '../content/site';
 import '../../src/styles/global.css';
+import SiteFooter from '../components/SiteFooter.astro';
 
 interface Props {
   locale: Locale;
   title?: string;
   description?: string;
+  showFooter?: boolean;
 }
 
-const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer portfolio' } = Astro.props;
+const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer portfolio', showFooter = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,6 +27,7 @@ const { locale, title = 'lytvynenko.designer', description = 'UI/UX designer por
   </head>
   <body>
     <slot />
+    {showFooter && <SiteFooter locale={locale} />}
     <script is:inline>
       (() => {
         const progressiveImages = [...document.querySelectorAll('img[data-progressive-src]')];

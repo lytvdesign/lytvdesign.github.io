@@ -1,0 +1,82 @@
+---
+import type { Locale } from '../content/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const gameLabel = locale === 'en' ? 'Play the game' : 'Пограти в гру';
+---
+
+<footer class="site-footer" data-footer>
+    <a class="site-footer__game-link" href="/game/" aria-label={gameLabel}>
+    <img class="site-footer__invader" src="/images/invader.svg" alt="" width="46" height="32" />
+  </a>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    width: 100%;
+    height: 220px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px;
+    background-image: linear-gradient(
+      164.157deg,
+      rgb(255 255 255 / 16%) 12.087%,
+      rgb(255 227 231 / 24%) 32.997%,
+      rgb(255 236 186 / 24%) 41.669%,
+      rgb(238 255 230 / 22%) 52.516%,
+      rgb(214 238 255 / 24%) 64.642%,
+      rgb(230 232 255 / 24%) 76.755%,
+      rgb(255 255 255 / 16%) 90.03%
+    );
+  }
+
+  .site-footer__game-link {
+    display: block;
+    width: 46px;
+    height: 32px;
+    transform-origin: center;
+  }
+
+  .site-footer__invader {
+    display: block;
+    width: 46px;
+    height: 32px;
+    animation: site-footer-invader-pulse 2.6s ease-in-out infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .site-footer__game-link:hover .site-footer__invader,
+  .site-footer__game-link:focus-visible .site-footer__invader {
+    animation-play-state: paused;
+    transform: scale(1.08);
+  }
+
+  @keyframes site-footer-invader-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.08);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer__invader {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-footer {
+      padding: 32px;
+    }
+  }
+</style>
