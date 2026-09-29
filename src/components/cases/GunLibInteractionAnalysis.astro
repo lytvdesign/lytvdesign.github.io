@@ -20,19 +20,22 @@ const content = {
     points: [
       {
         title: 'Взаємодія з практичними інструкціями:',
-        body: "У блоці документації найбільша щільність кліків припала на іконки перегляду та завантаження файлів (інструкції з пристрілки, пам'ятки та офіційні посібники).",
+        body: 'У блоці документації найбільша щільність кліків припала на іконки перегляду та завантаження інструкцій із пристрілки, пам’яток і офіційних посібників. Це показує, що GunLib використовують не лише як довідник, а і як практичний інструмент підготовки та роботи зі зброєю.',
+        nextStep: 'Наступним кроком стане окреме вимірювання перегляду документа і його завантаження.',
       },
       {
         title: 'Користувачі взаємодіють з інтерактивними схемами:',
-        body: "У секції «Частини та механізми» зафіксовано кліки безпосередньо на цифрових позначках вузлів та їхніх назвах (руків'я зведення, затворна група).",
+        body: 'У секції «Частини та механізми» користувачі натискали на цифрові позначки та назви вузлів. Це свідчить, що схема працює не лише як ілюстрація, а і як навігаційний інструмент.',
       },
       {
         title: 'Перший сигнал інтересу до підтримки проєкту:',
-        body: 'Користувачі натискали на кнопку «Допомогти проєкту», а після запуску надійшло кілька реальних донатів. Це перспективний сигнал для бізнес-гіпотези. Наступним кроком стане окреме відстеження переходів і донатів, щоб оцінити конверсію в підтримку.',
+        body: 'Користувачі натискали «Допомогти проєкту», а після запуску надійшло кілька донатів.',
+        nextStep: 'Наступним кроком стане розділення перегляду сторінки підтримки, кліку на зовнішній сервіс і завершення донату.',
       },
       {
         title: 'Використання якорної навігації на desktop:',
-        body: 'Теплова карта показала групування кліків на бічному меню («Характеристики», «Пристрілка», «Основні частини»). Це пришвидшує навігацію сторінкою.',
+        body: 'Теплова карта показала групування кліків на бічному меню desktop-версії: «Характеристики», «Пристрілка» та «Основні частини». Це вказує, що користувачі переходять безпосередньо до потрібного тематичного блоку, а не завжди читають сторінку послідовно.',
+        nextStep: 'Якорі можуть скорочувати шлях до потрібної інформації.',
       },
     ],
   },
@@ -47,19 +50,22 @@ const content = {
     points: [
       {
         title: 'Interaction with practical instructions:',
-        body: 'In the documentation block, the highest density of clicks was recorded on the file view and download icons (sighting-in instructions, quick-reference notes, and official manuals).',
+        body: 'In the documentation block, the highest density of clicks was recorded on the view and download icons for sighting-in instructions, quick-reference notes, and official manuals. This shows that GunLib is used not only as a reference, but also as a practical tool for preparing and working with firearms.',
+        nextStep: 'Next, we will measure document views and downloads separately.',
       },
       {
         title: 'Users interact with the interactive diagrams:',
-        body: 'Within the “Parts and mechanisms” section, clicks were recorded directly on the numbered component markers and their labels (charging handle, bolt group).',
+        body: 'Within the “Parts and mechanisms” section, users clicked the numbered markers and component labels. This shows that the diagram functions not only as an illustration, but also as a navigation tool.',
       },
       {
         title: 'An early signal of interest in supporting the project:',
-        body: 'Users clicked the “Support the project” button, and a few real donations came in after launch. This is a promising signal for the business hypothesis. The next step is to track visits and donations separately to assess conversion to support.',
+        body: 'Users clicked “Support the project”, and a few donations came in after launch.',
+        nextStep: 'Next, we will distinguish support-page views, clicks to the external service, and completed donations.',
       },
       {
         title: 'Use of anchor navigation on desktop:',
-        body: 'The heatmap showed grouped clicks on the side menu (“Specifications”, “Sighting-in”, “Main parts”). This makes page navigation faster.',
+        body: 'The heatmap showed grouped clicks on the side menu of the desktop version: “Specifications”, “Sighting-in”, and “Main parts”. This indicates that users move directly to the relevant topic block instead of always reading the page sequentially.',
+        nextStep: 'Anchors can shorten the path to the required information.',
       },
     ],
   },
@@ -91,6 +97,7 @@ const copy = content[locale];
           <div class="gunlib-interaction__point-copy">
             <p><strong>{point.title}</strong></p>
             <p>{point.body}</p>
+            {point.nextStep && <p class="gunlib-interaction__next-step">{point.nextStep}</p>}
             {point.note && <p>{point.note}</p>}
           </div>
         </article>
@@ -207,7 +214,7 @@ const copy = content[locale];
   }
 
   .gunlib-interaction__point-copy p + p {
-    margin-top: 0;
+    margin-top: var(--space-2);
   }
 
   @media (min-width: 641px) and (max-width: 1024px) {
