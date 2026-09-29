@@ -8,18 +8,16 @@ const copy = locale === 'uk'
   ? {
       title: 'Етапи роботи',
       paragraphs: [
-        'Проєктування Complexity ще раз показало мені важливість створення захопливого досвіду, який не перевантажує користувачів.',
-        'Поєднавши соціальні взаємодії, пошук місць поблизу та контент від спільноти, я зосередилася на створенні MVP, який відчувається завершеним уже сьогодні, але залишається гнучким для майбутнього.',
+        'Оскільки ключовою цільовою аудиторією була спільнота людей, які обирають безалкогольний спосіб життя, моя пропозиція оформити застосунок у форматі соціальної мережі знайшла позитивний відгук у клієнта й логічно доповнила визначені пріоритети функціоналу. Поєднавши соціальні взаємодії, пошук місць поблизу та контент від спільноти, я сформувала MVP з гнучкою основою для подальшого розвитку.',
       ],
-      steps: ['Визначена структура продукту', 'Розширений обсяг MVP', 'Спроєктовані масштабовані user flows', 'Баланс бізнес-цілей і бюджету', 'Підготовлений продукт до майбутнього розвитку'],
+      steps: ['Аналіз функціоналу та архітектура застосунку', 'Проєктування масштабованих user flows', 'Проєктування інтерфейсів і їхніх станів', 'Розробка UI kit для консистентності й масштабованості', 'Підготовка дизайн-специфікацій для розробки'],
     }
   : {
       title: 'Design Process',
       paragraphs: [
-        'Designing Complexity reinforced the importance of creating engaging experiences without overwhelming users.',
-        'By combining social interactions, location-based discovery, and community-generated content, I focused on building an MVP that felt complete today while remaining flexible for tomorrow.',
+        'Because the core audience was a community of people who choose a non-alcoholic lifestyle, my proposal to shape the app as a social network received positive feedback from the client and aligned naturally with the previously defined feature priorities. By combining social interactions, location-based discovery, and community-generated content, I shaped an MVP with a flexible foundation for future development.',
       ],
-      steps: ['Defined product structure', 'Expanded MVP scope', 'Designed scalable user flows', 'Balanced business goals with budget', 'Prepared the product for future growth'],
+      steps: ['Feature analysis and app architecture', 'Designing scalable user flows', 'Interface design and state definition', 'UI kit for consistency and scalability', 'Preparing design specifications for development'],
     };
 const steps = copy.steps.map((description, index) => ({ stepLabel: `${locale === 'uk' ? 'Крок' : 'Step'} ${String(index + 1).padStart(2, '0')}`, description }));
 ---
