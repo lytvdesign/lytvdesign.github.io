@@ -11,7 +11,7 @@ const copy = locale === 'uk'
         'Мій внесок вийшов за межі проєктування інтерфейсів. Працюючи разом із кросфункціональною командою, я допомогла уточнити бізнес-логіку, виявити прогалини в реалізації та спроєктувати рішення, які були інтуїтивними для користувачів і практичними для розробки.',
         'Кожне покращення мало на меті зробити складні enterprise-процеси зрозумілими, водночас створюючи масштабовану основу для майбутнього розвитку продукту.',
       ],
-      steps: ['Виявлення проблем у бізнес-логіці', 'Валідація user flows', 'Запропонована нова функціональність', 'Підготовка сценаріїв до майбутніх інтеграцій', 'Узгодження UX із технічною реалізацією'],
+      steps: ['Виявлення проблем у бізнес-логіці', 'Валідація user flows', 'Оптимізація user flows і функціональності', 'Підготовка сценаріїв до майбутніх інтеграцій', 'Дизайн-рев’ю'],
     }
   : {
       title: 'Design Process',
@@ -19,7 +19,7 @@ const copy = locale === 'uk'
         'My contribution went beyond interface design. Working closely with cross-functional teams, I helped refine business logic, identify implementation gaps, and design solutions that were both intuitive for users and practical to build.',
         'Every improvement focused on making complex enterprise workflows feel manageable while creating a scalable foundation for future product growth.',
       ],
-      steps: ['Identified business logic issues', 'Validated workflows', 'Proposed new functionality', 'Prepared flows for future integrations', 'Aligned UX with technical implementation'],
+      steps: ['Identified business logic issues', 'Validated user flows', 'Optimized user flows and functionality', 'Prepared flows for future integrations', 'Design review'],
     };
 const steps = copy.steps.map((description, index) => ({ stepLabel: `${locale === 'uk' ? 'Крок' : 'Step'} ${String(index + 1).padStart(2, '0')}`, description }));
 ---

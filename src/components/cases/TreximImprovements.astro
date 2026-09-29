@@ -18,18 +18,18 @@ const copy = locale === 'uk'
       },
       two: {
         title: 'Підготовка керування акаунтом до реалізації',
-        challenge: 'Початковий сценарій редагування профілю не підтримував безпечне оновлення і не міг бути надійно реалізований.',
-        solution: 'Разом із Product Owner і Business Analyst я переробила сценарій, додавши верифікацію особи, перевірку даних у базі та безпечний процес оновлення інформації користувача.',
+        challenge: 'Під час аналізу user flow я виявила тупиковий сценарій у критичному процесі: користувач міг змінити дані компанії, але в продукті не було передбачено верифікації, запиту до бази даних і безпечного оновлення інформації.',
+        solution: 'Разом із Product Owner і Business Analyst я перебудувала сценарій: додала верифікацію користувача, перевірку даних у базі та безпечне оновлення інформації про компанію.',
         alt: 'Екрани Trexim для редагування профілю компанії та повторної верифікації',
       },
       three: {
         title: 'Оптимізація щоденних робочих процесів',
         challenge: 'Робота із замовленнями вимагала частого переходу між сторінками, роботи з насиченими таблицями та використання непослідовних патернів інтерфейсу, що сповільнювало щоденні задачі й збільшувало когнітивне навантаження.',
-        solution: 'Я спростила навігацію за допомогою контекстних фільтрів, переробила операційні таблиці для швидкого доступу до ключової інформації та уніфікувала терміни й назви кнопок, щоб досвід став швидшим і передбачуванішим.',
+        solution: 'Я спростила навігацію, перенісши вкладки із сайдбару в контекст використання — над таблицею. Це дозволило швидко фільтрувати заявки та оперувати ними в одному робочому просторі. Також я оптимізувала структуру даних у таблиці, врахувала її адаптивність і доступність.',
       },
       four: {
         title: 'Дизайн-система',
-        description: 'Я створила масштабовану дизайн-систему з повторно використовуваними компонентами, дизайн-токенами та послідовними патернами взаємодії для подальшого розвитку продукту.',
+        description: 'Дизайн-система вже існувала, але була хаотичною, частково підключеною до інтерфейсу та неузгодженою. Я спланувала процес її оптимізації та разом із командою впорядкувала структуру, підключила систему до продукту й розширила її кастомізованими елементами на базі Ant Design.',
         cards: [
           ['select', '/images/trexim/IA%20card.png', '/images/trexim/IA%20card01mobile.png'],
           ['datepicker', '/images/trexim/IA%20card2.png', '/images/trexim/IA%20card02mobile.png'],
@@ -50,18 +50,18 @@ const copy = locale === 'uk'
       },
       two: {
         title: 'Making Account Management Implementation-Ready',
-        challenge: "The original profile editing flow didn't support secure identity updates and couldn't be reliably implemented.",
-        solution: 'Collaborated with the Product Owner and Business Analyst to redesign the flow, introducing identity verification, database validation, and a secure update process for user information.',
+        challenge: 'While analysing the user flow, I identified a dead-end in a critical process: users could edit company data, but the product had no verification step, database request, or secure update flow.',
+        solution: 'Together with the Product Owner and Business Analyst, I redesigned the flow by adding user verification, database validation, and a secure update process for company information.',
         alt: 'Trexim screens for editing a company profile and completing reverification',
       },
       three: {
         title: 'Optimizing Daily Workflows',
         challenge: 'Managing orders required frequent navigation between pages, dense data tables, and inconsistent interface patterns, making everyday tasks slower and increasing cognitive load.',
-        solution: 'Simplified navigation with contextual filters, redesigned operational tables to surface critical information, and standardized interface terminology and button labels to create a faster, more predictable user experience.',
+        solution: 'I simplified navigation by moving the tabs from the sidebar into the usage context, directly above the table. This made it possible to filter and manage requests quickly within one workspace. I also optimized the table data structure and accounted for responsive behaviour and accessibility.',
       },
       four: {
         title: 'DESIGN SYSTEM',
-        description: 'Established a scalable design system with reusable components, design tokens, and consistent interaction patterns to support future product expansion.',
+        description: 'The design system already existed, but it was fragmented, inconsistently connected to the interface, and difficult to maintain. I planned its optimization process and, together with the team, reorganized its structure, connected it to the product, and extended it with custom elements based on Ant Design.',
         cards: [
           ['select', '/images/trexim/IA%20card.png', '/images/trexim/IA%20card01mobile.png'],
           ['datepicker', '/images/trexim/IA%20card2.png', '/images/trexim/IA%20card02mobile.png'],
