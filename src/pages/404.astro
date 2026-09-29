@@ -146,6 +146,7 @@ const initialCopy = localizedCopy.uk;
   @media (orientation: portrait) {
     .not-found-page.is-touch-device.is-game-sideways .not-found-game { height: 100%; aspect-ratio: auto; }
     .not-found-page.is-touch-device.is-game-sideways .not-found-game__canvas { position: absolute; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); max-width: none; transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
+    .not-found-page.is-touch-device.is-game-sideways .not-found-game__overlay { inset: auto; top: 50%; left: 50%; width: calc(100dvh - 2 * var(--page-gutter)); height: calc((100dvh - 2 * var(--page-gutter)) / 2); transform: translate(-50%, -50%) rotate(90deg); transform-origin: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
