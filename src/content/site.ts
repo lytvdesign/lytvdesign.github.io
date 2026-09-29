@@ -12,7 +12,7 @@ export const caseSlugs: CaseSlug[] = [
 ];
 
 const portfolioBadges = {
-  gunlib: ['B2B', 'Personal Project', 'Knowledge Base', 'Defense', 'Responsive Web'],
+  gunlib: ['Personal Project', 'Knowledge Base', 'Defense', 'Responsive Web'],
   trexim: ['B2B', 'Enterprise SaaS', 'Logistics', 'Responsive Web'],
   complexity: ['B2C', 'Social', 'Lifestyle', 'Mobile App'],
   enismaro: ['B2B', 'B2C', 'Food Traceability', 'IoT', 'PWA'],
