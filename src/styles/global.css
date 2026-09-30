@@ -385,7 +385,7 @@ a[data-case-back]:focus-visible { background: var(--color-surface-tertiary); bor
   .contact-section { grid-template-columns: 1fr; gap: 32px; padding: 0 16px var(--section-end-space); }.contact-copy p { margin-top: 32px; font-size: 18px; line-height: 30px; }.contact-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }.contact-grid > .contact-card:nth-child(n) { grid-column: auto; grid-row: auto; }
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 1440px) {
   .home-page > main > .home-section { width: min(1440px, 100%); margin-right: auto; margin-left: auto; }
   .home-page > main > .learning-section { margin-right: auto; margin-left: auto; }
 }
