@@ -122,13 +122,13 @@ const portfolioCases: Array<{
         <h1 id="home-hero-title" aria-label={copy.hero}>
           <span>{heroLead}</span><strong>{heroAccent}</strong><span>{heroEnd}</span>
         </h1>
-        <div class="scroll-cue" aria-hidden="true">
+        <a class="scroll-cue" href="#home-cards" aria-label={copy.scrollCue}>
           <img src="/images/icons/hero-more-arrow.svg" alt="" width="16" height="6" />
-        </div>
+        </a>
       </div>
     </div>
 
-    <div class="photo-collage">
+    <div id="home-cards" class="photo-collage">
       <div class="collage-placeholders" aria-hidden="true">
         <span></span>
         <span></span>
@@ -276,13 +276,14 @@ const portfolioCases: Array<{
     const items = [...intro.querySelectorAll('[data-scroll-motion]')];
     const mobileItems = items.filter((item) => ['location', 'family', 'cat', 'dog'].includes(item.dataset.scrollMotion));
     const linkItems = items.filter((item) => item instanceof HTMLAnchorElement);
-    const scrollDelay = 140;
-    const mobileScrollDelay = 80;
+    const scrollDelay = 0;
+    const mobileScrollDelay = 0;
     let scrollRange = 780;
     let animationEndScroll = null;
     const titleStopGap = 40;
     const clickableProgress = 0.75;
     const scrollCueHideProgress = 0.6;
+    const scrollCueDuration = 900;
     const baseCollageWidth = 1228;
     const motions = {
       location: {
@@ -331,6 +332,8 @@ const portfolioCases: Array<{
     };
 
     let frame = 0;
+    let scrollFrame = 0;
+    let pointerScrollStarted = false;
     let titleDocumentBottom = 0;
     let placeholderDocumentTop = 0;
     let titleParallaxMeasured = false;
@@ -340,9 +343,14 @@ const portfolioCases: Array<{
     let visualTitleOffset = 0;
     let firstMotionRender = true;
 
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-    const lerp = (from, to, progress) => from + (to - from) * progress;
-    const easeOutCubic = (progress) => 1 - ((1 - progress) ** 3);
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+      const lerp = (from, to, progress) => from + (to - from) * progress;
+      const easeOutCubic = (progress) => 1 - ((1 - progress) ** 3);
+      const easeInOutCubic = (progress) => (
+        progress < 0.5
+          ? 4 * progress ** 3
+          : 1 - ((-2 * progress + 2) ** 3) / 2
+      );
     const getMobileScale = () => Math.max(1, Math.min((window.innerWidth - 32) / 358, 1.7));
     const getMotionRadius = (motion) => {
       const isTabletMotion = window.innerWidth >= 641 && window.innerWidth <= 1024;
@@ -452,12 +460,7 @@ const portfolioCases: Array<{
       const scale = collage.clientWidth / baseCollageWidth;
       const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - scrollDelay) / Math.max(scrollRange, 1), 0, 1);
       targetProgress = rawProgress;
-      if (firstMotionRender || reducedMotionQuery.matches) {
-        visualProgress = targetProgress;
-      } else {
-        visualProgress += (targetProgress - visualProgress) * 0.18;
-        if (Math.abs(targetProgress - visualProgress) < 0.0005) visualProgress = targetProgress;
-      }
+      visualProgress = targetProgress;
 
       const progress = easeOutCubic(visualProgress);
       setLinkState(reducedMotionQuery.matches || rawProgress >= clickableProgress);
@@ -518,12 +521,7 @@ const portfolioCases: Array<{
       const scale = getMobileScale();
       const rawProgress = reducedMotionQuery.matches ? 1 : clamp((window.scrollY - mobileScrollDelay) / Math.max(scrollRange, 1), 0, 1);
       targetProgress = rawProgress;
-      if (firstMotionRender || reducedMotionQuery.matches) {
-        visualProgress = targetProgress;
-      } else {
-        visualProgress += (targetProgress - visualProgress) * 0.18;
-        if (Math.abs(targetProgress - visualProgress) < 0.0005) visualProgress = targetProgress;
-      }
+      visualProgress = targetProgress;
 
       const progress = easeOutCubic(visualProgress);
       setScrollCueState(rawProgress);
@@ -611,6 +609,55 @@ const portfolioCases: Array<{
       if (!frame) frame = requestAnimationFrame(render);
     };
 
+    const scrollToCards = () => {
+      if (!collage) return;
+
+      const scrollPaddingTop = Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const startY = window.scrollY;
+      if (mobileMotionQuery.matches && animationEndScroll === null) measureScrollRange();
+      const targetY = mobileMotionQuery.matches
+        ? Math.max(mobileScrollDelay + 1, animationEndScroll ?? mobileScrollDelay + scrollRange)
+        : Math.max(0, collage.getBoundingClientRect().top + startY - scrollPaddingTop);
+      window.history.pushState(null, '', '#home-cards');
+
+      cancelAnimationFrame(scrollFrame);
+      document.documentElement.classList.add('is-home-scroll-controller-active');
+      if (reducedMotionQuery.matches || Math.abs(targetY - startY) < 1) {
+        window.scrollTo(0, targetY);
+        document.documentElement.classList.remove('is-home-scroll-controller-active');
+        scrollFrame = 0;
+        return;
+      }
+
+      const startedAt = performance.now();
+      const animateScroll = (now) => {
+        const progress = clamp((now - startedAt) / scrollCueDuration, 0, 1);
+        window.scrollTo(0, lerp(startY, targetY, easeInOutCubic(progress)));
+        if (progress < 1) scrollFrame = requestAnimationFrame(animateScroll);
+        else {
+          scrollFrame = 0;
+          document.documentElement.classList.remove('is-home-scroll-controller-active');
+        }
+      };
+
+      scrollFrame = requestAnimationFrame(animateScroll);
+    };
+
+    const handleScrollCuePointerDown = (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      pointerScrollStarted = true;
+      scrollToCards();
+    };
+
+    const handleScrollCueClick = (event) => {
+      event.preventDefault();
+      if (!pointerScrollStarted) scrollToCards();
+      pointerScrollStarted = false;
+    };
+
+    heroScrollCue?.addEventListener('pointerdown', handleScrollCuePointerDown);
+    heroScrollCue?.addEventListener('click', handleScrollCueClick);
     window.addEventListener('scroll', requestRender, { passive: true });
     window.addEventListener('resize', () => {
       titleParallaxMeasured = false;

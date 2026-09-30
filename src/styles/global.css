@@ -15,6 +15,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+html.is-home-scroll-controller-active { scroll-behavior: auto !important; }
 body { min-width: 320px; margin: 0; background: var(--color-surface); }
 img[data-progressive-state='preview-loading'] {
   background: linear-gradient(100deg, var(--color-surface-secondary) 20%, var(--color-surface-tertiary) 45%, var(--color-surface-secondary) 70%);
@@ -117,7 +118,8 @@ a[data-case-back]:focus-visible { background: var(--color-surface-tertiary); bor
 .home-hero__content { display: flex; width: 100%; flex-direction: column; align-items: center; }
 .home-hero h1 { max-width: none; margin: 0; color: var(--color-ink-strong); font-size: var(--font-hero-size); font-weight: 400; line-height: var(--font-hero-line); letter-spacing: var(--font-display-tracking); text-align: center; }
 .home-hero h1 em { color: #3b82f6; font-style: italic; font-weight: 600; }
-.scroll-cue { display: grid; width: 2.5rem; height: 4rem; margin: 3rem auto 0; place-items: center; border: .5px solid #94acde; border-radius: 999px; }
+.scroll-cue { display: grid; width: 2.5rem; height: 4rem; margin: 3rem auto 0; padding: 0; place-items: center; border: .5px solid #94acde; border-radius: 999px; background: transparent; color: inherit; cursor: pointer; text-decoration: none; }
+.scroll-cue:focus-visible { outline: 2px solid var(--color-status-info); outline-offset: 4px; }
 .scroll-cue img { width: 1rem; height: .375rem; transform: rotate(90deg); }
 .scroll-cue.is-scroll-cue-hidden { visibility: hidden; opacity: 0; }
 .photo-collage { position: relative; z-index: 1; max-width: 76.75rem; height: 38.6rem; margin: 0 auto 8rem; }

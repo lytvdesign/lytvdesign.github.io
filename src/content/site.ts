@@ -27,6 +27,7 @@ export const ui = {
     contact: 'Контакти',
     language: 'English',
     hero: 'Деталі створюють цілісність',
+    scrollCue: 'Перейти до карток',
     collage: {
       projector: {
         eyebrow: 'UI/UX Курси',
@@ -97,6 +98,7 @@ export const ui = {
     contact: 'Contact',
     language: 'Українська',
     hero: 'Everything has its place',
+    scrollCue: 'Scroll to the cards',
     collage: {
       projector: {
         eyebrow: 'UI/UX Courses',
