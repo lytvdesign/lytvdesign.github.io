@@ -204,7 +204,7 @@ a[data-case-back]:focus-visible { background: var(--color-surface-tertiary); bor
 
 @media (max-width: 640px) {
   html { scroll-padding-top: 9.5rem; }
-  body { padding-bottom: 5rem; }
+  body { padding-bottom: 0; }
   :root { --case-page-top: 80px; --case-title-center-y: 20px; --section-end-space: 40px; }
   .home-page { --home-header-height: 8.5rem; --home-hero-height: 34rem; --home-collage-height: 32rem; --font-hero-size: 3.5rem; --font-hero-line: 4.2rem; --font-display-size: 3rem; --font-display-line: 3.5rem; --font-display-tracking: -.125rem; }
   .site-header { position: relative; grid-template-columns: 1fr auto; min-height: 0; padding: 1rem; }
